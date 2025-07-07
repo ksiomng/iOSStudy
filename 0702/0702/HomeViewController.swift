@@ -7,6 +7,8 @@
 
 import UIKit
 
+// 포이치 사용, 네이밍 신경쓰기
+
 class HomeViewController: UIViewController {
     var imageNames = ["노량", "더퍼스트슬램덩크", "명량", "밀수", "범죄도시3", "서울의봄", "스즈메의문단속", "아바타물의길", "오펜하이머", "육사오", "콘크리트유토피아"]
 
@@ -79,9 +81,9 @@ class HomeViewController: UIViewController {
     
     func randomIamge() {
         coneradius(img: images[0])
-        for i in 0..<4 {
+        images.forEach {
             let randomIamge = imageNames.randomElement()
-            images[i].image = UIImage(named: randomIamge ?? "명량")
+            $0.image = UIImage(named: randomIamge ?? "명량")
         }
         for i in 0..<3 {
             coneradius(img: radiusView[i])
