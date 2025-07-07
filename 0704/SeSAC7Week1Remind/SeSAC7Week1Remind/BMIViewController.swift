@@ -99,6 +99,7 @@ class BMIViewController: UIViewController {
             showAlret("\(str) 입력칸에 값을 입력해주세요")
         } else {
             if let value = Double(heightTextField.text!){
+            if let value = Double(textField.text!){
                 if value >= 300 || value < 0 {
                     showAlret("0초과 300이하의 \(str)를 입력해주세요")
                 } else {
