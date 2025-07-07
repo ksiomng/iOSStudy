@@ -8,8 +8,8 @@
 import UIKit
 
 class DiaryViewController: UIViewController {
-    var dic: [String: Int] = [:]
-    var arr = ["행복해", "사랑해", "좋아해", "당황해", "속상해", "우울해", "심심해", "따분해", "지루해"]
+    var emotionCounts: [String: Int] = [:] // dic, arr -> 네이밍 변경
+    var emotions = ["행복해", "사랑해", "좋아해", "당황해", "속상해", "우울해", "심심해", "따분해", "지루해"]
     
     @IBOutlet var buttons: [UIButton]!
     @IBOutlet var labels: [UILabel]!
@@ -18,11 +18,11 @@ class DiaryViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
         
-        for a in arr {
-            dic[a] = 0
+        for emotion in emotions {
+            emotionCounts[emotion] = 0
         }
         
-        for i in 0..<9 {
+        for i in 0..<emotions.count { // 9 -> emotion.count로 변경
             setImageUI(btn: buttons[i], idx: i)
             setLabelUI(lbl: labels[i], idx: i)
         }
@@ -30,18 +30,18 @@ class DiaryViewController: UIViewController {
     
     func setImageUI(btn: UIButton, idx: Int) {
         btn.setImage(UIImage(named: "mono_slime\(idx+1)"), for: .normal)
-        btn.setTitle("\(idx)", for: .normal)
+        btn.tag = idx // Title -> Tag 로 변경
     }
     
     func setLabelUI(lbl: UILabel, idx: Int) {
-        let str = arr[idx]
-        lbl.text = "\(str) \(dic[str]!)"
+        let str = emotions[idx]
+        lbl.text = "\(str) \(emotionCounts[str]!)"
         lbl.textAlignment = .center
     }
     
     @IBAction func tapButton(_ sender: UIButton) {
-        let idx = Int(sender.currentTitle ?? "0")!
-        dic[arr[idx]]! += 1
+        let idx = sender.tag
+        emotionCounts[emotions[idx]]! += 1
         setLabelUI(lbl: labels[idx], idx: idx)
     }
 }
