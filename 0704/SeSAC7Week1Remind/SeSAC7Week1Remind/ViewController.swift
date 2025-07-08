@@ -14,13 +14,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         resultLabel.text = "버튼을 클릭하세요"
+        Design.radiusUI(resultLabel)
     }
     
     @IBAction func zodiacSignsTapped(_ sender: UIButton) {
         getZodiacSign(month: Int.random(in: 1...12))
     }
     
-    func getZodiacSign(month: Int) {
+    private func getZodiacSign(month: Int) {
         var constellation = ""
         
         switch month {
@@ -48,7 +49,7 @@ class ViewController: UIViewController {
         getRecommandGameJob(strength: strength, agility: agility)
     }
     
-    func getRecommandGameJob(strength: Int, agility: Int) {
+    private func getRecommandGameJob(strength: Int, agility: Int) {
         
         if strength > agility {
             resultLabel.text = "strength(힘)이 가장 높으니 전사를 추천드립니다."
@@ -66,7 +67,7 @@ class ViewController: UIViewController {
         getRecommandClothing(temperature: temp, isRaining: rain)
     }
     
-    func getRecommandClothing(temperature: Int, isRaining: Bool) {
+    private func getRecommandClothing(temperature: Int, isRaining: Bool) {
         var resultString = ""
         
         switch temperature/10 {

@@ -115,22 +115,6 @@
             </objects>
             <point key="canvasLocation" x="1982.4427480916029" y="-27.464788732394368"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="nJc-Qw-F3N">
-            <objects>
-                <viewController id="GZ0-8i-MPb" customClass="BMIViewController" customModule="SeSAC7Week1Remind" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ZaL-zW-igs">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="GbP-Pi-g42"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="4Pq-Sa-Xxg"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cFa-Jp-Zp1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1982" y="679"/>
-        </scene>
         <!--Swift-->
         <scene sceneID="m7c-Hn-WDa">
             <objects>
@@ -182,9 +166,6 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="GZ0-8i-MPb" kind="relationship" relationship="rootViewController" id="fFZ-cR-A6M"/>
-                    </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T8j-GL-5xZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -489,7 +470,6 @@
         <!--View Controller-->
         <scene sceneID="kaI-nH-PD5">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="AjW-bj-7g8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController id="ePf-d8-uLL" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1sS-vM-aXm">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
@@ -611,6 +591,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Qqd-9U-5eb"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AjW-bj-7g8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1981" y="2129"/>
         </scene>
