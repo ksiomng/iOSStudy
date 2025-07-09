@@ -8,7 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-    @IBOutlet var ownerNameTextField: UITextField!
+    @IBOutlet private var ownerNameTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +20,7 @@ class ViewController: UIViewController {
         ownerNameTextField.spellCheckingType = .no
     }
 
-    @IBAction func saveMyName(_ sender: UIBarButtonItem) {
+    @IBAction private func saveMyName(_ sender: UIBarButtonItem) {
         let oldName =             UserDefaults.standard.string(forKey: "ownerName")
         if ownerNameTextField.text != "" {
             if ownerNameTextField.text == oldName {

@@ -14,16 +14,16 @@ struct Tamagotchi {
     var level: Int = 1
 }
 
-class MainViewController: UIViewController {
-    @IBOutlet var bubbleImageView: UIImageView!
-    @IBOutlet var messageLabel: UILabel!
-    @IBOutlet var profileImageView: UIImageView!
-    @IBOutlet var nameLabel: UILabel!
-    @IBOutlet var stateLabel: UILabel!
-    @IBOutlet var feedTextField: UITextField!
-    @IBOutlet var feedButton: UIButton!
-    @IBOutlet var waterTextField: UITextField!
-    @IBOutlet var waterButton: UIButton!
+final class MainViewController: UIViewController {
+    @IBOutlet private var bubbleImageView: UIImageView!
+    @IBOutlet private var messageLabel: UILabel!
+    @IBOutlet private var profileImageView: UIImageView!
+    @IBOutlet private var nameLabel: UILabel!
+    @IBOutlet private var stateLabel: UILabel!
+    @IBOutlet private var feedTextField: UITextField!
+    @IBOutlet private var feedButton: UIButton!
+    @IBOutlet private var waterTextField: UITextField!
+    @IBOutlet private var waterButton: UIButton!
     
     var myTama = Tamagotchi()
     
@@ -64,7 +64,7 @@ class MainViewController: UIViewController {
         anyMessage()
     }
     
-    func setButtonTextFieldUI(btn: UIButton, textField: UITextField, name: String) {
+    private func setButtonTextFieldUI(btn: UIButton, textField: UITextField, name: String) {
         textField.borderStyle = .none
         textField.placeholder = "\(name)주세용"
         textField.keyboardType = .numberPad
@@ -84,7 +84,7 @@ class MainViewController: UIViewController {
         radiusUI(btn)
     }
     
-    func radiusUI(_ view: UIView) {
+    private func radiusUI(_ view: UIView) {
         view.clipsToBounds = true
         view.layer.cornerRadius = 5
         view.layer.borderWidth = 1
@@ -150,7 +150,7 @@ class MainViewController: UIViewController {
         anyMessage()
     }
     
-    func anyMessage() {
+    private func anyMessage() {
         let msg = [
             "안녕하세요 ~ \(myTama.ownerName) 반가워요 !",
             "\(myTama.ownerName)님 밥주세요 !",
@@ -159,15 +159,15 @@ class MainViewController: UIViewController {
         messageLabel.text = msg.randomElement()
     }
     
-    func updateStateLabel() {
+    private func updateStateLabel() {
         stateLabel.text = "LV\(myTama.level) * 밥알\(myTama.feedCount)개 * 물방울\(myTama.waterCount)개"
     }
     
-    func updateTamaImage() {
+    private func updateTamaImage() {
         profileImageView.image = UIImage(named: "2-\(myTama.level)")
     }
     
-    func caculatorLevel() {
+    private func caculatorLevel() {
         let result = (myTama.feedCount / 5) + (myTama.waterCount / 2)
         let newLevel = max(1,result/10)
         if newLevel > 9 { // 10은 이미지가 없어요
