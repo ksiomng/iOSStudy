@@ -7,21 +7,24 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class TamaRenameViewController: UIViewController {
     @IBOutlet private var ownerNameTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
+        setTextField()
+    }
+    
+    private func setTextField() {
         ownerNameTextField.borderStyle = .none
-        
-        navigationItem.title = "이름 정하기"
         ownerNameTextField.placeholder = UserDefaults.standard.string(forKey: "ownerName")
         ownerNameTextField.autocorrectionType = .no
         ownerNameTextField.spellCheckingType = .no
     }
-
+    
     @IBAction private func saveMyName(_ sender: UIBarButtonItem) {
-        let oldName =             UserDefaults.standard.string(forKey: "ownerName")
+        let oldName = UserDefaults.standard.string(forKey: "ownerName")
         if ownerNameTextField.text != "" {
             if ownerNameTextField.text == oldName {
                 showAlret("기존 이름과 동일해요 ~")
