@@ -42,6 +42,8 @@ class MainViewController: UIViewController {
         
         nameLabel.text = "싱글벙글 다마고치"
         radiusUI(nameLabel)
+        
+        navigationItem.backButtonTitle = "홈"
     }
     
     private func myData() {
@@ -66,9 +68,19 @@ class MainViewController: UIViewController {
         textField.borderStyle = .none
         textField.placeholder = "\(name)주세용"
         textField.keyboardType = .numberPad
-        
-        btn.setTitle("\(name)먹기", for: .normal)
-        btn.setTitleColor(.black, for: .normal)
+        if name == "밥" {
+            if let img = UIImage(systemName: "leaf.circle") {
+                btn.setImage(img, for: .normal)
+                btn.setTitle("  \(name)먹기", for: .normal)
+                btn.tintColor = .black
+            }
+        } else {
+            if let img = UIImage(systemName: "drop.circle") {
+                btn.setImage(img, for: .normal)
+                btn.setTitle("  \(name)먹기", for: .normal)
+                btn.tintColor = .black
+            }
+        }
         radiusUI(btn)
     }
     
@@ -158,19 +170,19 @@ class MainViewController: UIViewController {
     func caculatorLevel() {
         let result = (myTama.feedCount / 5) + (myTama.waterCount / 2)
         let newLevel = max(1,result/10)
-        if newLevel > 10 { // 10래밸은 이미지가 없어요
+        if newLevel > 9 { // 10은 이미지가 없어요
             myTama.level = 9
             messageLabel.text = "\(myTama.ownerName), 다 자랐어요 !"
         } else {
             if newLevel != myTama.level {
                 myTama.level = newLevel
-                updateTamaImage()
                 messageLabel.text = "\(myTama.ownerName), 저 조금 자란거 같아요!"
             } else {
                 let message = ["냠", "념", "냠 냠", "념 념"]
                 messageLabel.text = message.randomElement()
             }
         }
+        updateTamaImage()
         UserDefaults.standard.set(myTama.level, forKey: "level")
     }
 }
