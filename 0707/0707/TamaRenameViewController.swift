@@ -17,10 +17,12 @@ class TamaRenameViewController: UIViewController {
     }
     
     private func setTextField() {
+        let ownerName = UserDefaults.standard.string(forKey: "ownerName") ?? "이름정보가없습니다"
+        ownerNameTextField.attributedPlaceholder = NSAttributedString(string: ownerName, attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         ownerNameTextField.borderStyle = .none
-        ownerNameTextField.placeholder = UserDefaults.standard.string(forKey: "ownerName")
         ownerNameTextField.autocorrectionType = .no
         ownerNameTextField.spellCheckingType = .no
+        ownerNameTextField.textColor = .black
     }
     
     @IBAction private func saveMyName(_ sender: UIBarButtonItem) {

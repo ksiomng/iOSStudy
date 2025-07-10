@@ -32,7 +32,6 @@ final class TamaMainViewController: UIViewController {
             // 이름이 바뀔때만 새로 화면을 그려줌
             if myTama.ownerName != defaultOwnerName {
                 loadTama(defaultOwnerName)
-                updateAllUI()
             }
         } else {
             createTama()
@@ -58,6 +57,7 @@ final class TamaMainViewController: UIViewController {
         myTama.feedCount = UserDefaults.standard.integer(forKey: "feedCount")
         myTama.waterCount = UserDefaults.standard.integer(forKey: "waterCount")
         myTama.level = UserDefaults.standard.integer(forKey: "level")
+        updateAllUI()
     }
     
     // 새로운 데이터 생성 + 저장하기
@@ -67,6 +67,7 @@ final class TamaMainViewController: UIViewController {
         UserDefaults.standard.set(myTama.feedCount, forKey: "feedCount")
         UserDefaults.standard.set(myTama.waterCount, forKey: "waterCount")
         UserDefaults.standard.set(myTama.level, forKey: "level")
+        updateAllUI()
     }
     
     // 리셋버튼 누르면 새로운 데이터 생성
