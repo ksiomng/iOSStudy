@@ -14,7 +14,7 @@ struct Travel {
     let grade: Double?
     let save: Int?
     let like: Bool?
-    let ad: Bool?
+    let ad: Bool
 }
 
 struct TravelInfo {

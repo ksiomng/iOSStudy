@@ -20,7 +20,7 @@ class MagazineViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "travelCell", for: indexPath) as! MagazineTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "magazineCell", for: indexPath) as! MagazineTableViewCell
         let travel = list[indexPath.row]
         cell.titleImageView.kf.setImage(with: URL(string: travel.photo_image))
         cell.titleLabel.text = travel.title
