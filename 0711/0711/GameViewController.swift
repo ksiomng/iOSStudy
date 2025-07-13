@@ -16,8 +16,13 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setDefaultView()
+    }
+    
+    func setDefaultView() {
         numberTextField.placeholder = "최대 숫자를 입력해주세요"
         numberTextField.backgroundColor = .systemGray6
+        numberTextField.keyboardType = .numberPad
         resultAllLabel.text = "숫자를 입력하세요!"
         resultLabel.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         resultLabel.text = ""
@@ -53,4 +58,7 @@ class GameViewController: UIViewController {
         checkTextField()
     }
     
+    @IBAction func closeKeyboard(_ sender: Any) {
+        view.endEditing(true)
+    }
 }

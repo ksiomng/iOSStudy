@@ -69,6 +69,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ntd-FO-ozz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="R6F-a2-GD0" firstAttribute="bottom" secondItem="H28-JC-O8i" secondAttribute="bottom" id="4Qx-XK-4nA"/>
                             <constraint firstItem="ntd-FO-ozz" firstAttribute="trailing" secondItem="60W-lg-Hc0" secondAttribute="trailing" constant="16" id="5rf-Ty-aYt"/>
@@ -84,6 +85,9 @@
                             <constraint firstItem="l4m-tt-95N" firstAttribute="leading" secondItem="ntd-FO-ozz" secondAttribute="leading" constant="16" id="z3t-TA-uly"/>
                             <constraint firstItem="ntd-FO-ozz" firstAttribute="trailing" secondItem="l4m-tt-95N" secondAttribute="trailing" constant="16" id="zBx-LC-6au"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="wbA-yD-ufD" appends="YES" id="ouE-4o-h3x"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="69s-yd-9gM"/>
                     <connections>
@@ -93,6 +97,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ULb-Vq-ZWP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="wbA-yD-ufD">
+                    <connections>
+                        <action selector="closeKeyboard:" destination="UPB-gW-A5x" id="i8J-31-egb"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1057" y="327"/>
         </scene>
