@@ -9,19 +9,19 @@ import UIKit
 import Kingfisher
 
 class MagazineViewController: UITableViewController {
-    let travelList = MagazineInfo().magazine
+    private let list = MagazineInfo().magazine
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        travelList.count
+        list.count
     }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "travelCell", for: indexPath) as! MagazineTableViewCell
-        let travel = travelList[indexPath.row]
+        let travel = list[indexPath.row]
         cell.titleImageView.kf.setImage(with: URL(string: travel.photo_image))
         cell.titleLabel.text = travel.title
         cell.subtitleLabel.text = travel.subtitle
@@ -29,6 +29,7 @@ class MagazineViewController: UITableViewController {
         
         return cell
     }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         450
     }
