@@ -11,8 +11,8 @@ class GameViewController: UIViewController {
     var cnt = 0
 
     @IBOutlet var numberTextField: UITextField!
-    @IBOutlet var resultAllLabel: UILabel!
     @IBOutlet var resultLabel: UILabel!
+    @IBOutlet var resultTextView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,17 +23,19 @@ class GameViewController: UIViewController {
         numberTextField.placeholder = "최대 숫자를 입력해주세요"
         numberTextField.backgroundColor = .systemGray6
         numberTextField.keyboardType = .numberPad
-        resultAllLabel.text = "숫자를 입력하세요!"
+        resultTextView.isEditable = false // 텍스트 편집 막기
+        resultTextView.isSelectable = false // 텍스트 선택 막기
+        resultTextView.text = "숫자를 입력하세요!"
         resultLabel.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         resultLabel.text = ""
     }
     
     func checkTextField() {
         if let num = Int(numberTextField.text ?? "") {
-            resultAllLabel.text = select369(num)
+            resultTextView.text = select369(num)
             resultLabel.text = "숫자 \(num)까지 총 박수는 \(cnt)번 입니다"
         } else {
-            resultAllLabel.text = "숫자를 입력하세요!"
+            resultTextView.text = "숫자를 입력하세요!"
         }
     }
     
