@@ -23,7 +23,7 @@ class TravelTableViewController: UITableViewController {
         if travel.ad {
             let cell = tableView.dequeueReusableCell(withIdentifier: "adTableCell") as! ADTableViewCell
             cell.contentLabel.text = travel.title
-            cell.backgroundColorView.backgroundColor = .systemMint
+            cell.backgroundColorView.backgroundColor = UIColor.lightPink
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "travelCell") as! TravelTableViewCell
@@ -33,7 +33,7 @@ class TravelTableViewController: UITableViewController {
             for i in 0..<Int(travel.grade ?? 1) {
                 cell.fiveStarView[i].tintColor = .yellow
             }
-            cell.starAndSaveLabel.text = "\(travel.grade!) * 저장 \(travel.save!)"
+            cell.starAndSaveLabel.text = "(\(travel.grade!)) * 저장 \(travel.save!)"
             return cell
         }
     }
