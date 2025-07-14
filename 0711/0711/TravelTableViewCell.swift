@@ -9,6 +9,7 @@ import UIKit
 
 class TravelTableViewCell: UITableViewCell {
     
+    @IBOutlet var likeButton: UIButton!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var descriptionLabel: UILabel!
     @IBOutlet var fiveStarView: [UIImageView]!
@@ -26,6 +27,12 @@ class TravelTableViewCell: UITableViewCell {
         starAndSaveLabel.font = UIFont.systemFont(ofSize: 14)
         starAndSaveLabel.textColor = .systemGray4
         placeImageView.layer.cornerRadius = 10
+        likeButton.setTitle("", for: .normal)
+        likeButton.tintColor = .white
+    }
+    
+    @IBAction func clickedLikeButton(_ sender: UIButton) {
+        
     }
 }
 

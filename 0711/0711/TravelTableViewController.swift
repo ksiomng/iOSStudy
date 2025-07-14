@@ -34,6 +34,11 @@ class TravelTableViewController: UITableViewController {
                 cell.fiveStarView[i].tintColor = .yellow
             }
             cell.starAndSaveLabel.text = "(\(travel.grade!)) * 저장 \(travel.save!)"
+            if travel.like! {
+                cell.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            } else {
+                cell.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            }
             return cell
         }
     }
