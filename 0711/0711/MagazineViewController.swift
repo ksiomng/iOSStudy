@@ -31,7 +31,7 @@ class MagazineViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        450
+        UITableView.automaticDimension
     }
     
     func dateFormatting(_ rawDate: String) -> String {
