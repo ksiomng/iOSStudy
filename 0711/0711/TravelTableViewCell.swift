@@ -31,8 +31,18 @@ class TravelTableViewCell: UITableViewCell {
         likeButton.tintColor = .white
     }
     
-    @IBAction func toggleLike(_ sender: UIButton) {
-        
+    func fillStarColor(_ cnt: Double) {
+        for i in 0..<Int(cnt) {
+            fiveStarView[i].tintColor = .yellow
+        }
+    }
+    
+    func checkLiked(like: Bool) {
+        if like {
+            likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
     }
 }
 

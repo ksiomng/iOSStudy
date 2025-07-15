@@ -13,7 +13,6 @@ class TravelTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -25,22 +24,15 @@ class TravelTableViewController: UITableViewController {
         if travel.ad {
             let cell = tableView.dequeueReusableCell(withIdentifier: "adTableCell") as! ADTableViewCell
             cell.contentLabel.text = travel.title
-            cell.backgroundColorView.backgroundColor = UIColor.lightPink
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "travelCell") as! TravelTableViewCell
             cell.titleLabel.text = travel.title
             cell.descriptionLabel.text = travel.description
             cell.placeImageView.kf.setImage(with: URL(string: travel.travel_image!))
-            for i in 0..<Int(travel.grade ?? 1) {
-                cell.fiveStarView[i].tintColor = .yellow
-            }
+            cell.fillStarColor(travel.grade!)
             cell.starAndSaveLabel.text = "(\(travel.grade!)) * 저장 \(travel.save!)"
-            if travel.like! {
-                cell.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            } else {
-                cell.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-            }
+            cell.checkLiked(like: travel.like!)
             cell.likeButton.tag = indexPath.row
             return cell
         }
@@ -48,7 +40,7 @@ class TravelTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if list[indexPath.row].ad {
-            return 144
+            return 140
         } else {
             return 148
         }
