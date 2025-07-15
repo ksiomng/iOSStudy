@@ -414,11 +414,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="EOj-Jh-VkE">
-                            <rect key="frame" x="0.0" y="0.0" width="393" height="46"/>
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="84"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yZx-64-MF5">
-                                    <rect key="frame" x="16" y="5" width="361" height="37"/>
+                                    <rect key="frame" x="16" y="44" width="361" height="36"/>
                                     <segments>
                                         <segment title="전체"/>
                                         <segment title="국내"/>
@@ -428,18 +428,30 @@
                                         <action selector="segmentedChange:" destination="WIR-Xz-jpI" eventType="valueChanged" id="z4k-Zc-T3d"/>
                                     </connections>
                                 </segmentedControl>
+                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AXt-B7-tdM">
+                                    <rect key="frame" x="16" y="5" width="361" height="34"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <action selector="editSearchCity:" destination="WIR-Xz-jpI" eventType="editingChanged" id="9QO-FR-E6j"/>
+                                        <action selector="searchCity:" destination="WIR-Xz-jpI" eventType="editingDidEndOnExit" id="2BN-dV-PW9"/>
+                                    </connections>
+                                </textField>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
-                                <constraint firstItem="yZx-64-MF5" firstAttribute="top" secondItem="EOj-Jh-VkE" secondAttribute="top" constant="5" id="49G-pL-LTd"/>
+                                <constraint firstAttribute="trailing" secondItem="AXt-B7-tdM" secondAttribute="trailing" constant="16" id="KiW-s4-L3V"/>
+                                <constraint firstItem="AXt-B7-tdM" firstAttribute="top" secondItem="EOj-Jh-VkE" secondAttribute="top" constant="5" id="Oqy-v5-fms"/>
                                 <constraint firstItem="yZx-64-MF5" firstAttribute="leading" secondItem="EOj-Jh-VkE" secondAttribute="leading" constant="16" id="WZl-Ec-dFq"/>
                                 <constraint firstAttribute="trailing" secondItem="yZx-64-MF5" secondAttribute="trailing" constant="16" id="dCo-gw-HDX"/>
+                                <constraint firstItem="AXt-B7-tdM" firstAttribute="leading" secondItem="EOj-Jh-VkE" secondAttribute="leading" constant="16" id="daM-6y-53l"/>
+                                <constraint firstItem="yZx-64-MF5" firstAttribute="top" secondItem="AXt-B7-tdM" secondAttribute="bottom" constant="5" id="jE0-mh-Qxl"/>
                                 <constraint firstAttribute="bottom" secondItem="yZx-64-MF5" secondAttribute="bottom" constant="5" id="x90-Mp-cWr"/>
                             </constraints>
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="150" id="EYM-JV-OMN">
-                                <rect key="frame" x="0.0" y="96" width="393" height="150"/>
+                                <rect key="frame" x="0.0" y="134" width="393" height="150"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EYM-JV-OMN" id="egJ-3P-Qk7">
                                     <rect key="frame" x="0.0" y="0.0" width="393" height="150"/>
@@ -455,6 +467,7 @@
                     <navigationItem key="navigationItem" title="Root View Controller" id="XKy-sH-pQr"/>
                     <connections>
                         <outlet property="domesticTravelSegment" destination="yZx-64-MF5" id="yz4-Fg-TwB"/>
+                        <outlet property="searchTextField" destination="AXt-B7-tdM" id="F6p-up-KAQ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="64D-rI-BqL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

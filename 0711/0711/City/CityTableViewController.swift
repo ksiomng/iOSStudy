@@ -10,11 +10,13 @@ import Kingfisher
 
 class CityTableViewController: UITableViewController {
     @IBOutlet var domesticTravelSegment: UISegmentedControl!
+    @IBOutlet var searchTextField: UITextField!
     
-    var cities = CityInfo().city
-
+    var cities = [City]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        filterCityList(domesticTravelSegment.selectedSegmentIndex)
         let xib = UINib(nibName: CityTableViewCell.identifier, bundle: nil)
         tableView.register(xib, forCellReuseIdentifier: CityTableViewCell.identifier)
         tableView.separatorStyle = .none
@@ -38,18 +40,48 @@ class CityTableViewController: UITableViewController {
     }
     
     @IBAction func segmentedChange(_ sender: UISegmentedControl) {
+        searchTextField.text = ""
         switch sender.selectedSegmentIndex {
         case 0:
-            cities = CityInfo().city
-            tableView.reloadData()
+            filterCityList(0)
         case 1:
-            cities = CityInfo().city.filter { $0.domestic_travel == true }
-            tableView.reloadData()
+            filterCityList(1)
         case 2:
-            cities = CityInfo().city.filter { $0.domestic_travel == false }
-            tableView.reloadData()
+            filterCityList(2)
         default:
             break
+        }
+    }
+    
+    func filterCityList(_ idx: Int) {
+        if idx == 0 {
+            cities = CityInfo().city
+        } else if idx == 1 {
+            cities = CityInfo().city.filter { $0.domestic_travel == true }
+        } else if idx == 2 {
+            cities = CityInfo().city.filter { $0.domestic_travel == false }
+        }
+        tableView.reloadData()
+    }
+    
+    func searchFilterCityList(_ text: String) {
+        filterCityList(domesticTravelSegment.selectedSegmentIndex)
+        cities = cities.filter { $0.city_name.contains(text) || $0.city_english_name.lowercased().contains(text.lowercased()) || $0.city_explain.contains(text)
+        }
+        tableView.reloadData()
+    }
+    
+    // 실시간
+    @IBAction func editSearchCity(_ sender: UITextField) {
+        if let text = sender.text {
+            searchFilterCityList(text)
+        }
+    }
+    
+    // 엔터눌렀을때
+    @IBAction func searchCity(_ sender: UITextField) {
+        if let text = sender.text {
+            searchFilterCityList(text)
         }
     }
 }
