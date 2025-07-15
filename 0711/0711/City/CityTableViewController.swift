@@ -13,6 +13,8 @@ class CityTableViewController: UITableViewController {
     @IBOutlet var searchTextField: UITextField!
     
     var cities = [City]()
+    var pointColorLowerString = ""
+    var pointColorUpperString = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +34,10 @@ class CityTableViewController: UITableViewController {
         cell.backgroundImageView.kf.setImage(with: URL(string: city.city_image))
         cell.titleLabel.text = "\(city.city_name) | \(city.city_english_name)"
         cell.cityListLabel.text = "  " + city.city_explain
+        
+        cell.titleLabel.asFontColor(targetStringList: [pointColorLowerString, pointColorUpperString], color: .red)
+        cell.cityListLabel.asFontColor(targetStringList: [pointColorLowerString, pointColorUpperString], color: .red)
+        
         return cell
     }
     
@@ -41,6 +47,8 @@ class CityTableViewController: UITableViewController {
     
     @IBAction func segmentedChange(_ sender: UISegmentedControl) {
         searchTextField.text = ""
+        pointColorLowerString = ""
+        pointColorUpperString = ""
         switch sender.selectedSegmentIndex {
         case 0:
             filterCityList(0)
@@ -66,7 +74,14 @@ class CityTableViewController: UITableViewController {
     
     func searchFilterCityList(_ text: String) {
         filterCityList(domesticTravelSegment.selectedSegmentIndex)
-        cities = cities.filter { $0.city_name.contains(text) || $0.city_english_name.lowercased().contains(text.lowercased()) || $0.city_explain.contains(text)
+        if text != "" {
+            cities = cities.filter { $0.city_name.contains(text) || $0.city_english_name.lowercased().contains(text.lowercased()) || $0.city_explain.contains(text)
+            }
+            pointColorLowerString = text.lowercased()
+            pointColorUpperString =  capitalizeFirstLetter(of: text)
+        } else {
+            pointColorLowerString = ""
+            pointColorUpperString = ""
         }
         tableView.reloadData()
     }
@@ -83,5 +98,15 @@ class CityTableViewController: UITableViewController {
         if let text = sender.text {
             searchFilterCityList(text)
         }
+    }
+    
+    // 첫번째 글자만 대문자
+    func capitalizeFirstLetter(of string: String) -> String {
+        guard let firstLetter = string.first else {
+            return string
+        }
+        let firstLetterCapitalized = String(firstLetter).uppercased()
+        let remainingLetters = string.dropFirst().lowercased()
+        return firstLetterCapitalized + remainingLetters
     }
 }
