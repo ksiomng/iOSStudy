@@ -8,7 +8,9 @@
 import UIKit
 
 class TravelTableViewController: UITableViewController {
-    private let list = TravelInfo().travel
+    
+    private var list = TravelInfo().travel
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,6 +41,7 @@ class TravelTableViewController: UITableViewController {
             } else {
                 cell.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
             }
+            cell.likeButton.tag = indexPath.row
             return cell
         }
     }
@@ -49,5 +52,10 @@ class TravelTableViewController: UITableViewController {
         } else {
             return 148
         }
+    }
+    
+    @IBAction func toggleLike(_ sender: UIButton) {
+        list[sender.tag].like!.toggle()
+        tableView.reloadData()
     }
 }

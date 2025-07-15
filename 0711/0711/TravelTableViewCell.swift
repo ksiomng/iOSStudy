@@ -31,7 +31,7 @@ class TravelTableViewCell: UITableViewCell {
         likeButton.tintColor = .white
     }
     
-    @IBAction func clickedLikeButton(_ sender: UIButton) {
+    @IBAction func toggleLike(_ sender: UIButton) {
         
     }
 }

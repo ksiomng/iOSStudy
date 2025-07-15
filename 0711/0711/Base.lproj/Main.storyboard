@@ -266,7 +266,7 @@
                                             <state key="normal" title="Button"/>
                                             <buttonConfiguration key="configuration" style="plain" title="Button"/>
                                             <connections>
-                                                <action selector="clickedLikeButton:" destination="p9V-OU-7nF" eventType="touchUpInside" id="USm-Xl-Dcr"/>
+                                                <action selector="toggleLike:" destination="cDX-lZ-SUG" eventType="touchUpInside" id="dY6-YV-nNQ"/>
                                             </connections>
                                         </button>
                                     </subviews>
