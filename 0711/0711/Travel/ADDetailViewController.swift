@@ -14,6 +14,10 @@ class ADDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureLabel()
+    }
+    
+    func configureLabel() {
         mainLabel.text = str
         mainLabel.font = .systemFont(ofSize: 25, weight: .bold)
     }

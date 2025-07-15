@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class TravelDetailViewController: UIViewController {
     var image = ""
@@ -19,14 +20,22 @@ class TravelDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configure()
+    }
+    
+    func configure() {
         placeImageView.kf.setImage(with: URL(string: image))
         radius(placeImageView, size: 10)
+        
         mainLabel.text = mainTitle
         mainLabel.font = .systemFont(ofSize: 40, weight: .bold)
+        
         subLabel.text = subTitle
         subLabel.font = .systemFont(ofSize: 25, weight: .semibold)
+        
         backButton.setTitle("다른 관광지 보러 가기", for: .normal)
         radius(backButton, size: 25)
+        
         navigationItem.title = "관광지 화면"
     }
     
