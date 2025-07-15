@@ -425,6 +425,79 @@
             </objects>
             <point key="canvasLocation" x="2019" y="1586"/>
         </scene>
+        <!--Root View Controller-->
+        <scene sceneID="YOF-jC-iqK">
+            <objects>
+                <tableViewController id="WIR-Xz-jpI" customClass="CityTableViewController" customModule="_711" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="Bo6-xW-hq5">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="EOj-Jh-VkE">
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="46"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yZx-64-MF5">
+                                    <rect key="frame" x="16" y="5" width="361" height="37"/>
+                                    <segments>
+                                        <segment title="전체"/>
+                                        <segment title="국내"/>
+                                        <segment title="해외"/>
+                                    </segments>
+                                    <connections>
+                                        <action selector="segmentedChange:" destination="WIR-Xz-jpI" eventType="valueChanged" id="z4k-Zc-T3d"/>
+                                    </connections>
+                                </segmentedControl>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstItem="yZx-64-MF5" firstAttribute="top" secondItem="EOj-Jh-VkE" secondAttribute="top" constant="5" id="49G-pL-LTd"/>
+                                <constraint firstItem="yZx-64-MF5" firstAttribute="leading" secondItem="EOj-Jh-VkE" secondAttribute="leading" constant="16" id="WZl-Ec-dFq"/>
+                                <constraint firstAttribute="trailing" secondItem="yZx-64-MF5" secondAttribute="trailing" constant="16" id="dCo-gw-HDX"/>
+                                <constraint firstAttribute="bottom" secondItem="yZx-64-MF5" secondAttribute="bottom" constant="5" id="x90-Mp-cWr"/>
+                            </constraints>
+                        </view>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="150" id="EYM-JV-OMN">
+                                <rect key="frame" x="0.0" y="96" width="393" height="150"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EYM-JV-OMN" id="egJ-3P-Qk7">
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="150"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="WIR-Xz-jpI" id="BWQ-0C-tZE"/>
+                            <outlet property="delegate" destination="WIR-Xz-jpI" id="G7N-pL-pcm"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Root View Controller" id="XKy-sH-pQr"/>
+                    <connections>
+                        <outlet property="domesticTravelSegment" destination="yZx-64-MF5" id="yz4-Fg-TwB"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="64D-rI-BqL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1168.7022900763359" y="2504.929577464789"/>
+        </scene>
+        <!--인기도시-->
+        <scene sceneID="KWU-CS-SGP">
+            <objects>
+                <navigationController id="KQM-oo-fkw" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="인기도시" image="building.2" catalog="system" id="tlF-3h-X0q"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="zAW-eL-aM0">
+                        <rect key="frame" x="0.0" y="118" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="WIR-Xz-jpI" kind="relationship" relationship="rootViewController" id="QfX-Qp-Jzt"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="exb-VK-Jpf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="271" y="2505"/>
+        </scene>
         <!--Travel Detail View Controller-->
         <scene sceneID="2YP-I4-OYM">
             <objects>
@@ -539,6 +612,7 @@
                         <segue destination="b4L-F7-eGS" kind="relationship" relationship="viewControllers" id="RYh-zG-xkf"/>
                         <segue destination="27a-oi-Cka" kind="relationship" relationship="viewControllers" id="OOD-74-BEq"/>
                         <segue destination="4eC-zk-7fz" kind="relationship" relationship="viewControllers" id="Oq9-3W-YSy"/>
+                        <segue destination="KQM-oo-fkw" kind="relationship" relationship="viewControllers" id="PGf-xb-6Xs"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IgQ-DS-ZPQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -548,6 +622,7 @@
     </scenes>
     <resources>
         <image name="airplane" catalog="system" width="128" height="115"/>
+        <image name="building.2" catalog="system" width="120" height="128"/>
         <image name="gamecontroller" catalog="system" width="128" height="79"/>
         <image name="magazine" catalog="system" width="110" height="128"/>
         <image name="magnifyingglass.circle.fill" catalog="system" width="128" height="123"/>
