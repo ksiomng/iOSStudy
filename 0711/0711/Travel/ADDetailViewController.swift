@@ -15,6 +15,9 @@ class ADDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureLabel()
+        navigationItem.title = "인기 도시"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(backButtonDismiss))
+        navigationItem.leftBarButtonItem?.tintColor = .black
     }
     
     func configureLabel() {
@@ -22,7 +25,7 @@ class ADDetailViewController: UIViewController {
         mainLabel.font = .systemFont(ofSize: 25, weight: .bold)
     }
     
-    @IBAction func dismissButtonClicked(_ sender: UIButton) {
+    @objc func backButtonDismiss() {
         dismiss(animated: true)
     }
 }

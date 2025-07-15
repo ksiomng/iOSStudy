@@ -388,33 +388,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4bD-Jm-jnc">
-                                <rect key="frame" x="0.0" y="117.99999999999999" width="46.333333333333336" height="34.333333333333329"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="xmark" catalog="system">
-                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="dismissButtonClicked:" destination="6hw-vi-RkL" eventType="touchUpInside" id="Ndk-yv-MkY"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="광고 화면" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uhz-B5-EbZ">
-                                <rect key="frame" x="164.66666666666666" y="124.66666666666669" width="64" height="21"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="D9l-i3-NJR"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Uhz-B5-EbZ" firstAttribute="centerX" secondItem="ReK-zx-PPg" secondAttribute="centerX" id="69G-94-oRx"/>
-                            <constraint firstItem="4bD-Jm-jnc" firstAttribute="leading" secondItem="D9l-i3-NJR" secondAttribute="leading" id="Wnt-EE-h0b"/>
                             <constraint firstItem="rOs-2c-x5I" firstAttribute="centerY" secondItem="ReK-zx-PPg" secondAttribute="centerY" id="Zg7-Kv-c0c"/>
                             <constraint firstItem="rOs-2c-x5I" firstAttribute="leading" secondItem="D9l-i3-NJR" secondAttribute="leading" constant="50" id="ddp-hK-b3S"/>
-                            <constraint firstItem="Uhz-B5-EbZ" firstAttribute="centerY" secondItem="4bD-Jm-jnc" secondAttribute="centerY" id="jHi-eW-XSL"/>
                             <constraint firstItem="D9l-i3-NJR" firstAttribute="trailing" secondItem="rOs-2c-x5I" secondAttribute="trailing" constant="50" id="pYK-Qh-RXS"/>
-                            <constraint firstItem="4bD-Jm-jnc" firstAttribute="top" secondItem="D9l-i3-NJR" secondAttribute="top" id="ukR-d8-fqw"/>
                         </constraints>
                     </view>
                     <connections>
@@ -626,7 +606,6 @@
         <image name="gamecontroller" catalog="system" width="128" height="79"/>
         <image name="magazine" catalog="system" width="110" height="128"/>
         <image name="magnifyingglass.circle.fill" catalog="system" width="128" height="123"/>
-        <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
