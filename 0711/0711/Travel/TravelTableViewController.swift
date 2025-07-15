@@ -46,6 +46,28 @@ class TravelTableViewController: UITableViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let travel = list[indexPath.row]
+        
+        if travel.ad {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "ADDetailViewController") as! ADDetailViewController
+            vc.str = travel.title
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true)
+        } else {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "TravelDetailViewController") as! TravelDetailViewController
+            vc.image = travel.travel_image!
+            vc.mainTitle = travel.title
+            vc.subTitle = travel.description!
+            let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            backButton.tintColor = .black // 백 버튼 색상 설정
+            navigationItem.backBarButtonItem = backButton
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
     @IBAction func toggleLike(_ sender: UIButton) {
         list[sender.tag].like!.toggle()
         tableView.reloadData()
