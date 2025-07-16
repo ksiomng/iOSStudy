@@ -27,34 +27,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         cityTableView.separatorStyle = .none
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        cities.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let city = cities[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: CityTableViewCell.identifier) as! CityTableViewCell
-        cell.backgroundImageView.kf.setImage(with: URL(string: city.city_image))
-        cell.titleLabel.text = "\(city.city_name) | \(city.city_english_name)"
-        cell.cityListLabel.text = "  " + city.city_explain
-        
-        cell.titleLabel.asFontColor(targetStringList: [pointColorLowerString, pointColorUpperString], color: .red)
-        cell.cityListLabel.asFontColor(targetStringList: [pointColorLowerString, pointColorUpperString], color: .red)
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        180
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "CityDetailViewController") as! CityDetailViewController
-        vc.city = cities[indexPath.row]
-        simpleBackButtonStyle()
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
     // segment 바뀔때
     @IBAction func segmentedChange(_ sender: UISegmentedControl) {
         searchTextField.text = ""
@@ -119,5 +91,35 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
             pointColorUpperString = ""
         }
         cityTableView.reloadData()
+    }
+}
+
+extension CityViewController {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        cities.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let city = cities[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: CityTableViewCell.identifier) as! CityTableViewCell
+        cell.backgroundImageView.kf.setImage(with: URL(string: city.city_image))
+        cell.titleLabel.text = "\(city.city_name) | \(city.city_english_name)"
+        cell.cityListLabel.text = "  " + city.city_explain
+        
+        cell.titleLabel.asFontColor(targetStringList: [pointColorLowerString, pointColorUpperString], color: .red)
+        cell.cityListLabel.asFontColor(targetStringList: [pointColorLowerString, pointColorUpperString], color: .red)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        180
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "CityDetailViewController") as! CityDetailViewController
+        vc.city = cities[indexPath.row]
+        simpleBackButtonStyle()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
