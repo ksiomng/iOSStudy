@@ -48,6 +48,13 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         180
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "CityDetailViewController") as! CityDetailViewController
+        vc.city = cities[indexPath.row]
+        simpleBackButtonStyle()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     // segment 바뀔때
     @IBAction func segmentedChange(_ sender: UISegmentedControl) {
         searchTextField.text = ""

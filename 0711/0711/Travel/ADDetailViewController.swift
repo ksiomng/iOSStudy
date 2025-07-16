@@ -15,7 +15,7 @@ class ADDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureLabel()
-        navigationItem.title = "인기 도시"
+        navigationTitle("인기 도시")
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(backButtonDismiss))
         navigationItem.leftBarButtonItem?.tintColor = .black
     }

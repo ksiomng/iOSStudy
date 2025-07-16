@@ -62,9 +62,7 @@ class TravelTableViewController: UITableViewController {
             vc.image = travel.travel_image!
             vc.mainTitle = travel.title
             vc.subTitle = travel.description!
-            let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-            backButton.tintColor = .black
-            navigationItem.backBarButtonItem = backButton
+            simpleBackButtonStyle()
             navigationController?.pushViewController(vc, animated: true)
         }
     }

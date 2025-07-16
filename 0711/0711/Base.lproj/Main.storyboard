@@ -499,8 +499,8 @@
                                 <rect key="frame" x="16" y="201" width="361" height="32"/>
                                 <segments>
                                     <segment title="전체"/>
-                                    <segment title="해외"/>
                                     <segment title="국내"/>
+                                    <segment title="해외"/>
                                 </segments>
                                 <connections>
                                     <action selector="segmentedChange:" destination="BZt-fu-Qo9" eventType="valueChanged" id="Yu5-2b-SqX"/>
@@ -532,6 +532,57 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M1B-oE-Xmd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1169" y="3241"/>
+        </scene>
+        <!--City Detail View Controller-->
+        <scene sceneID="Tjp-Tf-gcz">
+            <objects>
+                <viewController storyboardIdentifier="CityDetailViewController" id="JYI-Yl-Yaf" customClass="CityDetailViewController" customModule="_711" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lPW-aw-sfb">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="f65-76-TAs">
+                                <rect key="frame" x="16" y="118" width="361" height="250"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="250" id="LGa-sc-SQa"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JC4-NW-UBf">
+                                <rect key="frame" x="16" y="378" width="361" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oF0-iZ-xTH">
+                                <rect key="frame" x="16" y="409" width="361" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="uyD-qk-aIG"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="uyD-qk-aIG" firstAttribute="trailing" secondItem="f65-76-TAs" secondAttribute="trailing" constant="16" id="6Lb-Vl-Byv"/>
+                            <constraint firstItem="JC4-NW-UBf" firstAttribute="top" secondItem="f65-76-TAs" secondAttribute="bottom" constant="10" id="ATr-OU-WLJ"/>
+                            <constraint firstItem="JC4-NW-UBf" firstAttribute="leading" secondItem="uyD-qk-aIG" secondAttribute="leading" constant="16" id="CPl-93-aUs"/>
+                            <constraint firstItem="uyD-qk-aIG" firstAttribute="trailing" secondItem="JC4-NW-UBf" secondAttribute="trailing" constant="16" id="Srf-O1-bwA"/>
+                            <constraint firstItem="oF0-iZ-xTH" firstAttribute="leading" secondItem="uyD-qk-aIG" secondAttribute="leading" constant="16" id="YMm-Op-aLt"/>
+                            <constraint firstItem="uyD-qk-aIG" firstAttribute="trailing" secondItem="oF0-iZ-xTH" secondAttribute="trailing" constant="16" id="hfU-Mk-pEb"/>
+                            <constraint firstItem="f65-76-TAs" firstAttribute="top" secondItem="uyD-qk-aIG" secondAttribute="top" id="vTP-LY-IEQ"/>
+                            <constraint firstItem="oF0-iZ-xTH" firstAttribute="top" secondItem="JC4-NW-UBf" secondAttribute="bottom" constant="10" id="xiB-1s-vTe"/>
+                            <constraint firstItem="f65-76-TAs" firstAttribute="leading" secondItem="uyD-qk-aIG" secondAttribute="leading" constant="16" id="yf7-zM-ffc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="cityImageView" destination="f65-76-TAs" id="eJa-Vq-fFL"/>
+                        <outlet property="domesticLabel" destination="JC4-NW-UBf" id="OoP-W4-7Mt"/>
+                        <outlet property="explainLabel" destination="oF0-iZ-xTH" id="NsA-Dp-cbF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="G8H-zB-Gee" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2126" y="3241"/>
         </scene>
         <!--인기도시-->
         <scene sceneID="KWU-CS-SGP">
