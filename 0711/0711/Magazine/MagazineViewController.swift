@@ -25,26 +25,12 @@ class MagazineViewController: UITableViewController {
         cell.titleImageView.kf.setImage(with: URL(string: travel.photo_image))
         cell.titleLabel.text = travel.title
         cell.subtitleLabel.text = travel.subtitle
-        cell.dateLabel.text = dateFormatting(travel.date)
+        cell.dateLabel.text = Date.dateFormatting(travel.date)
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
-    }
-    
-    func dateFormatting(_ rawDate: String) -> String {
-        let fullDateString = "20" + rawDate
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyyMMdd"
-        let date = dateFormatter.date(from: fullDateString)
-        
-        let outputFormatter = DateFormatter()
-        outputFormatter.dateFormat = "yy년 MM월 dd일"
-        let formatted = outputFormatter.string(from: date!)
-        
-        return formatted
     }
 }
