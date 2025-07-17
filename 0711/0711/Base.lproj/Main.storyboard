@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -586,6 +587,84 @@
             </objects>
             <point key="canvasLocation" x="2126" y="3241"/>
         </scene>
+        <!--Item-->
+        <scene sceneID="Fwj-wk-rnA">
+            <objects>
+                <navigationController id="cel-SW-yKg" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="Mmo-cn-80C"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wjb-3i-ON6">
+                        <rect key="frame" x="0.0" y="118" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="oK5-Mg-JZE" kind="relationship" relationship="rootViewController" id="Ar8-zM-A5N"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NjY-Ze-os0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1106" y="4179"/>
+        </scene>
+        <!--Collection City View Controller-->
+        <scene sceneID="Hb3-OY-15l">
+            <objects>
+                <viewController storyboardIdentifier="CollectionCityViewController" id="oK5-Mg-JZE" customClass="CollectionCityViewController" customModule="_711" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ddn-1i-A9u">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hwA-2j-gKa">
+                                <rect key="frame" x="0.0" y="203" width="393" height="532"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Zy9-3s-NCn">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="H4L-Z6-0r2">
+                                        <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="y28-Cc-tyb">
+                                            <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="7cF-2D-b6j">
+                                <rect key="frame" x="16" y="162" width="361" height="32"/>
+                                <segments>
+                                    <segment title="전체"/>
+                                    <segment title="국내"/>
+                                    <segment title="해외"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentedChange:" destination="oK5-Mg-JZE" eventType="valueChanged" id="SWU-53-V6Q"/>
+                                </connections>
+                            </segmentedControl>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="JHx-8E-Wt1"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="JHx-8E-Wt1" firstAttribute="bottom" secondItem="hwA-2j-gKa" secondAttribute="bottom" id="3mA-Ca-oiR"/>
+                            <constraint firstItem="7cF-2D-b6j" firstAttribute="top" secondItem="JHx-8E-Wt1" secondAttribute="top" id="EjU-JU-QMm"/>
+                            <constraint firstItem="JHx-8E-Wt1" firstAttribute="trailing" secondItem="7cF-2D-b6j" secondAttribute="trailing" constant="16" id="F7Q-8c-TEF"/>
+                            <constraint firstItem="7cF-2D-b6j" firstAttribute="leading" secondItem="JHx-8E-Wt1" secondAttribute="leading" constant="16" id="IJe-Gc-qaB"/>
+                            <constraint firstItem="hwA-2j-gKa" firstAttribute="top" secondItem="7cF-2D-b6j" secondAttribute="bottom" constant="10" id="OP4-h3-nOW"/>
+                            <constraint firstItem="hwA-2j-gKa" firstAttribute="leading" secondItem="JHx-8E-Wt1" secondAttribute="leading" id="aU8-Sy-cwR"/>
+                            <constraint firstItem="JHx-8E-Wt1" firstAttribute="trailing" secondItem="hwA-2j-gKa" secondAttribute="trailing" id="dWP-Eh-21O"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="DKv-Xp-XrA"/>
+                    <connections>
+                        <outlet property="cityCollectionView" destination="hwA-2j-gKa" id="wmJ-Vk-0Cd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="i8t-FW-qQT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2094" y="4196"/>
+        </scene>
         <!--인기도시-->
         <scene sceneID="KWU-CS-SGP">
             <objects>
@@ -718,6 +797,7 @@
                         <segue destination="27a-oi-Cka" kind="relationship" relationship="viewControllers" id="OOD-74-BEq"/>
                         <segue destination="4eC-zk-7fz" kind="relationship" relationship="viewControllers" id="Oq9-3W-YSy"/>
                         <segue destination="KQM-oo-fkw" kind="relationship" relationship="viewControllers" id="PGf-xb-6Xs"/>
+                        <segue destination="cel-SW-yKg" kind="relationship" relationship="viewControllers" id="okI-NH-yPk"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IgQ-DS-ZPQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

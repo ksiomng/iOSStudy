@@ -21,7 +21,7 @@ class CityTableViewCell: UITableViewCell {
         cityListLabel.textColor = .white
         cityListLabel.backgroundColor = UIColor(white: 0, alpha: 0.5) // 검은색 0.5퍼 튜명도
         cityListLabel.font = .systemFont(ofSize: 15)
-        CornerRadius.radiusTwo(backgroundImageView)
+        CornerRadius.radiusTwo(backgroundImageView, size: 20)
         CornerRadius.radiusOne(cityListLabel)
     }
 

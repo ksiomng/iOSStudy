@@ -8,9 +8,9 @@
 import UIKit
 
 class CornerRadius {
-    static func radiusTwo(_ view: UIView) {
+    static func radiusTwo(_ view: UIView, size: CGFloat) {
         view.clipsToBounds = true
-        view.layer.cornerRadius = 20
+        view.layer.cornerRadius = size
         view.layer.maskedCorners = CACornerMask(arrayLiteral: [.layerMinXMinYCorner, .layerMaxXMaxYCorner])
     }
     

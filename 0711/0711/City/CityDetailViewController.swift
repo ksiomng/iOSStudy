@@ -24,7 +24,7 @@ class CityDetailViewController: UIViewController {
         navigationTitle("\(city.city_name) \(city.city_english_name)")
         
         cityImageView.kf.setImage(with: URL(string: city.city_image))
-        CornerRadius.radiusTwo(cityImageView)
+        CornerRadius.radiusTwo(cityImageView, size: 20)
         
         domesticLabel.text = city.domestic_travel ? "(국내)" : "(해외)"
         domesticLabel.font = .systemFont(ofSize: 20, weight: .semibold)
