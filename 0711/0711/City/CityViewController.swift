@@ -56,16 +56,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    // 첫번째 글자만 대문자
-    func capitalizeFirstLetter(of string: String) -> String {
-        guard let firstLetter = string.first else {
-            return string
-        }
-        let firstLetterCapitalized = String(firstLetter).uppercased()
-        let remainingLetters = string.dropFirst().lowercased()
-        return firstLetterCapitalized + remainingLetters
-    }
-    
     func filterCityList(_ idx: Int) {
         if idx == 0 {
             cities = CityInfo().city
@@ -102,8 +92,10 @@ extension CityViewController {
         cell.titleLabel.text = "\(city.city_name) | \(city.city_english_name)"
         cell.cityListLabel.text = "  " + city.city_explain
         
-        cell.titleLabel.asFontColor(targetStringList: pointColorLowerString, color: .red)
-        cell.cityListLabel.asFontColor(targetStringList: pointColorLowerString, color: .red)
+        if pointColorLowerString != "" {
+            cell.titleLabel.asFontColor(targetStringList: pointColorLowerString, color: .red)
+            cell.cityListLabel.asFontColor(targetStringList: pointColorLowerString, color: .red)
+        }
         
         return cell
     }

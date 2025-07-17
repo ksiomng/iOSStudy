@@ -49,8 +49,10 @@ class CollectionCityViewController: UIViewController, UICollectionViewDelegate, 
         cell.cityNameLabel.text = "\(city.city_name) | \(city.city_english_name)"
         cell.subLabel.text = city.city_explain
         
-        cell.cityNameLabel.asFontColor(targetStringList: pointColorLowerString, color: .red)
-        cell.subLabel.asFontColor(targetStringList: pointColorLowerString, color: .red)
+        if pointColorLowerString != "" {
+            cell.cityNameLabel.asFontColor(targetStringList: pointColorLowerString, color: .red)
+            cell.subLabel.asFontColor(targetStringList: pointColorLowerString, color: .red)
+        }
         
         return cell
     }

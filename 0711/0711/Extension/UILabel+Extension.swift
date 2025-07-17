@@ -11,7 +11,7 @@ extension UILabel {
     func asFontColor(targetStringList: String, color: UIColor?) {
         let fullText = text ?? ""
         let attributedString = NSMutableAttributedString(string: fullText)
-        let range = (fullText.lowercased() as NSString).range(of: targetStringList.lowercased())
+        let range = (fullText.lowercased() as NSString).range(of: targetStringList)
         attributedString.addAttributes([.foregroundColor: color as Any], range: range)
         attributedText = attributedString
     }
