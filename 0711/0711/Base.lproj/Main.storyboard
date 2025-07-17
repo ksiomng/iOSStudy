@@ -587,11 +587,11 @@
             </objects>
             <point key="canvasLocation" x="2126" y="3241"/>
         </scene>
-        <!--Item-->
+        <!--collection-->
         <scene sceneID="Fwj-wk-rnA">
             <objects>
                 <navigationController id="cel-SW-yKg" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="Mmo-cn-80C"/>
+                    <tabBarItem key="tabBarItem" title="collection" image="circle" catalog="system" id="Mmo-cn-80C"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wjb-3i-ON6">
                         <rect key="frame" x="0.0" y="118" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -820,6 +820,7 @@
     <resources>
         <image name="airplane" catalog="system" width="128" height="115"/>
         <image name="building.2" catalog="system" width="120" height="128"/>
+        <image name="circle" catalog="system" width="128" height="123"/>
         <image name="gamecontroller" catalog="system" width="128" height="79"/>
         <image name="magazine" catalog="system" width="110" height="128"/>
         <image name="magnifyingglass.circle.fill" catalog="system" width="128" height="123"/>
