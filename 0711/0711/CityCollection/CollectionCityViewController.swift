@@ -11,7 +11,6 @@ class CollectionCityViewController: UIViewController, UICollectionViewDelegate, 
     var cities = CityInfo().city
     
     var pointColorLowerString = ""
-    var pointColorUpperString = ""
     
     @IBOutlet var cityCollectionView: UICollectionView!
     @IBOutlet var domesticTravelSegment: UISegmentedControl!
@@ -50,8 +49,8 @@ class CollectionCityViewController: UIViewController, UICollectionViewDelegate, 
         cell.cityNameLabel.text = "\(city.city_name) | \(city.city_english_name)"
         cell.subLabel.text = city.city_explain
         
-        cell.cityNameLabel.asFontColor(targetStringList: [pointColorLowerString, pointColorUpperString], color: .red)
-        cell.subLabel.asFontColor(targetStringList: [pointColorLowerString, pointColorUpperString], color: .red)
+        cell.cityNameLabel.asFontColor(targetStringList: pointColorLowerString, color: .red)
+        cell.subLabel.asFontColor(targetStringList: pointColorLowerString, color: .red)
         
         return cell
     }
@@ -72,7 +71,6 @@ class CollectionCityViewController: UIViewController, UICollectionViewDelegate, 
     
     func filterCityList(_ idx: Int) {
         pointColorLowerString = ""
-        pointColorUpperString = ""
         if idx == 0 {
             cities = CityInfo().city
         } else if idx == 1 {
@@ -89,10 +87,8 @@ class CollectionCityViewController: UIViewController, UICollectionViewDelegate, 
             cities = cities.filter { $0.city_name.contains(text) || $0.city_english_name.lowercased().contains(text.lowercased()) || $0.city_explain.contains(text)
             }
             pointColorLowerString = text.lowercased()
-            pointColorUpperString =  capitalizeFirstLetter(of: text)
         } else {
             pointColorLowerString = ""
-            pointColorUpperString = ""
         }
         cityCollectionView.reloadData()
     }

@@ -14,7 +14,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var cities = [City]()
     var pointColorLowerString = ""
-    var pointColorUpperString = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +30,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func segmentedChange(_ sender: UISegmentedControl) {
         searchTextField.text = ""
         pointColorLowerString = ""
-        pointColorUpperString = ""
         switch sender.selectedSegmentIndex {
         case 0:
             filterCityList(0)
@@ -85,10 +83,8 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
             cities = cities.filter { $0.city_name.contains(text) || $0.city_english_name.lowercased().contains(text.lowercased()) || $0.city_explain.contains(text)
             }
             pointColorLowerString = text.lowercased()
-            pointColorUpperString =  capitalizeFirstLetter(of: text)
         } else {
             pointColorLowerString = ""
-            pointColorUpperString = ""
         }
         cityTableView.reloadData()
     }
@@ -106,8 +102,8 @@ extension CityViewController {
         cell.titleLabel.text = "\(city.city_name) | \(city.city_english_name)"
         cell.cityListLabel.text = "  " + city.city_explain
         
-        cell.titleLabel.asFontColor(targetStringList: [pointColorLowerString, pointColorUpperString], color: .red)
-        cell.cityListLabel.asFontColor(targetStringList: [pointColorLowerString, pointColorUpperString], color: .red)
+        cell.titleLabel.asFontColor(targetStringList: pointColorLowerString, color: .red)
+        cell.cityListLabel.asFontColor(targetStringList: pointColorLowerString, color: .red)
         
         return cell
     }
