@@ -612,8 +612,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="7cF-2D-b6j">
+                                <rect key="frame" x="8" y="218" width="377" height="32"/>
+                                <segments>
+                                    <segment title="전체"/>
+                                    <segment title="국내"/>
+                                    <segment title="해외"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentedChange:" destination="oK5-Mg-JZE" eventType="valueChanged" id="kMN-fC-mcM"/>
+                                </connections>
+                            </segmentedControl>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="5Ky-O8-lSO">
+                                <rect key="frame" x="0.0" y="162" width="393" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="oK5-Mg-JZE" id="CHy-hb-7aQ"/>
+                                </connections>
+                            </searchBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hwA-2j-gKa">
-                                <rect key="frame" x="0.0" y="203" width="393" height="532"/>
+                                <rect key="frame" x="0.0" y="259" width="393" height="476"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Zy9-3s-NCn">
                                     <size key="itemSize" width="128" height="128"/>
@@ -632,33 +650,27 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="7cF-2D-b6j">
-                                <rect key="frame" x="16" y="162" width="361" height="32"/>
-                                <segments>
-                                    <segment title="전체"/>
-                                    <segment title="국내"/>
-                                    <segment title="해외"/>
-                                </segments>
-                                <connections>
-                                    <action selector="segmentedChange:" destination="oK5-Mg-JZE" eventType="valueChanged" id="SWU-53-V6Q"/>
-                                </connections>
-                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="JHx-8E-Wt1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="JHx-8E-Wt1" firstAttribute="bottom" secondItem="hwA-2j-gKa" secondAttribute="bottom" id="3mA-Ca-oiR"/>
-                            <constraint firstItem="7cF-2D-b6j" firstAttribute="top" secondItem="JHx-8E-Wt1" secondAttribute="top" id="EjU-JU-QMm"/>
-                            <constraint firstItem="JHx-8E-Wt1" firstAttribute="trailing" secondItem="7cF-2D-b6j" secondAttribute="trailing" constant="16" id="F7Q-8c-TEF"/>
-                            <constraint firstItem="7cF-2D-b6j" firstAttribute="leading" secondItem="JHx-8E-Wt1" secondAttribute="leading" constant="16" id="IJe-Gc-qaB"/>
-                            <constraint firstItem="hwA-2j-gKa" firstAttribute="top" secondItem="7cF-2D-b6j" secondAttribute="bottom" constant="10" id="OP4-h3-nOW"/>
-                            <constraint firstItem="hwA-2j-gKa" firstAttribute="leading" secondItem="JHx-8E-Wt1" secondAttribute="leading" id="aU8-Sy-cwR"/>
-                            <constraint firstItem="JHx-8E-Wt1" firstAttribute="trailing" secondItem="hwA-2j-gKa" secondAttribute="trailing" id="dWP-Eh-21O"/>
+                            <constraint firstItem="JHx-8E-Wt1" firstAttribute="bottom" secondItem="hwA-2j-gKa" secondAttribute="bottom" id="BjB-W0-SJ0"/>
+                            <constraint firstItem="7cF-2D-b6j" firstAttribute="top" secondItem="5Ky-O8-lSO" secondAttribute="bottom" id="EjU-JU-QMm"/>
+                            <constraint firstItem="JHx-8E-Wt1" firstAttribute="trailing" secondItem="7cF-2D-b6j" secondAttribute="trailing" constant="8" id="F7Q-8c-TEF"/>
+                            <constraint firstItem="hwA-2j-gKa" firstAttribute="trailing" secondItem="JHx-8E-Wt1" secondAttribute="trailing" id="FwT-CZ-scr"/>
+                            <constraint firstItem="hwA-2j-gKa" firstAttribute="leading" secondItem="JHx-8E-Wt1" secondAttribute="leading" id="HMm-mJ-rJe"/>
+                            <constraint firstItem="7cF-2D-b6j" firstAttribute="leading" secondItem="JHx-8E-Wt1" secondAttribute="leading" constant="8" id="IJe-Gc-qaB"/>
+                            <constraint firstItem="5Ky-O8-lSO" firstAttribute="leading" secondItem="JHx-8E-Wt1" secondAttribute="leading" id="la8-UF-adR"/>
+                            <constraint firstItem="5Ky-O8-lSO" firstAttribute="trailing" secondItem="JHx-8E-Wt1" secondAttribute="trailing" id="nry-VB-77y"/>
+                            <constraint firstItem="5Ky-O8-lSO" firstAttribute="top" secondItem="JHx-8E-Wt1" secondAttribute="top" id="tb1-Fx-K5R"/>
+                            <constraint firstItem="hwA-2j-gKa" firstAttribute="top" secondItem="7cF-2D-b6j" secondAttribute="bottom" constant="10" id="wPn-Ui-gHT"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="DKv-Xp-XrA"/>
                     <connections>
                         <outlet property="cityCollectionView" destination="hwA-2j-gKa" id="wmJ-Vk-0Cd"/>
+                        <outlet property="citySearchBar" destination="5Ky-O8-lSO" id="8QU-Wq-3gD"/>
+                        <outlet property="domesticTravelSegment" destination="7cF-2D-b6j" id="wqV-Xs-rYm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i8t-FW-qQT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

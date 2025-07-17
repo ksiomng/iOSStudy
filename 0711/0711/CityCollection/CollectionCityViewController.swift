@@ -7,10 +7,15 @@
 
 import UIKit
 
-class CollectionCityViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class CollectionCityViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate {
     var cities = CityInfo().city
     
+    var pointColorLowerString = ""
+    var pointColorUpperString = ""
+    
     @IBOutlet var cityCollectionView: UICollectionView!
+    @IBOutlet var domesticTravelSegment: UISegmentedControl!
+    @IBOutlet var citySearchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +49,10 @@ class CollectionCityViewController: UIViewController, UICollectionViewDelegate, 
         cell.cityImageView.kf.setImage(with: URL(string: city.city_image))
         cell.cityNameLabel.text = "\(city.city_name) | \(city.city_english_name)"
         cell.subLabel.text = city.city_explain
+        
+        cell.cityNameLabel.asFontColor(targetStringList: [pointColorLowerString, pointColorUpperString], color: .red)
+        cell.subLabel.asFontColor(targetStringList: [pointColorLowerString, pointColorUpperString], color: .red)
+        
         return cell
     }
     
@@ -58,9 +67,12 @@ class CollectionCityViewController: UIViewController, UICollectionViewDelegate, 
         default:
             break
         }
+        citySearchBar.text = ""
     }
     
     func filterCityList(_ idx: Int) {
+        pointColorLowerString = ""
+        pointColorUpperString = ""
         if idx == 0 {
             cities = CityInfo().city
         } else if idx == 1 {
@@ -69,5 +81,44 @@ class CollectionCityViewController: UIViewController, UICollectionViewDelegate, 
             cities = CityInfo().city.filter { $0.domestic_travel == false }
         }
         cityCollectionView.reloadData()
+    }
+    
+    func searchFilterCityList(_ text: String) {
+        filterCityList(domesticTravelSegment.selectedSegmentIndex)
+        if text != "" {
+            cities = cities.filter { $0.city_name.contains(text) || $0.city_english_name.lowercased().contains(text.lowercased()) || $0.city_explain.contains(text)
+            }
+            pointColorLowerString = text.lowercased()
+            pointColorUpperString =  capitalizeFirstLetter(of: text)
+        } else {
+            pointColorLowerString = ""
+            pointColorUpperString = ""
+        }
+        cityCollectionView.reloadData()
+    }
+    
+    func capitalizeFirstLetter(of string: String) -> String {
+        guard let firstLetter = string.first else {
+            return string
+        }
+        let firstLetterCapitalized = String(firstLetter).uppercased()
+        let remainingLetters = string.dropFirst().lowercased()
+        return firstLetterCapitalized + remainingLetters
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if let text = searchBar.text {
+            searchFilterCityList(text)
+        }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        if let text = searchBar.text {
+            searchFilterCityList(text)
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        filterCityList(domesticTravelSegment.selectedSegmentIndex)
     }
 }
