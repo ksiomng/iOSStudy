@@ -19,17 +19,19 @@ class UpDownMainViewController: UIViewController {
     }
     
     @IBAction func startButtonClicked(_ sender: UIButton) {
-        print(#function)
         if rangeTextField.text != "" {
             if let range = Int(rangeTextField.text!) {
+                rangeTextField.text = ""
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "UpDownViewController") as! UpDownViewController
                 vc.range = min(range, 300)
                 navigationController?.pushViewController(vc, animated: true)
             } else {
-                print("숫자를 입력해주세요")
+                rangeTextField.text = ""
+                rangeTextField.placeholder = "숫자를 입력해주세요"
             }
         } else {
-            print("입력된 값이 없습니다")
+            rangeTextField.text = ""
+            rangeTextField.placeholder = "입력된 값이 없습니다"
         }
     }
 }
