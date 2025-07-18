@@ -17,7 +17,7 @@ class UpDownMainViewController: UIViewController {
         configureView()
     }
     
-    func configureView() {
+    private func configureView() {
         let randomImage = Int.random(in: 1...5)
         mainEmotionImageView.image = UIImage(named: "emotion\(randomImage)")
         rangeTextField.placeholder = "1 이상 300 이하의 숫자"
@@ -26,7 +26,7 @@ class UpDownMainViewController: UIViewController {
         rangeTextField.keyboardType = .numberPad
     }
     
-    @IBAction func startButtonClicked(_ sender: UIButton) {
+    @IBAction private func startButtonClicked(_ sender: UIButton) {
         if rangeTextField.text != "" {
             if let range = Int(rangeTextField.text!) {
                 rangeTextField.text = ""
@@ -47,7 +47,7 @@ class UpDownMainViewController: UIViewController {
         }
     }
     
-    @IBAction func closeKeyBoard(_ sender: Any) {
+    @IBAction private func closeKeyBoard(_ sender: Any) {
         view.endEditing(true)
     }
 }
