@@ -13,13 +13,22 @@ class UpDownCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        let deviceWidth = UIScreen.main.bounds.width
-        let cellWidth = (deviceWidth - (16 * 2) - (8 * 5)) / 6
-        radius(numberLabel, size: cellWidth/2)
+        configureView()
     }
     
-    func radius(_ view: UIView, size: CGFloat) {
-        view.clipsToBounds = true
-        view.layer.cornerRadius = size
+    private func configureView() {
+        backgroundColor = .clear
+    }
+    
+    func configureData(selectedNumber: Int, numListInt: Int) {
+        numberLabel.text = "\(numListInt)"
+        
+        if numListInt == selectedNumber {
+            numberLabel.backgroundColor = .black
+            numberLabel.textColor = .white
+        } else {
+            numberLabel.backgroundColor = .white
+            numberLabel.textColor = .black
+        }
     }
 }
