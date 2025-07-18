@@ -16,22 +16,26 @@ class UpDownMainViewController: UIViewController {
         super.viewDidLoad()
         let randomInt = Int.random(in: 1...5)
         mainEmotionImageView.image = UIImage(named: "emotion\(randomInt)")
+        rangeTextField.placeholder = "1 이상 300 이하의 숫자를 입력해주세요"
     }
     
     @IBAction func startButtonClicked(_ sender: UIButton) {
         if rangeTextField.text != "" {
             if let range = Int(rangeTextField.text!) {
                 rangeTextField.text = ""
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "UpDownViewController") as! UpDownViewController
-                vc.range = min(range, 300)
-                navigationController?.pushViewController(vc, animated: true)
+                if range > 300 || range > 0 {
+                    showAlert(msg: "1 이상 300 이하의 숫자를 입력해주세요")
+                } else {
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "UpDownViewController") as! UpDownViewController
+                    navigationController?.pushViewController(vc, animated: true)
+                }
             } else {
                 rangeTextField.text = ""
-                rangeTextField.placeholder = "숫자를 입력해주세요"
+                showAlert(msg: "숫자를 입력해주세요")
             }
         } else {
             rangeTextField.text = ""
-            rangeTextField.placeholder = "입력된 값이 없습니다"
+            showAlert(msg: "입력된 값이 없습니다")
         }
     }
 }
