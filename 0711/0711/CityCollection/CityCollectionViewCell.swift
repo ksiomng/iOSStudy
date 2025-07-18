@@ -15,9 +15,6 @@ class CityCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        let deviceWidth = UIScreen.main.bounds.width
-        let cellWidth = (deviceWidth - (16 * 2) - (16 * 3)) / 2
-        CornerRadius.radius(cityImageView, size: (cellWidth/2))
         cityNameLabel.font = .systemFont(ofSize: 17, weight: .semibold)
         subLabel.font = .systemFont(ofSize: 13)
         subLabel.textColor = .gray

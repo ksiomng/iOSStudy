@@ -24,7 +24,7 @@ class CollectionCityViewController: UIViewController, UICollectionViewDelegate, 
         
         let layout = UICollectionViewFlowLayout()
         let deviceWidth = UIScreen.main.bounds.width
-        let cellWidth = (deviceWidth - (16 * 2) - (16 * 3)) / 2
+        let cellWidth = (deviceWidth - (16 * 2) - (16)) / 2
         layout.itemSize = CGSize(width: cellWidth, height: cellWidth+100)
         layout.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
         layout.minimumLineSpacing = 16 // 행
@@ -52,6 +52,10 @@ class CollectionCityViewController: UIViewController, UICollectionViewDelegate, 
         if pointColorLowerString != "" {
             cell.cityNameLabel.asFontColor(targetStringList: pointColorLowerString, color: .red)
             cell.subLabel.asFontColor(targetStringList: pointColorLowerString, color: .red)
+        }
+        
+        DispatchQueue.main.async {
+            CornerRadius.radius(cell.cityImageView, size: (cell.cityImageView.frame.width/2))
         }
         
         return cell
@@ -93,15 +97,6 @@ class CollectionCityViewController: UIViewController, UICollectionViewDelegate, 
             pointColorLowerString = ""
         }
         cityCollectionView.reloadData()
-    }
-    
-    func capitalizeFirstLetter(of string: String) -> String {
-        guard let firstLetter = string.first else {
-            return string
-        }
-        let firstLetterCapitalized = String(firstLetter).uppercased()
-        let remainingLetters = string.dropFirst().lowercased()
-        return firstLetterCapitalized + remainingLetters
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
