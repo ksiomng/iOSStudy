@@ -18,17 +18,21 @@ class CollectionCityViewController: UIViewController, UICollectionViewDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let horizntalSpacing:CGFloat = 16
+        let verticalSapcing:CGFloat = 16
+        let cellCount:CGFloat = 2
+        let leadingTrailingSpacing:CGFloat = 16 * 2
         
         let xib = UINib(nibName: "CityCollectionViewCell", bundle: nil)
         cityCollectionView.register(xib, forCellWithReuseIdentifier: "CityCollectionViewCell")
         
         let layout = UICollectionViewFlowLayout()
         let deviceWidth = UIScreen.main.bounds.width
-        let cellWidth = (deviceWidth - (16 * 2) - (16)) / 2
+        let cellWidth = (deviceWidth - leadingTrailingSpacing - (horizntalSpacing * (cellCount-1))) / cellCount
         layout.itemSize = CGSize(width: cellWidth, height: cellWidth+100)
         layout.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-        layout.minimumLineSpacing = 16 // 행
-        layout.minimumInteritemSpacing = 16
+        layout.minimumLineSpacing = verticalSapcing
+        layout.minimumInteritemSpacing = horizntalSpacing
         layout.scrollDirection = .vertical
         
         cityCollectionView.collectionViewLayout = layout
