@@ -14,4 +14,12 @@ class UI {
         view.layer.borderWidth = 2
         view.layer.borderColor = UIColor.darkGray.cgColor
     }
+    
+    static func profileRadius(_ view: UIView) {
+        DispatchQueue.main.async {
+            let size = view.frame.width / 2
+            view.clipsToBounds = true
+            view.layer.cornerRadius = size
+        }
+    }
 }

@@ -20,5 +20,6 @@ class SentMessageTableViewCell: UITableViewCell {
         UI.msgRadius(sentMessageBackgroundView)
         sentMessageTimeLabel.font = .systemFont(ofSize: 12)
         sentMessageTimeLabel.textColor = .systemGray
+        UI.profileRadius(profileImageView)
     }
 }

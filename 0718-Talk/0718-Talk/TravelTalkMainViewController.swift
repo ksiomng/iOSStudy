@@ -25,6 +25,8 @@ class TravelTalkMainViewController: UIViewController, UITableViewDataSource, UIT
         
         let xib = UINib(nibName: "TravelTalkMainTableViewCell", bundle: nil)
         chatListTabelView.register(xib, forCellReuseIdentifier: "TravelTalkMainTableViewCell")
+        
+        chatListTabelView.separatorStyle = .none
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -48,12 +50,17 @@ class TravelTalkMainViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        90
+        80
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let row = list[indexPath.row]
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "MessageViewController") as! MessageViewController
-        vc.chats = list[indexPath.row].chatList
+        vc.chats = row.chatList
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        backButton.tintColor = .black
+        navigationItem.backBarButtonItem = backButton
+        vc.navigationItem.title = row.chatroomName
         navigationController?.pushViewController(vc, animated: true)
     }
     
