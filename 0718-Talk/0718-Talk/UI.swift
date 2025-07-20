@@ -22,4 +22,10 @@ class UI {
             view.layer.cornerRadius = size
         }
     }
+    
+    static func backNavigation() -> UIBarButtonItem {
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        backButton.tintColor = .black
+        return backButton
+    }
 }

@@ -17,9 +17,21 @@ class SentMessageTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        configureView()
+    }
+    
+    private func configureView() {
         UI.msgRadius(sentMessageBackgroundView)
         sentMessageTimeLabel.font = .systemFont(ofSize: 12)
         sentMessageTimeLabel.textColor = .systemGray
         UI.profileRadius(profileImageView)
+    }
+    
+    func configureDate(row: Chat) {
+        profileImageView.image = UIImage(named: row.user.image)
+        userNameLabel.text = row.user.name
+        let date = DateFomatter.formatChatTimestamp(row.date, type: "hh:mm a")
+        sentMessageTimeLabel.text = date
+        sentMessageContentLabel.text = row.message
     }
 }

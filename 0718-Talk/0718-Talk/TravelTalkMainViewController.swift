@@ -17,51 +17,19 @@ class TravelTalkMainViewController: UIViewController, UITableViewDataSource, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureView()
+    }
+    
+    private func configureView() {
         searchBarView.layer.cornerRadius = 8
         searchBarView.clipsToBounds = true
         
         chatListTabelView.dataSource = self
         chatListTabelView.delegate = self
+        chatListTabelView.separatorStyle = .none
         
         let xib = UINib(nibName: "TravelTalkMainTableViewCell", bundle: nil)
         chatListTabelView.register(xib, forCellReuseIdentifier: "TravelTalkMainTableViewCell")
-        
-        chatListTabelView.separatorStyle = .none
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        list.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TravelTalkMainTableViewCell", for: indexPath) as! TravelTalkMainTableViewCell
-        let row = list[indexPath.row]
-        cell.profileImage.image = UIImage(named: row.chatroomImage)
-        cell.nameLabel.text = row.chatroomName
-        let date = DateFomatter.formatChatTimestamp(row.chatList.last!.date, type: "yy.MM.dd")
-        cell.dateLabel.text = date
-        cell.messageContentLabel.text = row.chatList.last?.message
-        
-        DispatchQueue.main.async {
-            cell.profileImage.layer.cornerRadius = (cell.frame.height - 32) / 2
-            cell.profileImage.clipsToBounds = true
-        }
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        80
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let row = list[indexPath.row]
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "MessageViewController") as! MessageViewController
-        vc.chats = row.chatList
-        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        backButton.tintColor = .black
-        navigationItem.backBarButtonItem = backButton
-        vc.navigationItem.title = row.chatroomName
-        navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func changedSearchTextField(_ sender: Any) {
@@ -78,5 +46,31 @@ class TravelTalkMainViewController: UIViewController, UITableViewDataSource, UIT
             chatRoom.chatList.contains { $0.user.name.lowercased().contains(text) }
         }
         chatListTabelView.reloadData()
+    }
+}
+
+extension TravelTalkMainViewController {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        list.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TravelTalkMainTableViewCell", for: indexPath) as! TravelTalkMainTableViewCell
+        let row = list[indexPath.row]
+        cell.configureData(row: row)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        80
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let row = list[indexPath.row]
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "MessageViewController") as! MessageViewController
+        vc.chats = row.chatList
+        navigationItem.backBarButtonItem = UI.backNavigation()
+        vc.navigationItem.title = row.chatroomName
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

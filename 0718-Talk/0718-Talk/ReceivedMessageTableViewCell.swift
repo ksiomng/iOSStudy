@@ -15,8 +15,18 @@ class ReceivedMessageTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        configureView()
+    }
+    
+    private func configureView() {
         UI.msgRadius(receivedMessageBackgroundView)
         receivedMessageTimeLabel.font = .systemFont(ofSize: 12)
         receivedMessageTimeLabel.textColor = .systemGray
+    }
+    
+    func configureData(row: Chat) {
+        receivedMessageContentLabel.text = row.message
+        let date = DateFomatter.formatChatTimestamp(row.date, type: "hh:mm a")
+        receivedMessageTimeLabel.text = date
     }
 }
