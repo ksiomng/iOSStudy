@@ -31,6 +31,10 @@
                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="changedSearchTextField:" destination="BYZ-38-t0r" eventType="editingDidEndOnExit" id="Qsn-jQ-8On"/>
+                                            <action selector="changedSearchTextField:" destination="BYZ-38-t0r" eventType="editingChanged" id="ScY-Ml-t2d"/>
+                                        </connections>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
@@ -64,12 +68,52 @@
                     </view>
                     <navigationItem key="navigationItem" title="TRAVL TALK" id="GcJ-QR-xAC"/>
                     <connections>
+                        <outlet property="chatListTabelView" destination="0un-hH-ohv" id="T9i-Cv-fre"/>
+                        <outlet property="searchBarTextField" destination="Lwi-Ls-jnb" id="5fO-bE-Wzy"/>
                         <outlet property="searchBarView" destination="4t7-nq-CaG" id="Slb-op-lta"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-16" y="-70"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="nl1-eL-6td">
+            <objects>
+                <viewController id="756-qa-Nen" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ge6-dF-QLB">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VZR-Vn-nOg">
+                                <rect key="frame" x="24" y="740" width="345" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="Xih-1a-f8F"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Uha-2K-KAX">
+                                <rect key="frame" x="0.0" y="118" width="393" height="612"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="47l-CK-IgQ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Uha-2K-KAX" firstAttribute="leading" secondItem="47l-CK-IgQ" secondAttribute="leading" id="838-tm-EHv"/>
+                            <constraint firstItem="47l-CK-IgQ" firstAttribute="trailing" secondItem="Uha-2K-KAX" secondAttribute="trailing" id="8fT-NJ-4Kx"/>
+                            <constraint firstItem="47l-CK-IgQ" firstAttribute="bottom" secondItem="VZR-Vn-nOg" secondAttribute="bottom" id="AVO-eM-1ef"/>
+                            <constraint firstItem="VZR-Vn-nOg" firstAttribute="top" secondItem="Uha-2K-KAX" secondAttribute="bottom" constant="10" id="EOS-7M-IRt"/>
+                            <constraint firstItem="47l-CK-IgQ" firstAttribute="trailing" secondItem="VZR-Vn-nOg" secondAttribute="trailing" constant="24" id="GGX-8u-HJg"/>
+                            <constraint firstItem="VZR-Vn-nOg" firstAttribute="leading" secondItem="47l-CK-IgQ" secondAttribute="leading" constant="24" id="bCw-hJ-OGe"/>
+                            <constraint firstItem="Uha-2K-KAX" firstAttribute="top" secondItem="47l-CK-IgQ" secondAttribute="top" id="ze0-lk-AgR"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Abn-7h-lwg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="755" y="-51"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="QR9-3f-h8q">

@@ -7,25 +7,62 @@
 
 import UIKit
 
-class TravelTalkMainViewController: UIViewController {
-
+class TravelTalkMainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet var searchBarView: UIView!
+    @IBOutlet var chatListTabelView: UITableView!
+    @IBOutlet var searchBarTextField: UITextField!
+    
+    var list = ChatList.list
+    let fullList = ChatList.list
     
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBarView.layer.cornerRadius = 8
         searchBarView.clipsToBounds = true
+        
+        chatListTabelView.dataSource = self
+        chatListTabelView.delegate = self
+        
+        let xib = UINib(nibName: "TravelTalkMainTableViewCell", bundle: nil)
+        chatListTabelView.register(xib, forCellReuseIdentifier: "TravelTalkMainTableViewCell")
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        list.count
     }
-    */
-
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TravelTalkMainTableViewCell", for: indexPath) as! TravelTalkMainTableViewCell
+        let row = list[indexPath.row]
+        cell.profileImage.image = UIImage(named: row.chatroomImage)
+        cell.nameLabel.text = row.chatroomName
+        cell.dateLabel.text = row.chatList.last?.date
+        cell.messageContentLabel.text = row.chatList.last?.message
+        
+        DispatchQueue.main.async {
+            cell.profileImage.layer.cornerRadius = (cell.frame.height - 32) / 2
+            cell.profileImage.clipsToBounds = true
+        }
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        100
+    }
+    
+    @IBAction func changedSearchTextField(_ sender: Any) {
+        guard let text = searchBarTextField.text?.lowercased(), text != "" else {
+            list = fullList
+            chatListTabelView.reloadData()
+            return
+        }
+        filterChatList(text: text)
+    }
+    
+    func filterChatList(text: String) {
+        list = fullList.filter { chatRoom in
+            chatRoom.chatList.contains { $0.user.name.lowercased().contains(text) }
+        }
+        chatListTabelView.reloadData()
+    }
 }
