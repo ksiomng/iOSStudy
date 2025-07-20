@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReceivedMessageTableViewCell" id="KGk-i7-Jjw" customClass="ReceivedMessageTableViewCell" customModule="_718_Talk" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oyK-NU-8ot">
+                        <rect key="frame" x="254.66666666666666" y="8" width="57.333333333333343" height="28"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="go3-8o-jJE">
+                                <rect key="frame" x="8.0000000000000284" y="8" width="41.333333333333336" height="12"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="go3-8o-jJE" secondAttribute="trailing" constant="8" id="NZT-Kj-Y93"/>
+                            <constraint firstAttribute="bottom" secondItem="go3-8o-jJE" secondAttribute="bottom" constant="8" id="RYi-lz-rDb"/>
+                            <constraint firstItem="go3-8o-jJE" firstAttribute="leading" secondItem="oyK-NU-8ot" secondAttribute="leading" constant="8" id="Wcb-xa-0Zp"/>
+                            <constraint firstItem="go3-8o-jJE" firstAttribute="top" secondItem="oyK-NU-8ot" secondAttribute="top" constant="8" id="c06-SV-3uN"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8iR-Xq-Ak8">
+                        <rect key="frame" x="208.66666666666666" y="15" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="8iR-Xq-Ak8" firstAttribute="bottom" secondItem="oyK-NU-8ot" secondAttribute="bottom" id="0Cf-Ke-Xep"/>
+                    <constraint firstAttribute="trailing" secondItem="oyK-NU-8ot" secondAttribute="trailing" constant="8" id="JCi-ZE-a7L"/>
+                    <constraint firstItem="oyK-NU-8ot" firstAttribute="leading" secondItem="8iR-Xq-Ak8" secondAttribute="trailing" constant="4" id="Lpu-rj-jVZ"/>
+                    <constraint firstAttribute="bottom" secondItem="oyK-NU-8ot" secondAttribute="bottom" constant="8" id="Tl4-8W-BaF"/>
+                    <constraint firstItem="oyK-NU-8ot" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="dUm-uZ-ocM"/>
+                    <constraint firstItem="8iR-Xq-Ak8" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="jGb-2t-RLc"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="receivedMessageBackgroundView" destination="oyK-NU-8ot" id="gZD-Rf-shU"/>
+                <outlet property="receivedMessageContentLabel" destination="go3-8o-jJE" id="7m0-eB-lfM"/>
+                <outlet property="receivedMessageTimeLabel" destination="8iR-Xq-Ak8" id="74b-gO-gME"/>
+            </connections>
+            <point key="canvasLocation" x="97.70992366412213" y="-12.67605633802817"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

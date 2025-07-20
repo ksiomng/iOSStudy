@@ -77,26 +77,43 @@
             </objects>
             <point key="canvasLocation" x="-16" y="-70"/>
         </scene>
-        <!--View Controller-->
+        <!--Message View Controller-->
         <scene sceneID="nl1-eL-6td">
             <objects>
-                <viewController id="756-qa-Nen" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MessageViewController" id="756-qa-Nen" customClass="MessageViewController" customModule="_718_Talk" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ge6-dF-QLB">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VZR-Vn-nOg">
                                 <rect key="frame" x="24" y="740" width="345" height="44"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Xih-1a-f8F"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="enterSentMessage:" destination="756-qa-Nen" eventType="editingDidEndOnExit" id="7R0-3M-Uq4"/>
+                                </connections>
                             </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Uha-2K-KAX">
                                 <rect key="frame" x="0.0" y="118" width="393" height="612"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fgt-GH-arD">
+                                <rect key="frame" x="333" y="748" width="28" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Fgt-GH-arD" secondAttribute="height" id="TSd-GB-JH7"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="paperplane" catalog="system">
+                                    <color key="baseForegroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="sentButtonClicked:" destination="756-qa-Nen" eventType="touchUpInside" id="NYz-k8-x05"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="47l-CK-IgQ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -106,10 +123,17 @@
                             <constraint firstItem="47l-CK-IgQ" firstAttribute="bottom" secondItem="VZR-Vn-nOg" secondAttribute="bottom" id="AVO-eM-1ef"/>
                             <constraint firstItem="VZR-Vn-nOg" firstAttribute="top" secondItem="Uha-2K-KAX" secondAttribute="bottom" constant="10" id="EOS-7M-IRt"/>
                             <constraint firstItem="47l-CK-IgQ" firstAttribute="trailing" secondItem="VZR-Vn-nOg" secondAttribute="trailing" constant="24" id="GGX-8u-HJg"/>
+                            <constraint firstItem="VZR-Vn-nOg" firstAttribute="trailing" secondItem="Fgt-GH-arD" secondAttribute="trailing" constant="8" id="Lbk-AI-Ffq"/>
+                            <constraint firstItem="VZR-Vn-nOg" firstAttribute="bottom" secondItem="Fgt-GH-arD" secondAttribute="bottom" constant="8" id="Nh4-if-Zxc"/>
+                            <constraint firstItem="Fgt-GH-arD" firstAttribute="top" secondItem="VZR-Vn-nOg" secondAttribute="top" constant="8" id="T9d-pq-2YD"/>
                             <constraint firstItem="VZR-Vn-nOg" firstAttribute="leading" secondItem="47l-CK-IgQ" secondAttribute="leading" constant="24" id="bCw-hJ-OGe"/>
                             <constraint firstItem="Uha-2K-KAX" firstAttribute="top" secondItem="47l-CK-IgQ" secondAttribute="top" id="ze0-lk-AgR"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="chatTableView" destination="Uha-2K-KAX" id="aF7-54-iSx"/>
+                        <outlet property="sentMessageTextField" destination="VZR-Vn-nOg" id="ynC-P0-CdR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Abn-7h-lwg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -134,6 +158,7 @@
     </scenes>
     <resources>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
+        <image name="paperplane" catalog="system" width="128" height="119"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

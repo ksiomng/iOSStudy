@@ -36,7 +36,8 @@ class TravelTalkMainViewController: UIViewController, UITableViewDataSource, UIT
         let row = list[indexPath.row]
         cell.profileImage.image = UIImage(named: row.chatroomImage)
         cell.nameLabel.text = row.chatroomName
-        cell.dateLabel.text = row.chatList.last?.date
+        let date = DateFomatter.formatChatTimestamp(row.chatList.last!.date, type: "yy.MM.dd")
+        cell.dateLabel.text = date
         cell.messageContentLabel.text = row.chatList.last?.message
         
         DispatchQueue.main.async {
@@ -47,7 +48,13 @@ class TravelTalkMainViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        100
+        90
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "MessageViewController") as! MessageViewController
+        vc.chats = list[indexPath.row].chatList
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func changedSearchTextField(_ sender: Any) {
