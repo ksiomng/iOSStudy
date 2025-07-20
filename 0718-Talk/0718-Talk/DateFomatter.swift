@@ -22,4 +22,12 @@ class DateFomatter {
 
         return dateString
     }
+    
+    static func nowDateString() -> String {
+        let now = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        let dateString = formatter.string(from: now)
+        return dateString
+    }
 }

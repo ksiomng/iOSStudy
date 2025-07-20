@@ -19,6 +19,7 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
         configureTableView()
         chatTableView.delegate = self
         chatTableView.dataSource = self
+        chatTableView.separatorStyle = .none
     }
     
     private func configureTableView() {
@@ -57,9 +58,20 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     @IBAction func enterSentMessage(_ sender: Any) {
+        appendMessage()
     }
     
     @IBAction func sentButtonClicked(_ sender: UIButton) {
+        appendMessage()
+        view.endEditing(true)
+    }
+    
+    func appendMessage() {
+        if let text = sentMessageTextField.text {
+            chats.append(Chat(user: ChatList.me, date: DateFomatter.nowDateString(), message: text))
+            chatTableView.reloadData()
+        }
+        sentMessageTextField.text = ""
     }
     
 }

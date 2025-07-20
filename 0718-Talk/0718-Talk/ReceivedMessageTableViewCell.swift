@@ -15,7 +15,8 @@ class ReceivedMessageTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         UI.msgRadius(receivedMessageBackgroundView)
+        receivedMessageTimeLabel.font = .systemFont(ofSize: 12)
+        receivedMessageTimeLabel.textColor = .systemGray
     }
 }

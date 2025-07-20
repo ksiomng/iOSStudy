@@ -18,5 +18,7 @@ class SentMessageTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         UI.msgRadius(sentMessageBackgroundView)
+        sentMessageTimeLabel.font = .systemFont(ofSize: 12)
+        sentMessageTimeLabel.textColor = .systemGray
     }
 }
