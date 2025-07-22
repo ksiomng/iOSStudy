@@ -23,6 +23,7 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
         chatTableView.delegate = self
         chatTableView.dataSource = self
         chatTableView.separatorStyle = .none
+        chatTableView.keyboardDismissMode = .onDrag
         
         let xib = UINib(nibName: "ReceivedMessageTableViewCell", bundle: nil)
         chatTableView.register(xib, forCellReuseIdentifier: "ReceivedMessageTableViewCell")
