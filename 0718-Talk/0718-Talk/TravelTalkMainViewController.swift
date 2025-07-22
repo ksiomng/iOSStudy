@@ -7,9 +7,10 @@
 
 import UIKit
 
-class TravelTalkMainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class TravelTalkMainViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+    
     @IBOutlet var searchBarView: UIView!
-    @IBOutlet var chatListTabelView: UITableView!
+    @IBOutlet var chatListCollectionView: UICollectionView!
     @IBOutlet var searchBarTextField: UITextField!
     
     var list = ChatList.list
@@ -18,24 +19,24 @@ class TravelTalkMainViewController: UIViewController, UITableViewDataSource, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
+        setCollectionViewLayout()
     }
     
     private func configureView() {
         searchBarView.layer.cornerRadius = 8
         searchBarView.clipsToBounds = true
         
-        chatListTabelView.dataSource = self
-        chatListTabelView.delegate = self
-        chatListTabelView.separatorStyle = .none
+        chatListCollectionView.dataSource = self
+        chatListCollectionView.delegate = self
         
-        let xib = UINib(nibName: "TravelTalkMainTableViewCell", bundle: nil)
-        chatListTabelView.register(xib, forCellReuseIdentifier: "TravelTalkMainTableViewCell")
+        let xib = UINib(nibName: "MainCollectionViewCell", bundle: nil)
+        chatListCollectionView.register(xib, forCellWithReuseIdentifier: "MainCollectionViewCell")
     }
     
     @IBAction func changedSearchTextField(_ sender: Any) {
         guard let text = searchBarTextField.text?.lowercased(), text != "" else {
             list = fullList
-            chatListTabelView.reloadData()
+            chatListCollectionView.reloadData()
             return
         }
         filterChatList(text: text)
@@ -45,27 +46,35 @@ class TravelTalkMainViewController: UIViewController, UITableViewDataSource, UIT
         list = fullList.filter { chatRoom in
             chatRoom.chatList.contains { $0.user.name.lowercased().contains(text) }
         }
-        chatListTabelView.reloadData()
+        chatListCollectionView.reloadData()
     }
 }
 
 extension TravelTalkMainViewController {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    private func setCollectionViewLayout() {
+        let deviceWidth = UIScreen.main.bounds.width
+        let cellWidth = deviceWidth - (16 * 2)
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: cellWidth, height: 80)
+        layout.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        layout.minimumLineSpacing = 8
+        layout.scrollDirection = .vertical
+        
+        chatListCollectionView.collectionViewLayout = layout
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         list.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TravelTalkMainTableViewCell", for: indexPath) as! TravelTalkMainTableViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MainCollectionViewCell", for: indexPath) as! MainCollectionViewCell
         let row = list[indexPath.row]
         cell.configureData(row: row)
         return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        80
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let row = list[indexPath.row]
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "MessageViewController") as! MessageViewController
         vc.chats = row.chatList

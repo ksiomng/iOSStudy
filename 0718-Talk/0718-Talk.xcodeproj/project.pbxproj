@@ -15,7 +15,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		57D70E0D2E2A30FF000C0D52 /* Exceptions for "0718-Talk" folder in "0718-Talk" target */ = {
+		57473E432E2F52D400A83A7D /* Exceptions for "0718-Talk" folder in "0718-Talk" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -28,7 +28,7 @@
 		57D70DFD2E2A30FE000C0D52 /* 0718-Talk */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				57D70E0D2E2A30FF000C0D52 /* Exceptions for "0718-Talk" folder in "0718-Talk" target */,
+				57473E432E2F52D400A83A7D /* Exceptions for "0718-Talk" folder in "0718-Talk" target */,
 			);
 			path = "0718-Talk";
 			sourceTree = "<group>";

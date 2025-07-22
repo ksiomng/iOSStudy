@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -49,27 +50,43 @@
                                     <constraint firstItem="Lwi-Ls-jnb" firstAttribute="top" secondItem="4t7-nq-CaG" secondAttribute="top" id="yCW-xO-xyh"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="0un-hH-ohv">
-                                <rect key="frame" x="0.0" y="210" width="393" height="574"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Uo4-Fg-t5W">
+                                <rect key="frame" x="0.0" y="208" width="393" height="576"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </tableView>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="4pP-pJ-D7y">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="VLQ-6P-ifN">
+                                        <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Pk8-Zx-WCA">
+                                            <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="0un-hH-ohv" secondAttribute="bottom" id="88e-L3-znI"/>
-                            <constraint firstItem="0un-hH-ohv" firstAttribute="top" secondItem="4t7-nq-CaG" secondAttribute="bottom" constant="12" id="Arc-zx-3Hd"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Uo4-Fg-t5W" secondAttribute="trailing" id="0YM-ms-c1W"/>
                             <constraint firstItem="4t7-nq-CaG" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="HVd-Lz-Dt3"/>
-                            <constraint firstItem="0un-hH-ohv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="cwK-5n-jC6"/>
+                            <constraint firstItem="Uo4-Fg-t5W" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="JhY-cq-rGG"/>
+                            <constraint firstItem="Uo4-Fg-t5W" firstAttribute="top" secondItem="4t7-nq-CaG" secondAttribute="bottom" constant="10" id="VbU-RO-cnk"/>
                             <constraint firstItem="4t7-nq-CaG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="ehY-lr-YCe"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="0un-hH-ohv" secondAttribute="trailing" id="gQI-x0-h0R"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Uo4-Fg-t5W" secondAttribute="bottom" id="vFd-C5-l6g"/>
                             <constraint firstAttribute="trailing" secondItem="4t7-nq-CaG" secondAttribute="trailing" constant="16" id="wXi-Dv-4Rn"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="TRAVL TALK" id="GcJ-QR-xAC"/>
                     <connections>
-                        <outlet property="chatListTabelView" destination="0un-hH-ohv" id="T9i-Cv-fre"/>
+                        <outlet property="chatListCollectionView" destination="Uo4-Fg-t5W" id="vIi-HR-ij7"/>
                         <outlet property="searchBarTextField" destination="Lwi-Ls-jnb" id="5fO-bE-Wzy"/>
                         <outlet property="searchBarView" destination="4t7-nq-CaG" id="Slb-op-lta"/>
                     </connections>

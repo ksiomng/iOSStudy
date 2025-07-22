@@ -1,13 +1,13 @@
 //
-//  TravelTalkMainTableViewCell.swift
+//  MainCollectionViewCell.swift
 //  0718-Talk
 //
-//  Created by Song Kim on 7/20/25.
+//  Created by Song Kim on 7/22/25.
 //
 
 import UIKit
 
-class TravelTalkMainTableViewCell: UITableViewCell {
+class MainCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet var profileImage: UIImageView!
     @IBOutlet var nameLabel: UILabel!
