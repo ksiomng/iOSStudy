@@ -103,6 +103,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Uha-2K-KAX">
+                                <rect key="frame" x="0.0" y="118" width="393" height="612"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VZR-Vn-nOg">
                                 <rect key="frame" x="24" y="740" width="345" height="44"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
@@ -115,10 +119,6 @@
                                     <action selector="enterSentMessage:" destination="756-qa-Nen" eventType="editingDidEndOnExit" id="7R0-3M-Uq4"/>
                                 </connections>
                             </textField>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Uha-2K-KAX">
-                                <rect key="frame" x="0.0" y="118" width="393" height="612"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fgt-GH-arD">
                                 <rect key="frame" x="333" y="748" width="28" height="28"/>
                                 <constraints>
@@ -136,6 +136,7 @@
                         <viewLayoutGuide key="safeArea" id="47l-CK-IgQ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Fgt-GH-arD" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="47l-CK-IgQ" secondAttribute="leading" symbolic="YES" id="6fL-nj-1oJ"/>
                             <constraint firstItem="Uha-2K-KAX" firstAttribute="leading" secondItem="47l-CK-IgQ" secondAttribute="leading" id="838-tm-EHv"/>
                             <constraint firstItem="47l-CK-IgQ" firstAttribute="trailing" secondItem="Uha-2K-KAX" secondAttribute="trailing" id="8fT-NJ-4Kx"/>
                             <constraint firstItem="47l-CK-IgQ" firstAttribute="bottom" secondItem="VZR-Vn-nOg" secondAttribute="bottom" id="AVO-eM-1ef"/>

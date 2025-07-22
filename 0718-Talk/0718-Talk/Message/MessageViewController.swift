@@ -28,6 +28,16 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
         chatTableView.register(xib, forCellReuseIdentifier: "ReceivedMessageTableViewCell")
         let xib2 = UINib(nibName: "SentMessageTableViewCell", bundle: nil)
         chatTableView.register(xib2, forCellReuseIdentifier: "SentMessageTableViewCell")
+        
+        scrollToBottom()
+    }
+    
+    func scrollToBottom() {
+        let lastRow = chatTableView.numberOfRows(inSection: 0) - 1
+        if lastRow >= 0 {
+            let indexPath = IndexPath(row: lastRow, section: 0)
+            self.chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+        }
     }
     
     @IBAction func enterSentMessage(_ sender: Any) {
@@ -45,6 +55,7 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
             chatTableView.reloadData()
         }
         sentMessageTextField.text = ""
+        scrollToBottom()
     }
 }
 
