@@ -76,6 +76,16 @@ extension MessageViewController {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "SentMessageTableViewCell", for: indexPath) as! SentMessageTableViewCell
             cell.configureDate(row: row)
+            
+            if indexPath.row > 0 {
+                if row.date == chats[indexPath.row - 1].date {
+                    cell.userNameLabel.isHidden = true
+                    cell.profileImageView.isHidden = true
+                } else {
+                    cell.userNameLabel.isHidden = false
+                    cell.profileImageView.isHidden = false
+                }
+            }
             return cell
         }
     }
