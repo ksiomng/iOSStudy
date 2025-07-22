@@ -36,7 +36,9 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
         let lastRow = chatTableView.numberOfRows(inSection: 0) - 1
         if lastRow >= 0 {
             let indexPath = IndexPath(row: lastRow, section: 0)
-            self.chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+            DispatchQueue.main.async {
+                self.chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+            }
         }
     }
     
