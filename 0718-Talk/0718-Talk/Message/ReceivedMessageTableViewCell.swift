@@ -12,7 +12,7 @@ class ReceivedMessageTableViewCell: UITableViewCell {
     @IBOutlet var receivedMessageContentLabel: UILabel!
     @IBOutlet var receivedMessageBackgroundView: UIView!
     @IBOutlet var receivedMessageTimeLabel: UILabel!
-    
+    @IBOutlet var dividerView: UIView!
     override func awakeFromNib() {
         super.awakeFromNib()
         configureView()

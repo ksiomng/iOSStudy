@@ -72,6 +72,18 @@ extension MessageViewController {
         if row.user.name == "김새싹" {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ReceivedMessageTableViewCell", for: indexPath) as! ReceivedMessageTableViewCell
             cell.configureData(row: row)
+            
+            if indexPath.row > 0 {
+                let nowDate = DateFomatter.formatChatTimestamp(row.date, type: "YYMMDD")
+                let beforeDate = DateFomatter.formatChatTimestamp(chats[indexPath.row - 1].date, type: "YYMMDD")
+                if nowDate != beforeDate  {
+                    print(nowDate, beforeDate)
+                    cell.dividerView.isHidden = false
+                } else {
+                    cell.dividerView.isHidden = true
+                }
+            }
+            
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "SentMessageTableViewCell", for: indexPath) as! SentMessageTableViewCell
@@ -84,11 +96,25 @@ extension MessageViewController {
                 } else {
                     cell.userNameLabel.isHidden = false
                     cell.profileImageView.isHidden = false
+                    let nowDate = DateFomatter.formatChatTimestamp(row.date, type: "YYMMDD")
+                    let beforeDate = DateFomatter.formatChatTimestamp(chats[indexPath.row - 1].date, type: "YYMMDD")
+                    if nowDate != beforeDate  {
+                        print(nowDate, beforeDate)
+                        cell.dividerView.isHidden = false
+                    } else {
+                        cell.dividerView.isHidden = true
+                    }
                 }
             }
+            
             return cell
         }
     }
+    
+    func checkDivider(cell: UITableViewCell) {
+        
+    }
+    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension

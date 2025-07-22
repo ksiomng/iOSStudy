@@ -73,11 +73,21 @@
                             <constraint firstItem="oAt-iM-I4G" firstAttribute="leading" secondItem="2sx-oJ-8xe" secondAttribute="leading" id="vag-DC-Zqc"/>
                         </constraints>
                     </stackView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vRP-Q8-fRH">
+                        <rect key="frame" x="0.0" y="80" width="543" height="1"/>
+                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="B3R-uQ-SLo"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="2sx-oJ-8xe" firstAttribute="leading" secondItem="G7V-Nc-6N1" secondAttribute="trailing" constant="4" id="18Y-9I-Rns"/>
+                    <constraint firstItem="vRP-Q8-fRH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="C4p-zo-oI8"/>
+                    <constraint firstAttribute="trailing" secondItem="vRP-Q8-fRH" secondAttribute="trailing" id="Kbi-Wv-oE9"/>
                     <constraint firstAttribute="trailing" secondItem="2sx-oJ-8xe" secondAttribute="trailing" constant="8" id="QaW-sP-lex"/>
                     <constraint firstItem="G7V-Nc-6N1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="XBS-zN-eFx"/>
+                    <constraint firstAttribute="bottom" secondItem="vRP-Q8-fRH" secondAttribute="bottom" id="ZTo-yh-VnC"/>
                     <constraint firstItem="2sx-oJ-8xe" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="abG-My-OOs"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="G7V-Nc-6N1" secondAttribute="bottom" constant="8" id="dJu-DV-d8H"/>
                     <constraint firstAttribute="bottom" secondItem="2sx-oJ-8xe" secondAttribute="bottom" constant="8" id="i6S-Pj-vQG"/>
@@ -86,6 +96,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="dividerView" destination="vRP-Q8-fRH" id="B7d-B5-SVq"/>
                 <outlet property="profileImageView" destination="G7V-Nc-6N1" id="L7Q-0a-CQW"/>
                 <outlet property="sentMessageBackgroundView" destination="jBK-Gh-aav" id="j88-K4-6h3"/>
                 <outlet property="sentMessageContentLabel" destination="Xs4-bm-s3C" id="m5G-XO-2sl"/>
@@ -98,6 +109,9 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

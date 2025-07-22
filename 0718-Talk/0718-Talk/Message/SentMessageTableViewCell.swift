@@ -14,6 +14,7 @@ class SentMessageTableViewCell: UITableViewCell {
     @IBOutlet var sentMessageContentLabel: UILabel!
     @IBOutlet var sentMessageTimeLabel: UILabel!
     @IBOutlet var sentMessageBackgroundView: UIView!
+    @IBOutlet var dividerView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,8 +31,8 @@ class SentMessageTableViewCell: UITableViewCell {
     func configureDate(row: Chat) {
         profileImageView.image = UIImage(named: row.user.image)
         userNameLabel.text = row.user.name
-        let date = DateFomatter.formatChatTimestamp(row.date, type: "hh:mm a")
-        sentMessageTimeLabel.text = date
+        let time = DateFomatter.formatChatTimestamp(row.date, type: "hh:mm a")
+        sentMessageTimeLabel.text = time
         sentMessageContentLabel.text = row.message
     }
 }
