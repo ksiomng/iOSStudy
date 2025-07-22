@@ -74,7 +74,7 @@
                         </constraints>
                     </stackView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vRP-Q8-fRH">
-                        <rect key="frame" x="0.0" y="80" width="543" height="1"/>
+                        <rect key="frame" x="0.0" y="0.0" width="543" height="1"/>
                         <color key="backgroundColor" systemColor="systemGray5Color"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="B3R-uQ-SLo"/>
@@ -87,7 +87,7 @@
                     <constraint firstAttribute="trailing" secondItem="vRP-Q8-fRH" secondAttribute="trailing" id="Kbi-Wv-oE9"/>
                     <constraint firstAttribute="trailing" secondItem="2sx-oJ-8xe" secondAttribute="trailing" constant="8" id="QaW-sP-lex"/>
                     <constraint firstItem="G7V-Nc-6N1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="XBS-zN-eFx"/>
-                    <constraint firstAttribute="bottom" secondItem="vRP-Q8-fRH" secondAttribute="bottom" id="ZTo-yh-VnC"/>
+                    <constraint firstAttribute="top" secondItem="vRP-Q8-fRH" secondAttribute="top" id="ZTo-yh-VnC"/>
                     <constraint firstItem="2sx-oJ-8xe" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="abG-My-OOs"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="G7V-Nc-6N1" secondAttribute="bottom" constant="8" id="dJu-DV-d8H"/>
                     <constraint firstAttribute="bottom" secondItem="2sx-oJ-8xe" secondAttribute="bottom" constant="8" id="i6S-Pj-vQG"/>

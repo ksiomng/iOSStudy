@@ -42,7 +42,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ewo-n5-f2y">
-                        <rect key="frame" x="0.0" y="43" width="320" height="1"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
                         <color key="backgroundColor" systemColor="systemGray4Color"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="zoD-4g-YzA"/>
@@ -51,13 +51,13 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="8iR-Xq-Ak8" firstAttribute="bottom" secondItem="oyK-NU-8ot" secondAttribute="bottom" id="0Cf-Ke-Xep"/>
-                    <constraint firstAttribute="bottom" secondItem="Ewo-n5-f2y" secondAttribute="bottom" id="1ik-nU-UIr"/>
                     <constraint firstAttribute="trailing" secondItem="Ewo-n5-f2y" secondAttribute="trailing" id="7Z2-og-PSe"/>
                     <constraint firstAttribute="trailing" secondItem="oyK-NU-8ot" secondAttribute="trailing" constant="8" id="JCi-ZE-a7L"/>
                     <constraint firstItem="oyK-NU-8ot" firstAttribute="leading" secondItem="8iR-Xq-Ak8" secondAttribute="trailing" constant="4" id="Lpu-rj-jVZ"/>
                     <constraint firstItem="Ewo-n5-f2y" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="PmB-3q-Omw"/>
                     <constraint firstAttribute="bottom" secondItem="oyK-NU-8ot" secondAttribute="bottom" constant="8" id="Tl4-8W-BaF"/>
                     <constraint firstItem="oyK-NU-8ot" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="dUm-uZ-ocM"/>
+                    <constraint firstItem="Ewo-n5-f2y" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="fXN-gC-jcP"/>
                     <constraint firstItem="8iR-Xq-Ak8" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="jGb-2t-RLc"/>
                 </constraints>
             </tableViewCellContentView>
