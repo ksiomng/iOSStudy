@@ -46,7 +46,6 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         sentMessageTextField.text = ""
     }
-    
 }
 
 extension MessageViewController {
