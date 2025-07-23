@@ -52,7 +52,7 @@ extension ViewController: ViewDesignProtocol {
     }
     
     func configureView() {
-        view.backgroundColor = .green
+        view.backgroundColor = .systemGray6
         lottoButton.addTarget(self, action: #selector(goLottoView), for: .touchUpInside)
         movieListButton.addTarget(self, action: #selector(goListView), for: .touchUpInside)
     }
