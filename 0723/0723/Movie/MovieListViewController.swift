@@ -16,6 +16,8 @@ class MovieListViewController: UIViewController {
     
     var movies: [Movie] = []
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -105,7 +107,7 @@ extension MovieListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let movie = movies[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Identifier.movieCell.rawValue, for: indexPath) as! MovieCell
         cell.configure(index: indexPath.row, movie: movie)
         return cell
     }

@@ -7,45 +7,88 @@
 
 import UIKit
 import SnapKit
+import Alamofire
 
 class LottoViewController: UIViewController {
     
     let episodeTextField = UITextField()
     let lottoInfoLabel = UILabel()
     let dateLabel = UILabel()
-    let episodeTitleLabel = {
+    
+    var episodeNumberLabel = {
         let label = UILabel()
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 20)
-        label.textColor = .systemOrange
+        label.font = .boldSystemFont(ofSize: 20)
+        label.textColor = .systemYellow
         return label
     }()
+    var episodeTextLabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 20)
+        label.textColor = .black
+        label.text = "당첨결과"
+        return label
+    }()
+    
     let numberStackView = UIStackView()
-    let bonusLabel = UILabel()
-    let bonusBall = UILabel()
     
     let pickerView = UIPickerView()
-    let episode = Array(1...1181)
+    var episodeList = [Int]()
     
     var selectedEpisode = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
+        let episode = recentLotto()
+        episodeList = Array(1...episode)
+        fetchLottoData(drwNo: episode)
         configureHierarchy()
         configureLayout()
         configureView()
     }
-
-    func generateLottoNumbers() -> [Int] {
-        let numbers = Array(1...45).shuffled()
-        let randomNum = Array(numbers.prefix(7)).sorted()
-        return randomNum
+    
+    func recentLotto() -> Int {
+        let startLotto = DateComponents(year: 2002, month: 12, day: 2) // 로또 1회차
+        let startDate = Calendar.current.date(from: startLotto)!
+        
+        let offsetComps = Calendar.current.dateComponents([.day], from: startDate, to: Date()) // 오늘과 비교
+        guard let day = offsetComps.day else {
+            return 1
+        }
+        return day/7 // 회차계산
     }
     
-    func updateLottoNumbers() {
-        let numbers = generateLottoNumbers()
+    func fetchLottoData(drwNo: Int){
+        let url = URL(string: "https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=\(drwNo)")!
+        AF.request(url, method: .get)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: Lotto.self) { response in
+                switch response.result {
+                case .success(let res):
+                    print(res)
+                    let numbers = self.arrLottoNumber(lottoData: res)
+                    self.updateLottoNumbers(numbers: numbers)
+                    self.episodeNumberLabel.text = "\(res.drwNo)회"
+                    self.dateLabel.text = res.drwNoDate
+                case .failure(let err):
+                    print(err)
+                }
+            }
+    }
+    
+    func arrLottoNumber(lottoData: Lotto) -> [Int] {
+        var arr: [Int] = []
+        arr.append(lottoData.drwtNo1)
+        arr.append(lottoData.drwtNo2)
+        arr.append(lottoData.drwtNo3)
+        arr.append(lottoData.drwtNo4)
+        arr.append(lottoData.drwtNo5)
+        arr.append(lottoData.drwtNo6)
+        arr.append(lottoData.bnusNo)
+        return arr
+    }
+    
+    func updateLottoNumbers(numbers: [Int]) {
         numberStackView.clear()
         
         for i in 0..<6 {
@@ -53,20 +96,29 @@ class LottoViewController: UIViewController {
             numberStackView.addArrangedSubview(ball)
         }
         
-        numberStackView.addArrangedSubview(bonusLabel)
-        bonusBall.text = "\(numbers.last!)"
-        numberStackView.addArrangedSubview(bonusBall)
+        let bonusLabel = {
+            let label = UILabel()
+            label.text = "+"
+            label.font = UIFont.systemFont(ofSize: 20)
+            return label
+        }()
         
-        episodeTitleLabel.text = "\(selectedEpisode)회 당첨결과"
+        numberStackView.addArrangedSubview(bonusLabel)
+        let bonusBall = createBallLabel(number: numbers.last!, bnus: true)
+        numberStackView.addArrangedSubview(bonusBall)
     }
     
-    func createBallLabel(number: Int) -> UILabel {
+    func createBallLabel(number: Int, bnus: Bool = false) -> UILabel {
         let label = UILabel()
         label.text = "\(number)"
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textColor = .white
-        label.backgroundColor = selectColor(number)
+        if bnus {
+            label.backgroundColor = .gray
+        } else {
+            label.backgroundColor = selectColor(number)
+        }
         label.layer.masksToBounds = true
         label.snp.makeConstraints { make in
             make.width.height.equalTo(40)
@@ -78,19 +130,19 @@ class LottoViewController: UIViewController {
     func selectColor(_ number: Int) -> UIColor {
         switch number {
         case 1...10:
-            return .red
+            return .systemYellow
         case 11...20:
-            return .orange
+            return .systemTeal
         case 21...30:
-            return .green
+            return .systemIndigo
         case 31...40:
-            return .blue
+            return .systemPink
         case 41...45:
-            return .purple
+            return .systemGray
         default:
-            return .gray
+            return .systemGray
         }
-
+        
     }
 }
 
@@ -100,7 +152,8 @@ extension LottoViewController: ViewDesignProtocol {
         view.addSubview(episodeTextField)
         view.addSubview(lottoInfoLabel)
         view.addSubview(dateLabel)
-        view.addSubview(episodeTitleLabel)
+        view.addSubview(episodeNumberLabel)
+        view.addSubview(episodeTextLabel)
         view.addSubview(numberStackView)
     }
     
@@ -110,24 +163,29 @@ extension LottoViewController: ViewDesignProtocol {
             make.leading.trailing.equalToSuperview().inset(24)
             make.height.equalTo(44)
         }
-
+        
         lottoInfoLabel.snp.makeConstraints { make in
             make.top.equalTo(episodeTextField.snp.bottom).offset(16)
             make.leading.equalToSuperview().inset(16)
         }
-
+        
         dateLabel.snp.makeConstraints { make in
             make.centerY.equalTo(lottoInfoLabel)
             make.trailing.equalToSuperview().inset(16)
         }
-
-        episodeTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(lottoInfoLabel.snp.bottom).offset(16)
-            make.horizontalEdges.equalToSuperview().inset(16)
+        
+        episodeTextLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview().offset(40)
+            make.centerY.equalTo(episodeNumberLabel.snp.centerY)
         }
-
+        
+        episodeNumberLabel.snp.makeConstraints { make in
+            make.top.equalTo(lottoInfoLabel.snp.bottom).offset(16)
+            make.trailing.equalTo(episodeTextLabel.snp.leading).offset(-5)
+        }
+        
         numberStackView.snp.makeConstraints { make in
-            make.top.equalTo(episodeTitleLabel.snp.bottom).offset(24)
+            make.top.equalTo(episodeNumberLabel.snp.bottom).offset(24)
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(50)
         }
@@ -138,8 +196,6 @@ extension LottoViewController: ViewDesignProtocol {
         pickerView.dataSource = self
         episodeTextField.inputView = pickerView // 키보드대신
         
-        updateLottoNumbers()
-        
         episodeTextField.borderStyle = .roundedRect
         episodeTextField.placeholder = "회차 입력"
         episodeTextField.textAlignment = .center
@@ -147,7 +203,6 @@ extension LottoViewController: ViewDesignProtocol {
         lottoInfoLabel.text = "당첨번호 안내"
         lottoInfoLabel.font = UIFont.systemFont(ofSize: 14)
         
-        dateLabel.text = "2020-05-30 추첨"
         dateLabel.font = UIFont.systemFont(ofSize: 12)
         dateLabel.textColor = .gray
         
@@ -155,18 +210,6 @@ extension LottoViewController: ViewDesignProtocol {
         numberStackView.spacing = 8
         numberStackView.alignment = .center
         numberStackView.distribution = .equalSpacing
-        
-        bonusLabel.text = "+"
-        bonusLabel.font = UIFont.systemFont(ofSize: 20)
-        
-        bonusBall.text = "40"
-        bonusBall.textAlignment = .center
-        bonusBall.font = UIFont.boldSystemFont(ofSize: 16)
-        bonusBall.backgroundColor = .lightGray
-        bonusBall.textColor = .white
-        bonusBall.layer.cornerRadius = 20
-        bonusBall.layer.masksToBounds = true
-        bonusBall.snp.makeConstraints { $0.size.equalTo(CGSize(width: 40, height: 40)) }
     }
 }
 
@@ -177,16 +220,15 @@ extension LottoViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return episode.count
+        return episodeList.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return "\(episode[row])회"
+        return "\(episodeList[row])회"
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selectedEpisode = episode[row]
-        episodeTextField.text = "\(selectedEpisode)회"
-        updateLottoNumbers()
+        selectedEpisode = episodeList[row]
+        fetchLottoData(drwNo: selectedEpisode)
     }
 }

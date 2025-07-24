@@ -1,14 +1,16 @@
 //
-//  DateFormatterUtil.swift
+//  SongDateFormatter.swift
 //  0723
 //
 //  Created by Song Kim on 7/23/25.
 //
 
-
 import Foundation
 
 class SongDateFormatter {
+    
+    private init() { }
+    
     static func dateFormat(_ input: String) -> String {
         let myFormatter = DateFormatter()
         myFormatter.dateFormat = "yyyyMMdd"
