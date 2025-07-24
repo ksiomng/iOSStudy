@@ -11,14 +11,12 @@ import SnapKit
 class ViewController: UIViewController {
     
     let lottoButton = {
-        let button = SongButton()
-        button.setTitle("로또 화면으로", for: .normal)
+        let button = SongButton(title: "로또화면으로")
         return button
     }()
     
     let movieListButton = {
-        let button = SongButton()
-        button.setTitle("박스오피스 화면으로", for: .normal)
+        let button = SongButton(title: "박스오피스화면으로")
         return button
     }()
 

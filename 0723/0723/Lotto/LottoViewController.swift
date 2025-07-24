@@ -11,9 +11,28 @@ import Alamofire
 
 class LottoViewController: UIViewController {
     
-    let episodeTextField = UITextField()
-    let lottoInfoLabel = UILabel()
-    let dateLabel = UILabel()
+    lazy var episodeTextField = {
+        let textField = UITextField()
+        textField.inputView = pickerView // 키보드대신
+        textField.borderStyle = .roundedRect
+        textField.placeholder = "회차 입력"
+        textField.textAlignment = .center
+        return textField
+    }()
+    
+    let lottoInfoLabel = {
+        let label = UILabel()
+        label.text = "당첨번호 안내"
+        label.font = UIFont.systemFont(ofSize: 14)
+        return label
+    }()
+    
+    let dateLabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = .gray
+        return label
+    }()
     
     var episodeNumberLabel = {
         let label = UILabel()
@@ -21,6 +40,7 @@ class LottoViewController: UIViewController {
         label.textColor = .systemYellow
         return label
     }()
+    
     var episodeTextLabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 20)
@@ -29,19 +49,28 @@ class LottoViewController: UIViewController {
         return label
     }()
     
-    let numberStackView = UIStackView()
+    let numberStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.spacing = 8
+        stack.alignment = .center
+        stack.distribution = .equalSpacing
+        return stack
+    }()
     
-    let pickerView = UIPickerView()
+    lazy var pickerView = {
+        let picker = UIPickerView()
+        picker.delegate = self
+        picker.dataSource = self
+        return picker
+    }()
+    
     var episodeList = [Int]()
     
     var selectedEpisode = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        let episode = recentLotto()
-        episodeList = Array(1...episode)
-        fetchLottoData(drwNo: episode)
         configureHierarchy()
         configureLayout()
         configureView()
@@ -192,24 +221,11 @@ extension LottoViewController: ViewDesignProtocol {
     }
     
     func configureView() {
-        pickerView.delegate = self
-        pickerView.dataSource = self
-        episodeTextField.inputView = pickerView // 키보드대신
+        view.backgroundColor = .white
         
-        episodeTextField.borderStyle = .roundedRect
-        episodeTextField.placeholder = "회차 입력"
-        episodeTextField.textAlignment = .center
-        
-        lottoInfoLabel.text = "당첨번호 안내"
-        lottoInfoLabel.font = UIFont.systemFont(ofSize: 14)
-        
-        dateLabel.font = UIFont.systemFont(ofSize: 12)
-        dateLabel.textColor = .gray
-        
-        numberStackView.axis = .horizontal
-        numberStackView.spacing = 8
-        numberStackView.alignment = .center
-        numberStackView.distribution = .equalSpacing
+        let episode = recentLotto()
+        episodeList = Array(1...episode)
+        fetchLottoData(drwNo: episode)
     }
 }
 

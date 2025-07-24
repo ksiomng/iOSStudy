@@ -11,18 +11,46 @@ import Alamofire
 
 class MovieListViewController: UIViewController {
     
-    let inputTextField = UITextField()
-    let dateLabel = UILabel()
-    let searchButton = UIButton(type: .system)
-    let tableView = UITableView()
+    lazy var inputTextField = {
+        let textField = UITextField()
+        textField.placeholder = "날짜로 검색해주세요 ex)20240929"
+        textField.borderStyle = .roundedRect
+        textField.returnKeyType = .done
+        textField.delegate = self
+        return textField
+    }()
+    
+    let dateLabel = {
+        let label = UILabel()
+        label.textColor = .systemGray2
+        label.font = .boldSystemFont(ofSize: 20)
+        label.textAlignment = .center
+        return label
+    }()
+    
+    lazy var searchButton = {
+        let button = UIButton()
+        button.setTitle("검색", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .darkGray
+        button.layer.cornerRadius = 6
+        button.addTarget(self, action: #selector(searchTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var tableView = {
+        let tableView = UITableView()
+        tableView.dataSource = self
+        tableView.register(MovieCell.self, forCellReuseIdentifier: "MovieCell")
+        tableView.backgroundColor = .black
+        tableView.separatorStyle = .none
+        return tableView
+    }()
     
     var movies: [BoxOffice] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let yesterday = SongDateFormatter.yesterdayDateFormat()
-        dateLabel.text = SongDateFormatter.dateFormat(yesterday)
-        fetchBoxOfficeData(date: yesterday)
         configureHierarchy()
         configureLayout()
         configureView()
@@ -93,25 +121,9 @@ extension MovieListViewController: ViewDesignProtocol {
     func configureView() {
         view.backgroundColor = .black
         
-        inputTextField.placeholder = "날짜로 검색해주세요 ex)20240929"
-        inputTextField.borderStyle = .roundedRect
-        inputTextField.returnKeyType = .done
-        inputTextField.delegate = self
-        
-        searchButton.setTitle("검색", for: .normal)
-        searchButton.setTitleColor(.white, for: .normal)
-        searchButton.backgroundColor = .darkGray
-        searchButton.layer.cornerRadius = 6
-        searchButton.addTarget(self, action: #selector(searchTapped), for: .touchUpInside)
-        
-        dateLabel.textColor = .systemGray2
-        dateLabel.font = .boldSystemFont(ofSize: 20)
-        dateLabel.textAlignment = .center
-        
-        tableView.dataSource = self
-        tableView.register(MovieCell.self, forCellReuseIdentifier: "MovieCell")
-        tableView.backgroundColor = .black
-        tableView.separatorStyle = .none
+        let yesterday = SongDateFormatter.yesterdayDateFormat()
+        dateLabel.text = SongDateFormatter.dateFormat(yesterday)
+        fetchBoxOfficeData(date: yesterday)
     }
 }
 
