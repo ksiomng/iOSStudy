@@ -52,10 +52,10 @@ extension MovieCell: ViewDesignProtocol {
         }
     }
 
-    func configure(index: Int, movie: Movie) {
-        indexLabel.text = "\(index + 1)"
-        titleLabel.text = movie.title
-        dateLabel.text = SongDateFormatter.dateFormat(movie.releaseDate)
+    func configure(index: Int, movie: BoxOffice) {
+        indexLabel.text = movie.rank
+        titleLabel.text = movie.movieNm
+        dateLabel.text = movie.openDt
     }
     
     func configureView() {

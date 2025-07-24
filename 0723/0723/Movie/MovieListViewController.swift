@@ -7,32 +7,51 @@
 
 import UIKit
 import SnapKit
+import Alamofire
 
 class MovieListViewController: UIViewController {
     
     let inputTextField = UITextField()
+    let dateLabel = UILabel()
     let searchButton = UIButton(type: .system)
     let tableView = UITableView()
     
-    var movies: [Movie] = []
+    var movies: [BoxOffice] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let yesterday = SongDateFormatter.yesterdayDateFormat()
+        dateLabel.text = SongDateFormatter.dateFormat(yesterday)
+        fetchBoxOfficeData(date: yesterday)
         configureHierarchy()
         configureLayout()
         configureView()
     }
     
     @objc private func searchTapped() {
-        reloadRandomMovies()
+        dateLabel.text = SongDateFormatter.dateFormat(inputTextField.text!)
+        fetchBoxOfficeData(date: inputTextField.text!)
+        inputTextField.text = ""
         view.endEditing(true)
     }
     
-    private func reloadRandomMovies() {
-        movies = Array(MovieInfo.movies.shuffled().prefix(10))
-        inputTextField.text = ""
-        tableView.reloadData()
+    func fetchBoxOfficeData(date: String) {
+        let url = URL(string: "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(APIKey.movieKey)&targetDt=\(date)")!
+        AF.request(url, method: .get)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: BoxOfficeResponse.self) { response in
+                switch response.result {
+                case .success(let res):
+                    self.movies = res.boxOfficeResult.dailyBoxOfficeList
+                    self.tableView.reloadData()
+                    if res.boxOfficeResult.dailyBoxOfficeList.count == 0 {
+                        self.dateLabel.text! += " (영화정보없음)"
+                    }
+                case .failure(let err):
+                    self.dateLabel.text! += " (데이터 로딩실패)"
+                    print(err)
+                }
+            }
     }
 }
 
@@ -41,6 +60,7 @@ extension MovieListViewController: ViewDesignProtocol {
     func configureHierarchy() {
         view.addSubview(inputTextField)
         view.addSubview(searchButton)
+        view.addSubview(dateLabel)
         view.addSubview(tableView)
     }
     
@@ -58,9 +78,14 @@ extension MovieListViewController: ViewDesignProtocol {
             make.width.equalTo(60)
             make.height.equalTo(40)
         }
+        
+        dateLabel.snp.makeConstraints { make in
+            make.top.equalTo(inputTextField.snp.bottom).offset(12)
+            make.leading.trailing.equalToSuperview().inset(16)
+        }
 
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(inputTextField.snp.bottom).offset(12)
+            make.top.equalTo(dateLabel.snp.bottom).offset(12)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -68,9 +93,7 @@ extension MovieListViewController: ViewDesignProtocol {
     func configureView() {
         view.backgroundColor = .black
         
-        reloadRandomMovies()
-        
-        inputTextField.placeholder = "아무거나 입력 후 엔터 or 버튼"
+        inputTextField.placeholder = "날짜로 검색해주세요 ex)20240929"
         inputTextField.borderStyle = .roundedRect
         inputTextField.returnKeyType = .done
         inputTextField.delegate = self
@@ -81,6 +104,10 @@ extension MovieListViewController: ViewDesignProtocol {
         searchButton.layer.cornerRadius = 6
         searchButton.addTarget(self, action: #selector(searchTapped), for: .touchUpInside)
         
+        dateLabel.textColor = .systemGray2
+        dateLabel.font = .boldSystemFont(ofSize: 20)
+        dateLabel.textAlignment = .center
+        
         tableView.dataSource = self
         tableView.register(MovieCell.self, forCellReuseIdentifier: "MovieCell")
         tableView.backgroundColor = .black
@@ -90,9 +117,10 @@ extension MovieListViewController: ViewDesignProtocol {
 
 extension MovieListViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        reloadRandomMovies()
+        dateLabel.text = SongDateFormatter.dateFormat(inputTextField.text!)
+        fetchBoxOfficeData(date: inputTextField.text!)
+        inputTextField.text = ""
         view.endEditing(true)
-        textField.text = ""
         return true
     }
 }
