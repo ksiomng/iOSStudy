@@ -16,8 +16,6 @@ class MovieListViewController: UIViewController {
     
     var movies: [Movie] = []
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
