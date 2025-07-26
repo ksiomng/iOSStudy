@@ -14,10 +14,9 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
         configureHierarchy()
         configureLayout()
-        configureLayout()
+        configureView()
     }
 }
 
@@ -35,6 +34,25 @@ extension MainViewController: ViewDesignProtocol {
     }
     
     func configureView() {
-        print("")
+        view.backgroundColor = .black
+        searchBar.delegate = self
+    }
+}
+
+extension MainViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print(#function)
+        guard let name = searchBar.text, name.count >= 2 else {
+            // TODO: 알럿창 띄우기
+            return
+        }
+        let vc = SearchViewController()
+        vc.navigationItem.title = name
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        print(#function)
     }
 }
