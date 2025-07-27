@@ -15,5 +15,5 @@ struct Shop: Decodable {
     let image: String
     let brand: String
     let title: String
-    let lprice: Int
+    let lprice: String
 }

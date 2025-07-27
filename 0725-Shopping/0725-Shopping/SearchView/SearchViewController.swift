@@ -6,24 +6,60 @@
 //
 
 import UIKit
+import SnapKit
+import Alamofire
 
 class SearchViewController: UIViewController {
 
+    let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.itemSize = CGSize(width: 100, height: 100)
+        return UICollectionView(frame: .zero, collectionViewLayout: layout)
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        configureHierarchy()
+        configureLayout()
+        configureView()
+        fetchShopDate(name: "사과")
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func fetchShopDate(name: String) {
+        let url = URL(string: "https://openapi.naver.com/v1/search/shop.json?query=\(name)")!
+        
+        let header: HTTPHeaders = [
+            "X-Naver-Client-Id" : APIKey.naverClientId,
+            "X-Naver-Client-Secret" : APIKey.naverSecret
+        ]
+        AF.request(url, method: .get, headers: header)
+            .validate(statusCode: 200..<300) //
+            .responseDecodable(of: Shops.self) { response in
+                switch response.result {
+                case .success(let res):
+                    print(res)
+                case .failure(let err):
+                    print("😒", err)
+                }
+            }
     }
-    */
+}
 
+extension SearchViewController: ViewDesignProtocol {
+    func configureHierarchy() {
+        view.addSubview(collectionView)
+    }
+    
+    func configureLayout() {
+        collectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    func configureView() {
+        view.backgroundColor = .black
+    }
+    
+    
 }
