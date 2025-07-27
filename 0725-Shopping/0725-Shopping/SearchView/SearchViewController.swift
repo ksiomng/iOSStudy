@@ -46,6 +46,19 @@ class SearchViewController: UIViewController {
     }
 }
 
+extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.identifier, for: indexPath) as? SearchCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        return cell
+    }
+}
+
 extension SearchViewController: ViewDesignProtocol {
     func configureHierarchy() {
         view.addSubview(collectionView)
@@ -59,7 +72,8 @@ extension SearchViewController: ViewDesignProtocol {
     
     func configureView() {
         view.backgroundColor = .black
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.identifier)
     }
-    
-    
 }
