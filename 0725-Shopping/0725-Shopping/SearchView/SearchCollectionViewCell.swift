@@ -14,6 +14,13 @@ class SearchCollectionViewCell: UICollectionViewCell {
     let imageView = UIImageView()
     let likeButton = UIButton()
     
+    let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.color = .white
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+    
     let labelStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -55,6 +62,7 @@ extension SearchCollectionViewCell: ViewDesignProtocol {
         contentView.addSubview(imageView)
         contentView.addSubview(likeButton)
         contentView.addSubview(labelStackView)
+        contentView.addSubview(activityIndicator)
         
         labelStackView.addArrangedSubview(brandLabel)
         labelStackView.addArrangedSubview(titleLabel)
@@ -65,6 +73,10 @@ extension SearchCollectionViewCell: ViewDesignProtocol {
         imageView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(160)
+        }
+        
+        activityIndicator.snp.makeConstraints { make in
+            make.center.equalTo(imageView)
         }
         
         likeButton.snp.makeConstraints { make in
@@ -99,7 +111,16 @@ extension SearchCollectionViewCell: ViewDesignProtocol {
         }
         priceLabel.text = PriceFormatter.shared.string(from: Int(row.lprice)! as NSNumber)
         titleLabel.text = row.title.htmlStringChanged
-        imageView.kf.setImage(with: URL(string:row.image))
+        activityIndicator.startAnimating()
+
+        imageView.kf.setImage(with: URL(string: row.image)) { result in
+            switch result {
+            case .success(_):
+                self.activityIndicator.stopAnimating()
+            case .failure(_):
+                print("이미지 로딩 실패")
+            }
+        }
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 20
         backgroundColor = .clear
