@@ -19,8 +19,12 @@ enum SortList: String, CaseIterable {
 
 class SearchViewController: UIViewController {
     
-    var search = ""
     var list: [Shop] = []
+    var itemName = ""
+    var page = 1
+    var totalPage = 0
+    let maxItemCount = 20
+    var sort = SortList.sim
     
     let topView: UIView = {
         let view = UIView()
@@ -74,30 +78,28 @@ class SearchViewController: UIViewController {
     @objc func sortButtonTapped(_ sender: UIButton) {
         switch sender.currentTitle {
         case "정확도":
-            let str = SortList.sim.rawValue
-            updateSortButtonUI(selectedButton: sender)
-            fetchShopDate(name: search, sort: str)
+            sort = SortList.sim
         case "날짜순":
-            let str = SortList.date.rawValue
-            updateSortButtonUI(selectedButton: sender)
-            fetchShopDate(name: search, sort: str)
+            sort = SortList.date
         case "낮은 가격":
-            let str = SortList.asc.rawValue
-            updateSortButtonUI(selectedButton: sender)
-            fetchShopDate(name: search, sort: str)
+            sort = SortList.asc
         case "높은 가격":
-            let str = SortList.dsc.rawValue
-            updateSortButtonUI(selectedButton: sender)
-            fetchShopDate(name: search, sort: str)
+            sort = SortList.dsc
         case .none: // 비어있을 때
             showAlert(message: "이상한 버튼을 눌렀어요")
+            return
         case .some(_): // else 값일 때
             showAlert(message: "이상한 버튼을 눌렀어요")
+            return
         }
+        updateSortButtonUI(selectedButton: sender)
+        list = []
+        page = 1
+        fetchShopDate(name: itemName, sort: sort.rawValue, page: page)
     }
     
-    func fetchShopDate(name: String, sort: String) {
-        let url = URL(string: "https://openapi.naver.com/v1/search/shop.json?query=\(name)&display=20&sort=\(sort)")!
+    func fetchShopDate(name: String, sort: String, page: Int) {
+        let url = URL(string: "https://openapi.naver.com/v1/search/shop.json?query=\(name)&display=\(maxItemCount)&start=\(page)&sort=\(sort)")!
         
         let header: HTTPHeaders = [
             "X-Naver-Client-Id" : APIKey.naverClientId,
@@ -108,10 +110,16 @@ class SearchViewController: UIViewController {
             .responseDecodable(of: Shops.self) { response in
                 switch response.result {
                 case .success(let res):
-                    print(res)
-                    self.list = res.items
+                    self.list.append(contentsOf: res.items)
                     self.totalLabel.text = "\(res.total)개의 검색 결과"
+                    self.totalPage = res.total
                     self.collectionView.reloadData()
+
+                    if self.page == 1 {
+                        DispatchQueue.main.async {
+                            self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+                        }
+                    }
                 case .failure(let err):
                     print("😒", err)
                 }
@@ -167,6 +175,14 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         cell.imageView.layer.cornerRadius = 20
         cell.backgroundColor = .clear
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let lastPage =  totalPage / maxItemCount == 0 ? (totalPage / maxItemCount) : (totalPage / maxItemCount) + 1
+        if indexPath.row == (list.count - 6) && page < lastPage {
+            page += 1
+            fetchShopDate(name: itemName, sort: sort.rawValue, page: page)
+        }
     }
 }
 
@@ -226,9 +242,9 @@ extension SearchViewController: ViewDesignProtocol {
     func configureView() {
         view.backgroundColor = .black
         
-        navigationItem.title = search
+        navigationItem.title = itemName
         setCollectionViewLayout()
-        fetchShopDate(name: search, sort: SortList.sim.rawValue)
+        fetchShopDate(name: itemName, sort: sort.rawValue, page: page)
         updateSortButtonUI(selectedButton: simButton)
         
         collectionView.backgroundColor = .clear

@@ -70,7 +70,7 @@ extension MainViewController: UISearchBarDelegate {
             return
         }
         let vc = SearchViewController()
-        vc.search = name
+        vc.itemName = name
         navigationController?.pushViewController(vc, animated: true)
     }
     
