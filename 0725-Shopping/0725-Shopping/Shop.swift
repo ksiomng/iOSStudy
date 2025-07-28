@@ -8,6 +8,7 @@
 import Foundation
 
 struct Shops: Decodable {
+    let total: Int
     let items: [Shop]
 }
 

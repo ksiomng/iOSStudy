@@ -13,9 +13,30 @@ class SearchCollectionViewCell: UICollectionViewCell {
     
     let imageView = UIImageView()
     let likeButton = UIButton()
-    let brandLabel = UILabel()
-    let titleLabel = UILabel()
-    let priceLabel = UILabel()
+    
+    let labelStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 4
+        stack.alignment = .fill
+        stack.distribution = .equalSpacing
+        return stack
+    }()
+    
+    let brandLabel: UILabel = {
+        let label = SongLabel(title: "브랜드", size: 10)
+        return label
+    }()
+    
+    let titleLabel: UILabel = {
+        let label = SongLabel(title: "상품명", size: 14)
+        return label
+    }()
+    
+    let priceLabel: UILabel = {
+        let label = SongLabel(title: "가격", size: 17)
+        return label
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,15 +54,17 @@ extension SearchCollectionViewCell: ViewDesignProtocol {
     func configureHierarchy() {
         contentView.addSubview(imageView)
         contentView.addSubview(likeButton)
-        contentView.addSubview(brandLabel)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(priceLabel)
+        contentView.addSubview(labelStackView)
+        
+        labelStackView.addArrangedSubview(brandLabel)
+        labelStackView.addArrangedSubview(titleLabel)
+        labelStackView.addArrangedSubview(priceLabel)
     }
     
     func configureLayout() {
         imageView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(170) // 조정가능
+            make.height.equalTo(160)
         }
         
         likeButton.snp.makeConstraints { make in
@@ -50,28 +73,20 @@ extension SearchCollectionViewCell: ViewDesignProtocol {
             make.size.equalTo(28)
         }
         
-        brandLabel.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.bottom).offset(4)
+        labelStackView.snp.makeConstraints { make in
+            make.top.equalTo(imageView.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview().inset(8)
-        }
-        
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(brandLabel.snp.bottom).offset(4)
-            make.leading.trailing.equalToSuperview().inset(8)
-        }
-        
-        priceLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(8)
-            make.leading.trailing.bottom.equalToSuperview().inset(8)
         }
     }
     
     func configureView() {
-        contentView.backgroundColor = .gray
-        imageView.backgroundColor = .yellow
-        likeButton.backgroundColor = .red
-        brandLabel.text = "dfsf"
-        titleLabel.text = "fsdfs"
-        priceLabel.text = "dsalfjh"
+        contentView.backgroundColor = .clear
+        likeButton.backgroundColor = .white
+        likeButton.tintColor = .black
+        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        DispatchQueue.main.async {
+            let buttonWidth = self.likeButton.frame.width
+            self.likeButton.layer.cornerRadius = buttonWidth / 2
+        }
     }
 }

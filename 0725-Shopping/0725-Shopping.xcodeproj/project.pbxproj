@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		574741EB2E338E5200A83A7D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 574741EA2E338E5200A83A7D /* Alamofire */; };
 		574741EE2E338E6500A83A7D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 574741ED2E338E6500A83A7D /* SnapKit */; };
+		574743902E374F5E00A83A7D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5747438F2E374F5E00A83A7D /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				574743902E374F5E00A83A7D /* Kingfisher in Frameworks */,
 				574741EB2E338E5200A83A7D /* Alamofire in Frameworks */,
 				574741EE2E338E6500A83A7D /* SnapKit in Frameworks */,
 			);
@@ -87,6 +89,7 @@
 			packageProductDependencies = (
 				574741EA2E338E5200A83A7D /* Alamofire */,
 				574741ED2E338E6500A83A7D /* SnapKit */,
+				5747438F2E374F5E00A83A7D /* Kingfisher */,
 			);
 			productName = "0725-Shopping";
 			productReference = 574741902E33896C00A83A7D /* 0725-Shopping.app */;
@@ -119,6 +122,7 @@
 			packageReferences = (
 				574741E92E338E5200A83A7D /* XCRemoteSwiftPackageReference "Alamofire" */,
 				574741EC2E338E6500A83A7D /* XCRemoteSwiftPackageReference "SnapKit" */,
+				5747438E2E374F5E00A83A7D /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 574741912E33896C00A83A7D /* Products */;
@@ -158,6 +162,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BLC9AMHM68;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "0725-Shopping/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -189,6 +194,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BLC9AMHM68;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "0725-Shopping/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -376,6 +382,14 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		5747438E2E374F5E00A83A7D /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -388,6 +402,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 574741EC2E338E6500A83A7D /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		5747438F2E374F5E00A83A7D /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5747438E2E374F5E00A83A7D /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
