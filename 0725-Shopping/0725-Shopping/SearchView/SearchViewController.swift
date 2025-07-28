@@ -78,12 +78,28 @@ class SearchViewController: UIViewController {
     @objc func sortButtonTapped(_ sender: UIButton) {
         switch sender.currentTitle {
         case "정확도":
+            if sort == SortList.sim {
+                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+                return
+            }
             sort = SortList.sim
         case "날짜순":
+            if sort == SortList.date {
+                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+                return
+            }
             sort = SortList.date
         case "낮은 가격":
+            if sort == SortList.asc {
+                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+                return
+            }
             sort = SortList.asc
         case "높은 가격":
+            if sort == SortList.dsc {
+                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+                return
+            }
             sort = SortList.dsc
         case .none: // 비어있을 때
             showAlert(message: "이상한 버튼을 눌렀어요")
@@ -114,7 +130,7 @@ class SearchViewController: UIViewController {
                     self.totalLabel.text = "\(res.total)개의 검색 결과"
                     self.totalPage = res.total
                     self.collectionView.reloadData()
-
+                    
                     if self.page == 1 {
                         DispatchQueue.main.async {
                             self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
