@@ -64,7 +64,6 @@ extension MainViewController: ViewDesignProtocol {
 
 extension MainViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print(#function)
         guard let name = searchBar.text, name.count >= 2 else {
             showAlert(message: "검색단어를 2글자 이상 적어주세요")
             return
@@ -76,6 +75,5 @@ extension MainViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
-        print(#function)
     }
 }
