@@ -161,19 +161,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.identifier, for: indexPath) as? SearchCollectionViewCell else {
             return UICollectionViewCell()
         }
-        let row = list[indexPath.row]
-        if row.brand == "" {
-            cell.brandLabel.isHidden = true
-        } else {
-            cell.brandLabel.isHidden = false
-            cell.brandLabel.text = row.brand
-        }
-        cell.priceLabel.text = row.lprice
-        cell.titleLabel.text = row.title.htmlStringChanged
-        cell.imageView.kf.setImage(with: URL(string:row.image))
-        cell.imageView.clipsToBounds = true
-        cell.imageView.layer.cornerRadius = 20
-        cell.backgroundColor = .clear
+        cell.configureDate(row: list[indexPath.row])
         return cell
     }
     

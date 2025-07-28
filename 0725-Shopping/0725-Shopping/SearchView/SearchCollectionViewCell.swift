@@ -89,4 +89,19 @@ extension SearchCollectionViewCell: ViewDesignProtocol {
             self.likeButton.layer.cornerRadius = buttonWidth / 2
         }
     }
+    
+    func configureDate(row: Shop) {
+        if row.brand == "" {
+            brandLabel.isHidden = true
+        } else {
+            brandLabel.isHidden = false
+            brandLabel.text = row.brand
+        }
+        priceLabel.text = PriceFormatter.shared.string(from: Int(row.lprice)! as NSNumber)
+        titleLabel.text = row.title.htmlStringChanged
+        imageView.kf.setImage(with: URL(string:row.image))
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 20
+        backgroundColor = .clear
+    }
 }
