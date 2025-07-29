@@ -115,7 +115,8 @@ class SearchViewController: UIViewController {
     }
     
     func fetchShopDate(name: String, sort: String, page: Int) {
-        NetworkManager.shared.fetchShopDate(name: name, sort: sort, page: page, itemCount: maxItemCount) { res in
+        let start = (page-1) * maxItemCount + 1
+        NetworkManager.shared.fetchShopDate(name: name, sort: sort, page: start, itemCount: maxItemCount) { res in
             self.list.append(contentsOf: res.items)
             self.totalLabel.text = "\(res.total)개의 검색 결과"
             self.totalPage = res.total
@@ -127,6 +128,7 @@ class SearchViewController: UIViewController {
                 }
                 return
             }
+            print(self.page)
             
             if self.page == 1 {
                 DispatchQueue.main.async {
@@ -134,9 +136,13 @@ class SearchViewController: UIViewController {
                 }
             }
         } fail: { err in
-            let errMsg = ErrorString.shared.result(errCode: err ?? 0)
-            self.showErrorAlert(title: "ERROR", message: errMsg) {
-                self.navigationController?.popViewController(animated: true)
+            if start > 1000 {
+                self.showAlert(message: "마지막페이지입니다")
+            } else {
+                let errMsg = ErrorString.shared.result(errCode: err ?? 0)
+                self.showErrorAlert(title: "ERROR", message: errMsg) {
+                    self.navigationController?.popViewController(animated: true)
+                }
             }
         }
 
