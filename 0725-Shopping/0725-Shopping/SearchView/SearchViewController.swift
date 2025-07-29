@@ -115,31 +115,21 @@ class SearchViewController: UIViewController {
     }
     
     func fetchShopDate(name: String, sort: String, page: Int) {
-        let url = URL(string: "https://openapi.naver.com/v1/search/shop.json?query=\(name)&display=\(maxItemCount)&start=\(page)&sort=\(sort)")!
-        
-        let header: HTTPHeaders = [
-            "X-Naver-Client-Id" : APIKey.naverClientId,
-            "X-Naver-Client-Secret" : APIKey.naverSecret
-        ]
-        AF.request(url, method: .get, headers: header)
-            .validate(statusCode: 200..<300) //
-            .responseDecodable(of: Shops.self) { response in
-                switch response.result {
-                case .success(let res):
-                    self.list.append(contentsOf: res.items)
-                    self.totalLabel.text = "\(res.total)개의 검색 결과"
-                    self.totalPage = res.total
-                    self.collectionView.reloadData()
-                    
-                    if self.page == 1 {
-                        DispatchQueue.main.async {
-                            self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
-                        }
-                    }
-                case .failure(let err):
-                    print("😒", err)
+        NetworkManager.shared.fetchShopDate(name: name, sort: sort, page: page, itemCount: maxItemCount) { res in
+            self.list.append(contentsOf: res.items)
+            self.totalLabel.text = "\(res.total)개의 검색 결과"
+            self.totalPage = res.total
+            self.collectionView.reloadData()
+            
+            if self.page == 1 {
+                DispatchQueue.main.async {
+                    self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
                 }
             }
+        } fail: {
+            self.showAlert(message: "에러발생")
+        }
+
     }
     
     private func setCollectionViewLayout() {
