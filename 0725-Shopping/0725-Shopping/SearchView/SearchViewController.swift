@@ -22,8 +22,12 @@ class SearchViewController: UIViewController {
     var list: [Shop] = []
     var itemName = ""
     var page = 1
+    var treePage = 1
+    var treeList: [Shop] = []
     var totalPage = 0
+    var treeTotalPage = 0
     let maxItemCount = 30
+    let treeMaxItemCount = 30
     var sort = SortList.sim
     
     let topView: UIView = {
@@ -64,6 +68,11 @@ class SearchViewController: UIViewController {
     }()
     
     let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        return UICollectionView(frame: .zero, collectionViewLayout: layout)
+    }()
+    
+    let treeCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
@@ -143,7 +152,26 @@ class SearchViewController: UIViewController {
                 }
             }
         }
-
+        
+    }
+    
+    func fetchTreeDate(page: Int) {
+        let start = (treePage-1) * treeMaxItemCount + 1
+        NetworkManager.shared.fetchShopDate(name: "나무", sort: "sim", page: start, itemCount: maxItemCount) { res in
+            self.treeList.append(contentsOf: res.items)
+            self.treeTotalPage = res.total
+            self.treeCollectionView.reloadData()
+        } fail: { err in
+            if start > 1000 {
+                self.showAlert(message: "마지막페이지입니다")
+            } else {
+                let errMsg = ErrorString.shared.result(errCode: err ?? 0)
+                self.showErrorAlert(title: "ERROR", message: errMsg) {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        }
+        
     }
     
     private func setCollectionViewLayout() {
@@ -156,6 +184,15 @@ class SearchViewController: UIViewController {
         layout.minimumLineSpacing = 16
         layout.scrollDirection = .vertical
         collectionView.collectionViewLayout = layout
+    }
+    
+    private func setTreeCollectionViewLayout() {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 80, height: 80)
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        layout.minimumLineSpacing = 10
+        layout.scrollDirection = .horizontal
+        treeCollectionView.collectionViewLayout = layout
     }
     
     private func updateSortButtonUI(selectedButton: UIButton) {
@@ -174,22 +211,42 @@ class SearchViewController: UIViewController {
 
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return list.count
+        if collectionView == treeCollectionView {
+            return treeList.count
+        } else {
+            return list.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.identifier, for: indexPath) as? SearchCollectionViewCell else {
-            return UICollectionViewCell()
+        if collectionView == treeCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TreeCollectionViewCell.identifier, for: indexPath) as? TreeCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.configureDate(row: treeList[indexPath.row])
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.identifier, for: indexPath) as? SearchCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.configureDate(row: list[indexPath.row])
+            return cell
         }
-        cell.configureDate(row: list[indexPath.row])
-        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let lastPage =  totalPage / maxItemCount == 0 ? (totalPage / maxItemCount) : (totalPage / maxItemCount) + 1
-        if indexPath.row == (list.count - 6) && page < lastPage {
-            page += 1
-            fetchShopDate(name: itemName, sort: sort.rawValue, page: page)
+        if collectionView == treeCollectionView {
+            let lastPage =  treeTotalPage / treeMaxItemCount == 0 ? (treeTotalPage / treeMaxItemCount) : (treeTotalPage / treeMaxItemCount) + 1
+            if indexPath.row == (treeList.count - 6) && treePage < lastPage {
+                treePage += 1
+                fetchTreeDate(page: treePage)
+            }
+        } else {
+            let lastPage =  totalPage / maxItemCount == 0 ? (totalPage / maxItemCount) : (totalPage / maxItemCount) + 1
+            if indexPath.row == (list.count - 6) && page < lastPage {
+                page += 1
+                fetchShopDate(name: itemName, sort: sort.rawValue, page: page)
+            }
         }
     }
 }
@@ -198,6 +255,7 @@ extension SearchViewController: ViewDesignProtocol {
     func configureHierarchy() {
         view.addSubview(topView)
         view.addSubview(collectionView)
+        view.addSubview(treeCollectionView)
         
         topView.addSubview(totalLabel)
         topView.addSubview(simButton)
@@ -243,7 +301,13 @@ extension SearchViewController: ViewDesignProtocol {
         
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(topView.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+        }
+        
+        treeCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(collectionView.snp.bottom)
             make.bottom.leading.trailing.equalToSuperview()
+            make.height.equalTo(100)
         }
     }
     
@@ -251,7 +315,9 @@ extension SearchViewController: ViewDesignProtocol {
         view.backgroundColor = .black
         
         navigationItem.title = itemName
+        setTreeCollectionViewLayout()
         setCollectionViewLayout()
+        fetchTreeDate(page: treePage)
         fetchShopDate(name: itemName, sort: sort.rawValue, page: page)
         updateSortButtonUI(selectedButton: simButton)
         
@@ -259,5 +325,10 @@ extension SearchViewController: ViewDesignProtocol {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.identifier)
+        
+        treeCollectionView.backgroundColor = .clear
+        treeCollectionView.delegate = self
+        treeCollectionView.dataSource = self
+        treeCollectionView.register(TreeCollectionViewCell.self, forCellWithReuseIdentifier: TreeCollectionViewCell.identifier)
     }
 }
