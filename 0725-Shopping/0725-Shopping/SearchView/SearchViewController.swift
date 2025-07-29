@@ -128,8 +128,6 @@ class SearchViewController: UIViewController {
                 }
                 return
             }
-            print(self.page)
-            
             if self.page == 1 {
                 DispatchQueue.main.async {
                     self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)

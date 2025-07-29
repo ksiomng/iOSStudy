@@ -71,7 +71,6 @@ extension MainViewController: UISearchBarDelegate {
         let vc = SearchViewController()
         vc.itemName = name
         view.endEditing(true)
-        searchBar.text = "" // 비우는게 맞는가 ?
         navigationController?.pushViewController(vc, animated: true)
     }
     
