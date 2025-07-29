@@ -23,7 +23,7 @@ class SearchViewController: UIViewController {
     var itemName = ""
     var page = 1
     var totalPage = 0
-    let maxItemCount = 20
+    let maxItemCount = 30
     var sort = SortList.sim
     
     let topView: UIView = {
