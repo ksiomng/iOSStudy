@@ -121,13 +121,23 @@ class SearchViewController: UIViewController {
             self.totalPage = res.total
             self.collectionView.reloadData()
             
+            if self.list.count == 0 {
+                self.showErrorAlert(message: "검색결과가 없습니다") {
+                    self.navigationController?.popViewController(animated: true)
+                }
+                return
+            }
+            
             if self.page == 1 {
                 DispatchQueue.main.async {
                     self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
                 }
             }
-        } fail: {
-            self.showAlert(message: "에러발생")
+        } fail: { err in
+            let errMsg = ErrorString.shared.result(errCode: err ?? 0)
+            self.showErrorAlert(title: "ERROR", message: errMsg) {
+                self.navigationController?.popViewController(animated: true)
+            }
         }
 
     }

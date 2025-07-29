@@ -13,7 +13,7 @@ class NetworkManager {
     
     private init() { }
     
-    func fetchShopDate(name: String, sort: String, page: Int, itemCount: Int, success: @escaping (Shops) -> Void, fail: @escaping () -> Void) {
+    func fetchShopDate(name: String, sort: String, page: Int, itemCount: Int, success: @escaping (Shops) -> Void, fail: @escaping (Int?) -> Void) {
         let url = URL(string: "https://openapi.naver.com/v1/search/shop.json?query=\(name)&display=\(itemCount)&start=\(page)&sort=\(sort)")!
         
         let header: HTTPHeaders = [
@@ -27,8 +27,7 @@ class NetworkManager {
                 case .success(let res):
                     success(res)
                 case .failure(let err):
-                    print(err)
-                    fail()
+                    fail(err.responseCode)
                 }
             }
     }
