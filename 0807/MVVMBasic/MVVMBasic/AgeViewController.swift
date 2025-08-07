@@ -7,10 +7,10 @@
 
 import UIKit
 
+// 에러핸들링 1번 내가 지정한 오류 외의 오류까지 처리
 enum ageError: Error {
     case emptyString
     case isNotInt
-    case haveSpace
     case overRange
 }
 
@@ -81,17 +81,15 @@ class AgeViewController: UIViewController {
         view.endEditing(true)
         do {
             let _ = try checkAgeError(text: text)
-            print("나이를 잘 입력했습니다")
+            label.text = "나이를 잘 입력했습니다"
         } catch ageError.emptyString {
-            print("입력된 나이가 없습니다")
+            label.text = "입력된 나이가 없습니다"
         } catch ageError.isNotInt {
-            print("숫자가 아닙니다")
-        } catch ageError.haveSpace {
-            print("공백이 들어가있습니다")
+            label.text = "숫자가 아닙니다"
         } catch ageError.overRange {
-            print("범위를 벗어났습니다")
+            label.text = "범위를 벗어났습니다"
         } catch {
-            print("ageError외 다른 에러가 발생했습니다")
+            label.text = "ageError외 다른 에러가 발생했습니다"
         }
     }
     
@@ -101,9 +99,6 @@ class AgeViewController: UIViewController {
         }
         guard Int(text) != nil else {
             throw ageError.isNotInt
-        }
-        guard text.contains(" ") else {
-            throw ageError.haveSpace
         }
         guard 0 < Int(text)! && Int(text)! < 101 else {
             throw ageError.overRange

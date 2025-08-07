@@ -7,6 +7,7 @@
 
 import UIKit
 
+// 에러핸들링 1번 내가 지정한 오류 외의 오류 + 제네릭
 enum bmiError: Error {
     case emptyString
     case isNotInt
@@ -97,13 +98,13 @@ class BMIViewController: UIViewController {
             let _ = try checkBMIError(height: height, weight: weight)
             resultLabel.text = "\(calculateBMI(height: Int(height)!, weight: Int(weight)!))"
         } catch bmiError.emptyString {
-            showAlert("입력된 나이가 없습니다")
+            showAlert("몸무게와 키 모두 입력해주세요")
         } catch bmiError.isNotInt {
             showAlert("숫자가 아닙니다")
         } catch bmiError.overHeightRange {
             showAlert("키 범위를 벗어났습니다")
         } catch bmiError.overWeightRange {
-            showAlert("몸무개 범위를 벗어났습니다")
+            showAlert("몸무게 범위를 벗어났습니다")
         } catch {
             showAlert("bmi에러 외의 에러가 발생했습니다")
         }

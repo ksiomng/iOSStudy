@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 
+// 에러핸들링 2번 Swift6 Type Throws
 enum birthDayError: Error {
     case emptyString
     case isNotInt
@@ -150,7 +151,7 @@ class BirthDayViewController: UIViewController {
         } catch {
             switch error {
             case .emptyString:
-                resultLabel.text = "입력된 값이 없습니다"
+                resultLabel.text = "년 월 일 모두 입력해주세요"
             case .isNotInt:
                 resultLabel.text = "숫자를 입력해주세요"
             case .year:
