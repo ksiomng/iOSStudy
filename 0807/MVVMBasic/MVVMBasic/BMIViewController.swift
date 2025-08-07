@@ -94,18 +94,18 @@ class BMIViewController: UIViewController {
         
         view.endEditing(true)
         do {
-            let result = try checkBMIError(height: height, weight: weight)
-            print("")
+            let _ = try checkBMIError(height: height, weight: weight)
+            resultLabel.text = "\(calculateBMI(height: Int(height)!, weight: Int(weight)!))"
         } catch bmiError.emptyString {
-            print("입력된 나이가 없습니다")
+            showAlert("입력된 나이가 없습니다")
         } catch bmiError.isNotInt {
-            print("숫자가 아닙니다")
+            showAlert("숫자가 아닙니다")
         } catch bmiError.overHeightRange {
-            print("키 범위를 벗어났습니다")
+            showAlert("키 범위를 벗어났습니다")
         } catch bmiError.overWeightRange {
-            print("몸무개 범위를 벗어났습니다")
+            showAlert("몸무개 범위를 벗어났습니다")
         } catch {
-            print("bmi에러 외의 에러가 발생했습니다")
+            showAlert("bmi에러 외의 에러가 발생했습니다")
         }
     }
     
@@ -119,9 +119,21 @@ class BMIViewController: UIViewController {
         guard 10 < Int(height)! && Int(height)! < 300 else {
             throw bmiError.overHeightRange
         }
-        guard 1 < Int(height)! && Int(height)! < 600 else {
+        guard 1 < Int(weight)! && Int(weight)! < 600 else {
             throw bmiError.overWeightRange
         }
         return true
+    }
+    
+    func showAlert(_ msg: String) {
+        let alert = UIAlertController(title: "에러", message: msg, preferredStyle: .alert)
+        let btn = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(btn)
+        present(alert, animated: true)
+    }
+    
+    func calculateBMI(height: Int, weight: Int) -> Double {
+        let heightM = (Double(height) / 100.0)
+        return Double(weight) / (heightM * heightM)
     }
 }
