@@ -7,14 +7,10 @@
 
 import UIKit
 
-// 에러핸들링 1번 내가 지정한 오류 외의 오류까지 처리
-enum ageError: Error {
-    case emptyString
-    case isNotInt
-    case overRange
-}
-
 class AgeViewController: UIViewController {
+    
+    let viewModel = AgeViewModel()
+    
     let textField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "나이를 입력해주세요"
@@ -73,36 +69,8 @@ class AgeViewController: UIViewController {
         view.endEditing(true)
     }
     
-    @objc func resultButtonTapped() {
-        guard let text = textField.text else {
-            print("textfield가 nil 입니다")
-            return
-        }
+    @objc private func resultButtonTapped() {
         view.endEditing(true)
-        do {
-            let _ = try checkAgeError(text: text)
-            label.text = "나이를 잘 입력했습니다"
-        } catch ageError.emptyString {
-            label.text = "입력된 나이가 없습니다"
-        } catch ageError.isNotInt {
-            label.text = "숫자가 아닙니다"
-        } catch ageError.overRange {
-            label.text = "범위를 벗어났습니다"
-        } catch {
-            label.text = "ageError외 다른 에러가 발생했습니다"
-        }
-    }
-    
-    func checkAgeError(text: String) throws -> Bool {
-        guard !(text.isEmpty) else {
-            throw ageError.emptyString
-        }
-        guard Int(text) != nil else {
-            throw ageError.isNotInt
-        }
-        guard 0 < Int(text)! && Int(text)! < 101 else {
-            throw ageError.overRange
-        }
-        return true
+        label.text = viewModel.resultMessage(text: textField.text)
     }
 }
