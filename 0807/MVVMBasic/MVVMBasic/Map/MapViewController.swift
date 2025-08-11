@@ -12,12 +12,13 @@ import SnapKit
 class MapViewController: UIViewController {
      
     private let mapView = MKMapView()
+    private let restaurants = RestaurantList.restaurantArray
      
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupMapView()
-        addSeoulStationAnnotation()
+        filterAnnotation(categorys: nil)
     }
      
     private func setupUI() {
@@ -52,31 +53,59 @@ class MapViewController: UIViewController {
         mapView.setRegion(region, animated: true)
     }
     
-    private func addSeoulStationAnnotation() {
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = CLLocationCoordinate2D(latitude: 37.5547, longitude: 126.9706)
-        annotation.title = "서울역"
-        annotation.subtitle = "대한민국 서울특별시"
-        mapView.addAnnotation(annotation)
+    private func addStationAnnotation(restaurants: [Restaurant]?) {
+        mapView.removeAnnotations(mapView.annotations)
+        if let lists = restaurants {
+            for restaurant in lists {
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = CLLocationCoordinate2D(latitude: restaurant.latitude, longitude: restaurant.longitude)
+                annotation.title = restaurant.name
+                annotation.subtitle = restaurant.address
+                mapView.addAnnotation(annotation)
+            }
+        }
+    }
+    
+    func filterAnnotation(categorys: [String]?) {
+        guard let categorys else {
+            self.addStationAnnotation(restaurants: restaurants)
+            return
+        }
+        for category in categorys {
+            let filterRestaurants = self.restaurants.filter { $0.category == category }
+            self.addStationAnnotation(restaurants: filterRestaurants)
+        }
     }
      
     @objc private func rightBarButtonTapped() {
         let alertController = UIAlertController(
-            title: "메뉴 선택",
-            message: "원하는 옵션을 선택하세요",
+            title: nil,
+            message: nil,
             preferredStyle: .actionSheet
         )
         
-        let alert1Action = UIAlertAction(title: "얼럿 1", style: .default) { _ in
-            print("얼럿 1이 선택되었습니다.")
+        let alert1Action = UIAlertAction(title: "한식", style: .default) { _ in
+            self.filterAnnotation(categorys: ["한식"])
         }
         
-        let alert2Action = UIAlertAction(title: "얼럿 2", style: .default) { _ in
-            print("얼럿 2가 선택되었습니다.")
+        let alert2Action = UIAlertAction(title: "양식, 경양식", style: .default) { _ in
+            self.filterAnnotation(categorys: ["양식", "경양식"])
         }
         
-        let alert3Action = UIAlertAction(title: "얼럿 3", style: .default) { _ in
-            print("얼럿 3이 선택되었습니다.")
+        let alert3Action = UIAlertAction(title: "일식", style: .default) { _ in
+            self.filterAnnotation(categorys: ["일식"])
+        }
+        
+        let alert4Action = UIAlertAction(title: "중식", style: .default) { _ in
+            self.filterAnnotation(categorys: ["중식"])
+        }
+        
+        let alert5Action = UIAlertAction(title: "분식", style: .default) { _ in
+            self.filterAnnotation(categorys: ["분식"])
+        }
+        
+        let alert6Action = UIAlertAction(title: "전체보기", style: .default) { _ in
+            self.filterAnnotation(categorys: nil)
         }
         
         let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
@@ -86,6 +115,9 @@ class MapViewController: UIViewController {
         alertController.addAction(alert1Action)
         alertController.addAction(alert2Action)
         alertController.addAction(alert3Action)
+        alertController.addAction(alert4Action)
+        alertController.addAction(alert5Action)
+        alertController.addAction(alert6Action)
         alertController.addAction(cancelAction)
          
         present(alertController, animated: true, completion: nil)
@@ -98,8 +130,8 @@ extension MapViewController: MKMapViewDelegate {
         guard let annotation = view.annotation else { return }
         
         print("어노테이션이 선택되었습니다.")
-        print("제목: \(annotation.title ?? "제목 없음")")
-        print("부제목: \(annotation.subtitle ?? "부제목 없음")")
+        print("제목: \(String(describing: annotation.title ?? "제목 없음"))")
+        print("부제목: \(String(describing: annotation.subtitle ?? "부제목 없음"))")
         print("좌표: \(annotation.coordinate.latitude), \(annotation.coordinate.longitude)")
         
         // 선택된 어노테이션으로 지도 중심 이동
