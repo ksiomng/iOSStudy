@@ -28,8 +28,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         wordVC.tabBarItem = UITabBarItem(title: "WORD", image: UIImage(systemName: "text.page"), tag: 3)
         let currencyVC = CurrencyViewController()
         currencyVC.tabBarItem = UITabBarItem(title: "Currency", image: UIImage(systemName: "wonsign.arrow.trianglehead.counterclockwise.rotate.90"), tag: 4)
+        let mapVC = MapViewController()
+        mapVC.tabBarItem = UITabBarItem(title: "MAP", image: UIImage(systemName: "map"), tag: 5)
         
-        tabBarController.viewControllers = [ageVC, bmiVC, birthDayVC, wordVC, currencyVC]
+        tabBarController.viewControllers = [ageVC, bmiVC, birthDayVC, wordVC, currencyVC, mapVC]
         tabBarController.tabBar.tintColor = .systemBlue
         tabBarController.tabBar.unselectedItemTintColor = .systemGray
         
