@@ -8,8 +8,18 @@
 import Foundation
 
 class WordCounterViewModel {
-    func updateText(_ text: String) -> String {
-        let count = text.count
-        return "현재까지 \(count)글자 작성중"
+    
+    var inputText = Field("")
+    var outputText = Field("")
+    
+    init() {
+        inputText.playAction { _ in
+            self.updateText()
+        }
+    }
+    
+    private func updateText() {
+        let count = inputText.value.count
+        outputText.value = "현재까지 \(count)글자 작성중"
     }
 }

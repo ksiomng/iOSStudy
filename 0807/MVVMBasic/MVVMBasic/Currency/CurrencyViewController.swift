@@ -10,7 +10,7 @@ import SnapKit
 
 class CurrencyViewController: UIViewController {
     
-    let viewModel = CurrencyVIewModel()
+    let viewModel = CurrencyViewModel()
     
     private let exchangeRateLabel: UILabel = {
         let label = UILabel()
@@ -53,6 +53,9 @@ class CurrencyViewController: UIViewController {
         setupUI()
         setupConstraints()
         setupActions()
+        viewModel.outputAmount.playAction { text in
+            self.resultLabel.text = text
+        }
     }
      
     private func setupUI() {
@@ -97,6 +100,6 @@ class CurrencyViewController: UIViewController {
             resultLabel.text = "올바른 금액을 입력해주세요"
             return
         }
-        resultLabel.text = viewModel.resultMessage(amount: amount)
+        viewModel.inputAmount.value = amount
     }
 }

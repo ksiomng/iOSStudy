@@ -16,8 +16,8 @@ class Field<T> {
         }
     }
     
-    init(_ text: T) {
-        self.value = text
+    init(_ value: T) {
+        self.value = value
     }
     
     func playAction(action: @escaping (T) -> Void) {
