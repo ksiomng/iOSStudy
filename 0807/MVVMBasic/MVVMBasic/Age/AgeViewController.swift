@@ -35,8 +35,10 @@ class AgeViewController: UIViewController {
         super.viewDidLoad()
         configureHierarchy()
         configureLayout()
-        
         resultButton.addTarget(self, action: #selector(resultButtonTapped), for: .touchUpInside)
+        viewModel.outputAge.playAction { text in
+            self.label.text = text
+        }
     }
     
     func configureHierarchy() {
@@ -71,6 +73,6 @@ class AgeViewController: UIViewController {
     
     @objc private func resultButtonTapped() {
         view.endEditing(true)
-        label.text = viewModel.resultMessage(text: textField.text)
+        viewModel.inputAge.value = textField.text!
     }
 }
