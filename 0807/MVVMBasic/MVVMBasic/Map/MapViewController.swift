@@ -11,14 +11,17 @@ import SnapKit
 
 class MapViewController: UIViewController {
      
+    let viewModel = MapViewModel()
     private let mapView = MKMapView()
-    private let restaurants = RestaurantList.restaurantArray
+    private let categorys = ["한식", "일식", "중식", "양식", "분식", "전체보기"]
      
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupMapView()
-        filterAnnotation(categorys: nil)
+        viewModel.outputAnnotation.playAction { array in
+            self.addStationAnnotation(restaurants: array)
+        }
     }
      
     private func setupUI() {
@@ -65,17 +68,6 @@ class MapViewController: UIViewController {
             }
         }
     }
-    
-    func filterAnnotation(categorys: [String]?) {
-        guard let categorys else {
-            self.addStationAnnotation(restaurants: restaurants)
-            return
-        }
-        for category in categorys {
-            let filterRestaurants = self.restaurants.filter { $0.category == category }
-            self.addStationAnnotation(restaurants: filterRestaurants)
-        }
-    }
      
     @objc private func rightBarButtonTapped() {
         let alertController = UIAlertController(
@@ -84,40 +76,17 @@ class MapViewController: UIViewController {
             preferredStyle: .actionSheet
         )
         
-        let alert1Action = UIAlertAction(title: "한식", style: .default) { _ in
-            self.filterAnnotation(categorys: ["한식"])
-        }
-        
-        let alert2Action = UIAlertAction(title: "양식, 경양식", style: .default) { _ in
-            self.filterAnnotation(categorys: ["양식", "경양식"])
-        }
-        
-        let alert3Action = UIAlertAction(title: "일식", style: .default) { _ in
-            self.filterAnnotation(categorys: ["일식"])
-        }
-        
-        let alert4Action = UIAlertAction(title: "중식", style: .default) { _ in
-            self.filterAnnotation(categorys: ["중식"])
-        }
-        
-        let alert5Action = UIAlertAction(title: "분식", style: .default) { _ in
-            self.filterAnnotation(categorys: ["분식"])
-        }
-        
-        let alert6Action = UIAlertAction(title: "전체보기", style: .default) { _ in
-            self.filterAnnotation(categorys: nil)
+        for category in categorys {
+            let alertAction = UIAlertAction(title: category, style: .default) { _ in
+                self.viewModel.inputCategoryText.value = category
+            }
+            alertController.addAction(alertAction)
         }
         
         let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
             print("취소가 선택되었습니다.")
         }
         
-        alertController.addAction(alert1Action)
-        alertController.addAction(alert2Action)
-        alertController.addAction(alert3Action)
-        alertController.addAction(alert4Action)
-        alertController.addAction(alert5Action)
-        alertController.addAction(alert6Action)
         alertController.addAction(cancelAction)
          
         present(alertController, animated: true, completion: nil)
