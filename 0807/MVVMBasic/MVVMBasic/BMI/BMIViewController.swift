@@ -41,7 +41,6 @@ class BMIViewController: UIViewController {
         super.viewDidLoad()
         configureHierarchy()
         configureLayout()
-        
         resultButton.addTarget(self, action: #selector(resultButtonTapped), for: .touchUpInside)
     }
     
@@ -87,9 +86,15 @@ class BMIViewController: UIViewController {
             print("TextField가 nil 입니다")
             return
         }
+        viewModel.inputHeight.value = height
+        viewModel.inputWeight.value = weight
         
+        if viewModel.successBMI.value {
+            resultLabel.text = viewModel.outputBMI.value
+        } else {
+            showAlert(viewModel.outputBMI.value)
+        }
         view.endEditing(true)
-        showAlert(viewModel.resultMessage(height: height, weight: weight))
     }
     
     func showAlert(_ msg: String) {

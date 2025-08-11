@@ -17,29 +17,46 @@ enum birthDayError: Error {
 
 class BirthViewModel {
     
-    func resultMessage(year: String, month: String, day: String) -> String {
+    var inputYear = Field("")
+    var inputMonth = Field("")
+    var inputDay = Field("")
+    var outputText = Field("")
+    
+    init() {
+        inputYear.playAction { _ in
+            self.resultMessage()
+        }
+        inputMonth.playAction { _ in
+            self.resultMessage()
+        }
+        inputDay.playAction { _ in
+            self.resultMessage()
+        }
+    }
+    
+    private func resultMessage() {
         do {
-            let birthDate = try checkBirthDayError(year: year, month: month, day: day)
+            let birthDate = try checkBirthDayError(year: inputYear.value, month: inputMonth.value, day: inputDay.value)
             let today = Date()
             let days = Calendar.current.dateComponents([.day], from: birthDate, to: today).day ?? 0
-            return "오늘은 \(days)일째입니다"
+            outputText.value = "오늘은 \(days)일째입니다"
         } catch {
             switch error {
             case .emptyString:
-                return "년 월 일 모두 입력해주세요"
+                outputText.value =  "년 월 일 모두 입력해주세요"
             case .isNotInt:
-                return "숫자를 입력해주세요"
+                outputText.value =  "숫자를 입력해주세요"
             case .year:
-                return "1000년부터 2025년까지 중에 입력해주세요"
+                outputText.value =  "1000년부터 2025년까지 중에 입력해주세요"
             case .month:
-                return "1월부터 12월중에 입력해주세요"
+                outputText.value =  "1월부터 12월중에 입력해주세요"
             case .day:
-                return "월에 맞는 일수를 입력해주세요"
+                outputText.value =  "월에 맞는 일수를 입력해주세요"
             }
         }
     }
     
-    func checkBirthDayError(year: String, month: String, day: String) throws(birthDayError) -> Date {
+    private func checkBirthDayError(year: String, month: String, day: String) throws(birthDayError) -> Date {
         guard !(year.isEmpty) && !(month.isEmpty) && !(day.isEmpty) else {
             throw .emptyString
         }
@@ -58,7 +75,7 @@ class BirthViewModel {
         return stringToDate(year: year, month: month, day: day)
     }
     
-    func checkDateRange(month: Int) -> Int {
+    private func checkDateRange(month: Int) -> Int {
         if month == 4 || month == 6 || month == 9 || month == 11 {
             return 30
         } else if month == 2 {
@@ -68,7 +85,7 @@ class BirthViewModel {
         }
     }
     
-    func stringToDate(year: String, month: String, day: String) -> Date {
+    private func stringToDate(year: String, month: String, day: String) -> Date {
         var dateComponents = DateComponents()
         dateComponents.year = Int(year)!
         dateComponents.month = Int(month)!

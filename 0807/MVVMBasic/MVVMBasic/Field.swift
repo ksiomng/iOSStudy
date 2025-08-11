@@ -12,13 +12,11 @@ class Field<T> {
     
     var value: T {
         didSet {
-            print("text didSet", oldValue, value)
             action?(value)
         }
     }
     
     init(_ text: T) {
-        print("Field init")
         self.value = text
     }
     

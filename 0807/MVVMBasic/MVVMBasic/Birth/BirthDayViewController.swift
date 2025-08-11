@@ -63,8 +63,10 @@ class BirthDayViewController: UIViewController {
         super.viewDidLoad()
         configureHierarchy()
         configureLayout()
-        
         resultButton.addTarget(self, action: #selector(resultButtonTapped), for: .touchUpInside)
+        viewModel.outputText.playAction { text in
+            self.resultLabel.text = text
+        }
     }
     
     func configureHierarchy() {
@@ -137,6 +139,8 @@ class BirthDayViewController: UIViewController {
         let month = monthTextField.text ?? ""
         let day = dayTextField.text ?? ""
         
-        resultLabel.text = viewModel.resultMessage(year: year, month: month, day: day)
+        viewModel.inputYear.value = year
+        viewModel.inputMonth.value = month
+        viewModel.inputDay.value = day
     }
 }
