@@ -28,12 +28,8 @@ enum SortList: String, CaseIterable {
 
 class SearchViewController: UIViewController {
     
-    var list: [Shop] = []
     var itemName = ""
-    var page = 1
-    var totalPage = 0
-    let maxItemCount = 30
-    var sort = SortList.sim
+    let viewModel = SearchViewModel()
     private var sortButtons: [UIButton] = []
     
     let topView: UIView = {
@@ -82,34 +78,34 @@ class SearchViewController: UIViewController {
     @objc func sortButtonTapped(_ sender: UIButton) {
         guard let index = sortButtons.firstIndex(of: sender) else { return }
         
-        if sort == SortList.allCases[index] {
+        if viewModel.inputSort.value == SortList.allCases[index] {
             collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
             return
         }
         
-        sort = SortList.allCases[index]
+        viewModel.inputSort.value = SortList.allCases[index]
         updateSortButtonUI(selectedButton: sender)
         
-        list.removeAll()
-        page = 1
-        fetchShopDate(name: itemName, sort: sort.rawValue, page: page)
+        viewModel.outputShopList.value.removeAll()
+        viewModel.inputPage.value = 1
+        fetchShopDate(name: itemName, sort: viewModel.inputSort.value.rawValue, page: viewModel.inputPage.value)
     }
     
     func fetchShopDate(name: String, sort: String, page: Int) {
-        let start = (page-1) * maxItemCount + 1
-        NetworkManager.shared.fetchShopDate(name: name, sort: sort, page: start, itemCount: maxItemCount) { res in
-            self.list.append(contentsOf: res.items)
+        let start = (page-1) * 30 + 1
+        NetworkManager.shared.fetchShopDate(name: name, sort: sort, page: start, itemCount: 30) { res in
+            self.viewModel.outputShopList.value.append(contentsOf: res.items)
             self.totalLabel.text = "\(res.total)개의 검색 결과"
-            self.totalPage = res.total
+            self.viewModel.inputTotalCount.value = res.total
             self.collectionView.reloadData()
             
-            if self.list.count == 0 {
+            if self.viewModel.outputShopList.value.count == 0 {
                 self.showErrorAlert(message: "검색결과가 없습니다") {
                     self.navigationController?.popViewController(animated: true)
                 }
                 return
             }
-            if self.page == 1 {
+            if self.viewModel.inputPage.value == 1 {
                 DispatchQueue.main.async {
                     self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
                 }
@@ -153,23 +149,22 @@ class SearchViewController: UIViewController {
 
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return list.count
+        return viewModel.outputShopList.value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.identifier, for: indexPath) as? SearchCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.configureDate(row: list[indexPath.row])
+        cell.configureDate(row: viewModel.outputShopList.value[indexPath.row])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let lastPage =  totalPage / maxItemCount == 0 ? (totalPage / maxItemCount) : (totalPage / maxItemCount) + 1
-        if indexPath.row == (list.count - 6) && page < lastPage {
-            page += 1
-            fetchShopDate(name: itemName, sort: sort.rawValue, page: page)
-            
+        let list = viewModel.outputShopList.value
+        if indexPath.row == (viewModel.outputShopList.value.count - 6) && viewModel.inputPage.value < viewModel.totalPage() {
+            viewModel.inputPage.value += 1
+            fetchShopDate(name: itemName, sort: viewModel.inputSort.value.rawValue, page: viewModel.inputPage.value)
         }
     }
 }
@@ -213,7 +208,7 @@ extension SearchViewController: ViewDesignProtocol {
         
         navigationItem.title = itemName
         setCollectionViewLayout()
-        fetchShopDate(name: itemName, sort: sort.rawValue, page: page)
+        fetchShopDate(name: itemName, sort: viewModel.inputSort.value.rawValue, page: viewModel.inputPage.value)
         updateSortButtonUI(selectedButton: sortButtons[0])
         
         collectionView.backgroundColor = .clear
