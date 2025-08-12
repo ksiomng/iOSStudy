@@ -10,6 +10,8 @@ import SnapKit
 
 class MainViewController: UIViewController {
     
+    let viewModel = MainViewModel()
+    
     lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.barTintColor = .black
@@ -25,18 +27,28 @@ class MainViewController: UIViewController {
         return searchBar
     }()
     
+    let statusLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 13)
+        label.textColor = .systemTeal
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureHierarchy()
         configureLayout()
         configureView()
+        viewModel.outputPossibleSearchString.bind { msg in
+            self.statusLabel.text = msg
+        }
     }
 }
 
 extension MainViewController: ViewDesignProtocol {
     func configureHierarchy() {
         view.addSubview(searchBar)
+        view.addSubview(statusLabel)
     }
     
     func configureLayout() {
@@ -44,6 +56,11 @@ extension MainViewController: ViewDesignProtocol {
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
             make.height.equalTo(44)
+        }
+        
+        statusLabel.snp.makeConstraints { make in
+            make.top.equalTo(searchBar.snp.bottom).offset(2)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
     }
     
@@ -64,17 +81,19 @@ extension MainViewController: ViewDesignProtocol {
 
 extension MainViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let name = searchBar.text, name.count >= 2 else {
-            showAlert(message: "검색단어를 2글자 이상 적어주세요")
-            return
-        }
-        let vc = SearchViewController()
-        vc.itemName = name
         view.endEditing(true)
-        navigationController?.pushViewController(vc, animated: true)
+        if viewModel.outputPossibleSearch.value {
+            let vc = SearchViewController()
+            vc.itemName = viewModel.inputSearchWord.value!
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.inputSearchWord.value = searchBar.text
     }
 }
