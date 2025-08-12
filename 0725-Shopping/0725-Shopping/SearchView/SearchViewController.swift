@@ -15,6 +15,15 @@ enum SortList: String, CaseIterable {
     case date = "date" // 날짜순
     case asc = "asc"   // 낮은 가격순
     case dsc = "dsc"   // 높은 가격순
+    
+    var displayName: String {
+        switch self {
+        case .sim: return "정확도순"
+        case .date: return "날짜순"
+        case .asc: return "낮은 가격순"
+        case .dsc: return "높은 가격순"
+        }
+    }
 }
 
 class SearchViewController: UIViewController {
@@ -25,6 +34,7 @@ class SearchViewController: UIViewController {
     var totalPage = 0
     let maxItemCount = 30
     var sort = SortList.sim
+    private var sortButtons: [UIButton] = []
     
     let topView: UIView = {
         let view = UIView()
@@ -39,28 +49,12 @@ class SearchViewController: UIViewController {
         return label
     }()
     
-    lazy var simButton: UIButton = {
-        let button = SongButton(title: "정확도")
-        button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var dateButton: UIButton = {
-        let button = SongButton(title: "날짜순")
-        button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var ascButton: UIButton = {
-        let button = SongButton(title: "낮은 가격")
-        button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var dscButton: UIButton = {
-        let button = SongButton(title: "높은 가격")
-        button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
-        return button
+    let buttonStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.spacing = 4
+        stack.distribution = .fillEqually
+        return stack
     }()
     
     let collectionView: UICollectionView = {
@@ -75,41 +69,28 @@ class SearchViewController: UIViewController {
         configureView()
     }
     
+    private func makeSortButtons() {
+        SortList.allCases.forEach { option in
+            let button = SongButton(title: option.displayName)
+            button.tag = sortButtons.count
+            button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
+            buttonStackView.addArrangedSubview(button)
+            sortButtons.append(button)
+        }
+    }
+    
     @objc func sortButtonTapped(_ sender: UIButton) {
-        switch sender.currentTitle {
-        case "정확도":
-            if sort == SortList.sim {
-                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
-                return
-            }
-            sort = SortList.sim
-        case "날짜순":
-            if sort == SortList.date {
-                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
-                return
-            }
-            sort = SortList.date
-        case "낮은 가격":
-            if sort == SortList.asc {
-                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
-                return
-            }
-            sort = SortList.asc
-        case "높은 가격":
-            if sort == SortList.dsc {
-                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
-                return
-            }
-            sort = SortList.dsc
-        case .none: // 비어있을 때
-            showAlert(message: "이상한 버튼을 눌렀어요")
-            return
-        case .some(_): // else 값일 때
-            showAlert(message: "이상한 버튼을 눌렀어요")
+        guard let index = sortButtons.firstIndex(of: sender) else { return }
+        
+        if sort == SortList.allCases[index] {
+            collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
             return
         }
+        
+        sort = SortList.allCases[index]
         updateSortButtonUI(selectedButton: sender)
-        list = []
+        
+        list.removeAll()
         page = 1
         fetchShopDate(name: itemName, sort: sort.rawValue, page: page)
     }
@@ -158,8 +139,7 @@ class SearchViewController: UIViewController {
     }
     
     private func updateSortButtonUI(selectedButton: UIButton) {
-        let buttons = [simButton, dateButton, ascButton, dscButton]
-        for button in buttons {
+        for button in sortButtons {
             if button == selectedButton {
                 button.backgroundColor = .white
                 button.setTitleColor(.black, for: .normal)
@@ -200,10 +180,9 @@ extension SearchViewController: ViewDesignProtocol {
         view.addSubview(collectionView)
         
         topView.addSubview(totalLabel)
-        topView.addSubview(simButton)
-        topView.addSubview(dateButton)
-        topView.addSubview(ascButton)
-        topView.addSubview(dscButton)
+        topView.addSubview(buttonStackView)
+        
+        makeSortButtons()
     }
     
     func configureLayout() {
@@ -217,28 +196,10 @@ extension SearchViewController: ViewDesignProtocol {
             make.leading.trailing.equalToSuperview().inset(16)
         }
         
-        simButton.snp.makeConstraints { make in
+        buttonStackView.snp.makeConstraints { make in
             make.top.equalTo(totalLabel.snp.bottom).offset(4)
-            make.leading.equalToSuperview().inset(16)
-            make.width.equalTo(70)
-        }
-        
-        dateButton.snp.makeConstraints { make in
-            make.top.equalTo(totalLabel.snp.bottom).offset(4)
-            make.leading.equalTo(simButton.snp.trailing).offset(4)
-            make.width.equalTo(70)
-        }
-        
-        ascButton.snp.makeConstraints { make in
-            make.top.equalTo(totalLabel.snp.bottom).offset(4)
-            make.leading.equalTo(dateButton.snp.trailing).offset(4)
-            make.width.equalTo(70)
-        }
-        
-        dscButton.snp.makeConstraints { make in
-            make.top.equalTo(totalLabel.snp.bottom).offset(4)
-            make.leading.equalTo(ascButton.snp.trailing).offset(4)
-            make.width.equalTo(70)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().inset(4)
         }
         
         collectionView.snp.makeConstraints { make in
@@ -253,7 +214,7 @@ extension SearchViewController: ViewDesignProtocol {
         navigationItem.title = itemName
         setCollectionViewLayout()
         fetchShopDate(name: itemName, sort: sort.rawValue, page: page)
-        updateSortButtonUI(selectedButton: simButton)
+        updateSortButtonUI(selectedButton: sortButtons[0])
         
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
