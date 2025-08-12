@@ -63,6 +63,25 @@ class SearchViewController: UIViewController {
         configureHierarchy()
         configureLayout()
         configureView()
+        bindViewModel()
+    }
+    
+    private func bindViewModel() {
+        viewModel.outputShopList.bind { _ in
+            self.collectionView.reloadData()
+        }
+        
+        viewModel.outputTotalCount.bind { count in
+            self.totalLabel.text = "\(count)개의 검색 결과"
+        }
+        
+        viewModel.outputError.bind { msg in
+            if let message = msg {
+                if message != "" {
+                    self.showAlert(message: message)
+                }
+            }
+        }
     }
     
     private func makeSortButtons() {
@@ -85,41 +104,7 @@ class SearchViewController: UIViewController {
         
         viewModel.inputSort.value = SortList.allCases[index]
         updateSortButtonUI(selectedButton: sender)
-        
-        viewModel.outputShopList.value.removeAll()
-        viewModel.inputPage.value = 1
-        fetchShopDate(name: itemName, sort: viewModel.inputSort.value.rawValue, page: viewModel.inputPage.value)
-    }
-    
-    func fetchShopDate(name: String, sort: String, page: Int) {
-        let start = (page-1) * 30 + 1
-        NetworkManager.shared.fetchShopDate(name: name, sort: sort, page: start, itemCount: 30) { res in
-            self.viewModel.outputShopList.value.append(contentsOf: res.items)
-            self.totalLabel.text = "\(res.total)개의 검색 결과"
-            self.viewModel.inputTotalCount.value = res.total
-            self.collectionView.reloadData()
-            
-            if self.viewModel.outputShopList.value.count == 0 {
-                self.showErrorAlert(message: "검색결과가 없습니다") {
-                    self.navigationController?.popViewController(animated: true)
-                }
-                return
-            }
-            if self.viewModel.inputPage.value == 1 {
-                DispatchQueue.main.async {
-                    self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
-                }
-            }
-        } fail: { err in
-            if start > 1000 {
-                self.showAlert(message: "마지막페이지입니다")
-            } else {
-                let errMsg = ErrorString.shared.result(errCode: err ?? 0)
-                self.showErrorAlert(title: "ERROR", message: errMsg) {
-                    self.navigationController?.popViewController(animated: true)
-                }
-            }
-        }
+        viewModel.resetAndFetch()
     }
     
     private func setCollectionViewLayout() {
@@ -161,10 +146,8 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let list = viewModel.outputShopList.value
         if indexPath.row == (viewModel.outputShopList.value.count - 6) && viewModel.inputPage.value < viewModel.totalPage() {
             viewModel.inputPage.value += 1
-            fetchShopDate(name: itemName, sort: viewModel.inputSort.value.rawValue, page: viewModel.inputPage.value)
         }
     }
 }
@@ -208,7 +191,8 @@ extension SearchViewController: ViewDesignProtocol {
         
         navigationItem.title = itemName
         setCollectionViewLayout()
-        fetchShopDate(name: itemName, sort: viewModel.inputSort.value.rawValue, page: viewModel.inputPage.value)
+        
+        viewModel.inputKeyword.value = itemName
         updateSortButtonUI(selectedButton: sortButtons[0])
         
         collectionView.backgroundColor = .clear
