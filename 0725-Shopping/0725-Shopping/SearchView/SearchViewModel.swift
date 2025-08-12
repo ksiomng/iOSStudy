@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SearchViewModel {
+final class SearchViewModel {
     
     var inputSort = Observable(SortList.sim)
     var inputPage = Observable(1)
@@ -33,7 +33,7 @@ class SearchViewModel {
         return (outputTotalCount.value - 1) / itemsPerPage + 1
     }
     
-    func fetchShopData() {
+    private func fetchShopData() {
         let start = (inputPage.value - 1) * itemsPerPage + 1
         
         NetworkManager.shared.fetchShopDate(name: inputKeyword.value, sort: inputSort.value.rawValue, page: start, itemCount: itemsPerPage) { res in

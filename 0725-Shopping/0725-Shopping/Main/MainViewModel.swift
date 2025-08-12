@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MainViewModel {
+final class MainViewModel {
     var inputSearchWord: Observable<String?> = Observable("")
     
     var outputPossibleSearchString = Observable("")
@@ -19,7 +19,7 @@ class MainViewModel {
         }
     }
     
-    func checkSearchWord() {
+    private func checkSearchWord() {
         guard let name = inputSearchWord.value else {
             outputPossibleSearchString.value = "검색 단어를 입력해주세요"
             outputPossibleSearch.value = false
