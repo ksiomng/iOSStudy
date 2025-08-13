@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = UITabBarController()
         let mainVC = MainViewController()
         mainVC.tabBarItem = UITabBarItem(title: "SHOP", image: UIImage(systemName: "bag.badge.plus"), tag: 0)
-        let mbtiVC = MBTIViewController()
+        let mbtiVC = EmptyViewController()
         let mbtiNav = UINavigationController(rootViewController: mbtiVC)
         mbtiVC.tabBarItem = UITabBarItem(title: "MBTI", image: UIImage(systemName: "person.fill"), tag: 1)
         
