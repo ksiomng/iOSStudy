@@ -67,15 +67,15 @@ class SearchViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.outputShopList.bind { _ in
+        viewModel.output.shopList.bind { _ in
             self.collectionView.reloadData()
         }
         
-        viewModel.outputTotalCount.bind { count in
+        viewModel.output.totalCount.bind { count in
             self.totalLabel.text = "\(count)개의 검색 결과"
         }
         
-        viewModel.outputError.bind { msg in
+        viewModel.output.error.bind { msg in
             if let message = msg {
                 if message != "" {
                     self.showAlert(message: message)
@@ -97,12 +97,12 @@ class SearchViewController: UIViewController {
     @objc func sortButtonTapped(_ sender: UIButton) {
         guard let index = sortButtons.firstIndex(of: sender) else { return }
         
-        if viewModel.inputSort.value == SortList.allCases[index] {
+        if viewModel.input.sort.value == SortList.allCases[index] {
             collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
             return
         }
         
-        viewModel.inputSort.value = SortList.allCases[index]
+        viewModel.input.sort.value = SortList.allCases[index]
         updateSortButtonUI(selectedButton: sender)
         viewModel.resetAndFetch()
     }
@@ -134,20 +134,20 @@ class SearchViewController: UIViewController {
 
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.outputShopList.value.count
+        return viewModel.output.shopList.value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.identifier, for: indexPath) as? SearchCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.configureDate(row: viewModel.outputShopList.value[indexPath.row])
+        cell.configureDate(row: viewModel.output.shopList.value[indexPath.row])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == (viewModel.outputShopList.value.count - 6) && viewModel.inputPage.value < viewModel.totalPage() {
-            viewModel.inputPage.value += 1
+        if indexPath.row == (viewModel.output.shopList.value.count - 6) && viewModel.input.page.value < viewModel.totalPage() {
+            viewModel.input.page.value += 1
         }
     }
 }
@@ -192,7 +192,7 @@ extension SearchViewController: ViewDesignProtocol {
         navigationItem.title = itemName
         setCollectionViewLayout()
         
-        viewModel.inputKeyword.value = itemName
+        viewModel.input.keyword.value = itemName
         updateSortButtonUI(selectedButton: sortButtons[0])
         
         collectionView.backgroundColor = .clear

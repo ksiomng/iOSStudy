@@ -39,7 +39,7 @@ class MainViewController: UIViewController {
         configureHierarchy()
         configureLayout()
         configureView()
-        viewModel.outputPossibleSearchString.bind { msg in
+        viewModel.output.possibleSearchString.bind { msg in
             self.statusLabel.text = msg
         }
     }
@@ -82,9 +82,9 @@ extension MainViewController: ViewDesignProtocol {
 extension MainViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
-        if viewModel.outputPossibleSearch.value {
+        if viewModel.output.possibleSearch.value {
             let vc = SearchViewController()
-            vc.itemName = viewModel.inputSearchWord.value!
+            vc.itemName = viewModel.input.searchWord.value!
             navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -94,6 +94,6 @@ extension MainViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        viewModel.inputSearchWord.value = searchBar.text
+        viewModel.input.searchWord.value = searchBar.text
     }
 }

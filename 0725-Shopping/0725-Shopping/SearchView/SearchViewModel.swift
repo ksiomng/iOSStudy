@@ -9,57 +9,67 @@ import Foundation
 
 final class SearchViewModel {
     
-    var inputSort = Observable(SortList.sim)
-    var inputPage = Observable(1)
-    var inputKeyword = Observable("")
+    struct Input {
+        var sort = Observable(SortList.sim)
+        var page = Observable(1)
+        var keyword = Observable("")
+    }
     
-    var outputShopList: Observable<[Shop]> = Observable([])
-    var outputTotalCount = Observable(0)
-    var outputError: Observable<String?> = Observable(nil)
+    struct Output {
+        var shopList: Observable<[Shop]> = Observable([])
+        var totalCount = Observable(0)
+        var error: Observable<String?> = Observable(nil)
+    }
+    
+    var input: Input
+    var output: Output
     
     private let itemsPerPage = 30
     
     init() {
-        inputKeyword.lazyBind { _ in
+        input = Input()
+        output = Output()
+        
+        input.keyword.lazyBind { _ in
             self.fetchShopData()
         }
-        inputPage.lazyBind { _ in
+        input.page.lazyBind { _ in
             self.fetchShopData()
         }
     }
     
     func totalPage() -> Int {
-        guard outputTotalCount.value > 0 else { return 0 }
-        return (outputTotalCount.value - 1) / itemsPerPage + 1
+        guard output.totalCount.value > 0 else { return 0 }
+        return (output.totalCount.value - 1) / itemsPerPage + 1
     }
     
     private func fetchShopData() {
-        let start = (inputPage.value - 1) * itemsPerPage + 1
+        let start = (input.page.value - 1) * itemsPerPage + 1
         
-        NetworkManager.shared.fetchShopDate(name: inputKeyword.value, sort: inputSort.value.rawValue, page: start, itemCount: itemsPerPage) { res in
+        NetworkManager.shared.fetchShopDate(name: input.keyword.value, sort: input.sort.value.rawValue, page: start, itemCount: itemsPerPage) { res in
             if res.total == 0 {
-                self.outputError.value = "검색 결과가 없습니다."
+                self.output.error.value = "검색 결과가 없습니다."
             } else {
-                if self.inputPage.value == 1 {
-                    self.outputShopList.value = res.items
+                if self.input.page.value == 1 {
+                    self.output.shopList.value = res.items
                 } else {
-                    self.outputShopList.value.append(contentsOf: res.items)
+                    self.output.shopList.value.append(contentsOf: res.items)
                 }
             }
-            self.outputTotalCount.value = res.total
+            self.output.totalCount.value = res.total
         } fail: { err in
             if start > 1000 {
-                self.outputError.value = "마지막 페이지입니다"
+                self.output.error.value = "마지막 페이지입니다"
             } else {
                 let errMsg = ErrorString.shared.result(errCode: err ?? 0)
-                self.outputError.value = errMsg
+                self.output.error.value = errMsg
             }
         }
     }
     
     func resetAndFetch() {
-        inputPage.value = 1
-        outputShopList.value.removeAll()
+        input.page.value = 1
+        output.shopList.value.removeAll()
         fetchShopData()
     }
 }

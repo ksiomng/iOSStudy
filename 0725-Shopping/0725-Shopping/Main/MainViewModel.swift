@@ -8,29 +8,40 @@
 import Foundation
 
 final class MainViewModel {
-    var inputSearchWord: Observable<String?> = Observable("")
     
-    var outputPossibleSearchString = Observable("")
-    var outputPossibleSearch = Observable(false)
+    struct Input {
+        var searchWord: Observable<String?> = Observable("")
+    }
+    
+    struct Output {
+        var possibleSearchString = Observable("")
+        var possibleSearch = Observable(false)
+    }
+    
+    var input: Input
+    var output: Output
     
     init() {
-        inputSearchWord.bind { _ in
+        input = Input()
+        output = Output()
+        
+        input.searchWord.bind { _ in
             self.checkSearchWord()
         }
     }
     
     private func checkSearchWord() {
-        guard let name = inputSearchWord.value else {
-            outputPossibleSearchString.value = "검색 단어를 입력해주세요"
-            outputPossibleSearch.value = false
+        guard let name = input.searchWord.value else {
+            output.possibleSearchString.value = "검색 단어를 입력해주세요"
+            output.possibleSearch.value = false
             return
         }
         if name.count < 2 {
-            outputPossibleSearchString.value = "2글자 이상 입력해주세요"
-            outputPossibleSearch.value = false
+            output.possibleSearchString.value = "2글자 이상 입력해주세요"
+            output.possibleSearch.value = false
         } else {
-            outputPossibleSearchString.value = "검색 가능합니다"
-            outputPossibleSearch.value = true
+            output.possibleSearchString.value = "검색 가능합니다"
+            output.possibleSearch.value = true
         }
     }
 }
