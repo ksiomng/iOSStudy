@@ -46,7 +46,7 @@ final class SearchViewModel {
     private func fetchShopData() {
         let start = (input.page.value - 1) * itemsPerPage + 1
         
-        NetworkManager.shared.fetchShopDate(name: input.keyword.value, sort: input.sort.value.rawValue, page: start, itemCount: itemsPerPage) { res in
+        NetworkManager.shared.callRequest(api: .searchShop(name: input.keyword.value, itemCount: itemsPerPage, page: start, sort: input.sort.value.rawValue), type: Shops.self) { res in
             if res.total == 0 {
                 self.output.error.value = "검색 결과가 없습니다."
             } else {
