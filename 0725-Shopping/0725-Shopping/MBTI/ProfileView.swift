@@ -58,12 +58,14 @@ class ProfileView: UIView {
         }
         
         profileImageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(4)
+            make.top.equalToSuperview().offset(8)
+            make.horizontalEdges.equalToSuperview().inset(4)
+            make.bottom.equalToSuperview()
         }
         
         cameraView.snp.makeConstraints { make in
             make.trailing.bottom.equalTo(profileView).offset(-5)
-            make.width.height.equalTo(30)
+            make.width.height.equalTo(profileView.snp.width).multipliedBy(0.3)
         }
         
         cameraImageView.snp.makeConstraints { make in
