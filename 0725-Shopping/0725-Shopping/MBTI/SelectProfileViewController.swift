@@ -12,6 +12,8 @@ class SelectProfileViewController: UIViewController {
     
     let profileView = ProfileView()
     
+    var onProfileSelected: ((UIImage?) -> Void)?
+    
     let profileImages = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
     
     lazy var collectionView: UICollectionView = {
@@ -65,11 +67,12 @@ extension SelectProfileViewController: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        profileView.setProfileImage(UIImage(named: profileImages[indexPath.item]))
-         
-         if let cell = collectionView.cellForItem(at: indexPath) as? ProfileCell {
-             cell.setSelectedStyle(true)
-         }
+        let selectedImage = UIImage(named: profileImages[indexPath.item])
+        profileView.setProfileImage(selectedImage)
+        onProfileSelected?(selectedImage)
+        if let cell = collectionView.cellForItem(at: indexPath) as? ProfileCell {
+            cell.setSelectedStyle(true)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {

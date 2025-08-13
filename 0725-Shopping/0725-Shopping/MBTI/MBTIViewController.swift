@@ -35,6 +35,9 @@ class MBTIViewController: UIViewController {
     
     @objc private func profileViewTapped() {
         let vc = SelectProfileViewController()
+        vc.onProfileSelected = { image in
+            self.profileView.setProfileImage(image)
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
 }
