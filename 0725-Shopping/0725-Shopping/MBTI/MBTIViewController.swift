@@ -6,24 +6,35 @@
 //
 
 import UIKit
+import SnapKit
 
 class MBTIViewController: UIViewController {
-
+    
+    let profileView = ProfileView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
+        
         navigationItem.title = "PROFILE SETTING"
-        // Do any additional setup after loading the view.
+        
+        view.addSubview(profileView)
+        profileView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            make.horizontalEdges.equalToSuperview().inset(150)
+        }
+        
+        profileView.setProfileImage(UIImage(named: "3"))
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileViewTapped))
+        profileView.isUserInteractionEnabled = true
+        profileView.addGestureRecognizer(tapGesture)
+
+        profileView.cornerRadius()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @objc private func profileViewTapped() {
+        let vc = SelectProfileViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
-    */
-
 }
