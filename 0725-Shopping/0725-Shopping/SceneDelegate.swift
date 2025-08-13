@@ -12,14 +12,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-            
-        window = UIWindow(windowScene: windowScene)
-            
-        let viewController = MainViewController()
-        let navigationController = UINavigationController(rootViewController: viewController)
+        guard let scene = (scene as? UIWindowScene) else { return }
+        window = UIWindow(windowScene: scene)
         
-        window?.rootViewController = navigationController
+        let tabBarController = UITabBarController()
+        let mainVC = MainViewController()
+        mainVC.tabBarItem = UITabBarItem(title: "SHOP", image: UIImage(systemName: "bag.badge.plus"), tag: 0)
+        let mbtiVC = MBTIViewController()
+        let mbtiNav = UINavigationController(rootViewController: mbtiVC)
+        mbtiVC.tabBarItem = UITabBarItem(title: "MBTI", image: UIImage(systemName: "person.fill"), tag: 1)
+        
+        tabBarController.viewControllers = [mainVC, mbtiNav]
+        tabBarController.tabBar.tintColor = .systemBlue
+        tabBarController.tabBar.unselectedItemTintColor = .systemGray
+        
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
     }
 
