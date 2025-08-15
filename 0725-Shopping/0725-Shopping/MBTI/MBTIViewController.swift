@@ -29,7 +29,7 @@ class MBTIViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileViewTapped))
         profileView.isUserInteractionEnabled = true
         profileView.addGestureRecognizer(tapGesture)
-
+        
         profileView.cornerRadius()
     }
     

@@ -42,6 +42,7 @@ class SelectProfileViewController: UIViewController {
             make.horizontalEdges.equalToSuperview().inset(140)
             make.height.equalTo(profileView.snp.width)
         }
+        
         profileView.setProfileImage(UIImage(named: profileImages[2]))
         profileView.cornerRadius()
         

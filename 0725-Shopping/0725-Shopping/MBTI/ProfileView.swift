@@ -10,12 +10,6 @@ import SnapKit
 
 class ProfileView: UIView {
     
-    private let profileView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        return view
-    }()
-
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -46,26 +40,19 @@ class ProfileView: UIView {
     }
     
     private func setupUI() {
-        addSubview(profileView)
+        addSubview(profileImageView)
         addSubview(cameraView)
         cameraView.addSubview(cameraImageView)
-        profileView.addSubview(profileImageView)
-        
-        profileView.snp.makeConstraints { make in
-            make.verticalEdges.equalToSuperview()
-            make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(profileView.snp.width)
-        }
         
         profileImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(8)
-            make.horizontalEdges.equalToSuperview().inset(4)
-            make.bottom.equalToSuperview()
+            make.verticalEdges.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(profileImageView.snp.width)
         }
         
         cameraView.snp.makeConstraints { make in
-            make.trailing.bottom.equalTo(profileView).offset(-5)
-            make.width.height.equalTo(profileView.snp.width).multipliedBy(0.3)
+            make.trailing.bottom.equalTo(profileImageView).offset(-5)
+            make.width.height.equalTo(profileImageView.snp.width).multipliedBy(0.3)
         }
         
         cameraImageView.snp.makeConstraints { make in
@@ -79,7 +66,7 @@ class ProfileView: UIView {
     
     func cornerRadius() {
         DispatchQueue.main.async {
-            SongView.radius(self.profileView, size: self.profileView.frame.width)
+            SongView.radius(self.profileImageView, size: self.profileImageView.frame.width)
             SongView.radius(self.cameraView, size: self.cameraView.frame.width)
         }
     }
