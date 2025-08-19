@@ -30,7 +30,7 @@ class SimpleTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        bindTableView()
+        bind()
     }
     
     private func setupUI() {
@@ -43,7 +43,7 @@ class SimpleTableViewController: UIViewController {
         }
     }
     
-    private func bindTableView() {
+    private func bind() {
         let items = Observable.just([
             SectionModel(model: "First section", items: [1.0, 2.0, 3.0]),
             SectionModel(model: "Second section", items: [4.0, 5.0, 6.0]),

@@ -53,6 +53,11 @@ class NumberViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
+        bind()
+    }
+    
+    func setupUI() {
         view.backgroundColor = .white
         navigationItem.title = "Adding numbers"
         
@@ -89,11 +94,9 @@ class NumberViewController: UIViewController {
             make.centerY.equalTo(result)
             make.leading.equalToSuperview().offset(30)
         }
-        
-        rxUse()
     }
     
-    func rxUse() {
+    func bind() {
         Observable.combineLatest(number1TextField.rx.text.orEmpty, number2TextField.rx.text.orEmpty, number3TextField.rx.text.orEmpty) { text1, text2, text3 -> Int in
                 return ((Int(text1) ?? 0) + (Int(text2) ?? 0) + (Int(text3) ?? 0))
         }
