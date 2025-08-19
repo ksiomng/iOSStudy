@@ -54,7 +54,7 @@ class NumberViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        navigationController?.title = "Adding numbers"
+        navigationItem.title = "Adding numbers"
         
         view.addSubview(number1TextField)
         view.addSubview(number2TextField)
