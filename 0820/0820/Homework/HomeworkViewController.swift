@@ -113,6 +113,15 @@ class HomeworkViewController: UIViewController {
                 owner.selectUserNames.onNext(result)
             }
             .disposed(by: disposeBag)
+        
+        searchBar.rx.searchButtonClicked
+            .subscribe(with: self) { owner, _ in
+                guard let text = owner.searchBar.text else { return }
+                var result = try! owner.items.value()
+                result.append(Person(name: text, email: "@", profileImage: "https://the-edit.co.kr/wp-content/uploads/2025/05/batch_IMG_4600.jpg"))
+                owner.items.onNext(result)
+            }
+            .disposed(by: disposeBag)
     }
     
     private func configure() {
