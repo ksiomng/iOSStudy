@@ -74,6 +74,9 @@ class HomeworkViewController: UIViewController {
         Person(name: "Ann", email: "ann.howard@example.com", profileImage: "https://randomuser.me/api/portraits/thumb/women/25.jpg")
     ]
     
+    let disposeBag = DisposeBag()
+    
+    lazy var items = BehaviorSubject(value: sampleUsers)
     
     let tableView = UITableView()
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout())
@@ -86,6 +89,14 @@ class HomeworkViewController: UIViewController {
     }
      
     private func bind() {
+        items
+        .bind(to: tableView.rx.items) { (tableView, row, element) in
+            let cell = tableView.dequeueReusableCell(withIdentifier: PersonTableViewCell.identifier) as! PersonTableViewCell
+            cell.usernameLabel.text = element.name
+            cell.profileImageView.kf.setImage(with: URL(string: element.profileImage)!)
+            return cell
+        }
+        .disposed(by: disposeBag)
     }
     
     private func configure() {
