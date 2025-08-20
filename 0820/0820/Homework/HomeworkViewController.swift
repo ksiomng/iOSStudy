@@ -78,25 +78,41 @@ class HomeworkViewController: UIViewController {
     
     lazy var items = BehaviorSubject(value: sampleUsers)
     
+    let selectUserNames = BehaviorSubject<[String]>(value: [])
+    
     let tableView = UITableView()
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout())
     let searchBar = UISearchBar()
-     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
         bind()
     }
-     
+    
     private func bind() {
         items
-        .bind(to: tableView.rx.items) { (tableView, row, element) in
-            let cell = tableView.dequeueReusableCell(withIdentifier: PersonTableViewCell.identifier) as! PersonTableViewCell
-            cell.usernameLabel.text = element.name
-            cell.profileImageView.kf.setImage(with: URL(string: element.profileImage)!)
-            return cell
-        }
-        .disposed(by: disposeBag)
+            .bind(to: tableView.rx.items) { (tableView, row, element) in
+                let cell = tableView.dequeueReusableCell(withIdentifier: PersonTableViewCell.identifier) as! PersonTableViewCell
+                cell.usernameLabel.text = element.name
+                cell.profileImageView.kf.setImage(with: URL(string: element.profileImage)!)
+                return cell
+            }
+            .disposed(by: disposeBag)
+        
+        selectUserNames
+            .bind(to: collectionView.rx.items(cellIdentifier: UserCollectionViewCell.identifier, cellType: UserCollectionViewCell.self)) { row, element, cell in
+                cell.label.text = element
+            }
+            .disposed(by: disposeBag)
+        
+        tableView.rx.modelSelected(Person.self)
+            .bind(with: self) { owner, value in
+                var result = (try? owner.selectUserNames.value()) ?? []
+                result.append(value.name)
+                owner.selectUserNames.onNext(result)
+            }
+            .disposed(by: disposeBag)
     }
     
     private func configure() {
@@ -106,7 +122,7 @@ class HomeworkViewController: UIViewController {
         view.addSubview(searchBar)
         
         navigationItem.titleView = searchBar
-         
+        
         collectionView.register(UserCollectionViewCell.self, forCellWithReuseIdentifier: UserCollectionViewCell.identifier)
         collectionView.backgroundColor = .lightGray
         collectionView.snp.makeConstraints { make in
@@ -131,6 +147,6 @@ class HomeworkViewController: UIViewController {
         layout.scrollDirection = .horizontal
         return layout
     }
-
+    
 }
- 
+
