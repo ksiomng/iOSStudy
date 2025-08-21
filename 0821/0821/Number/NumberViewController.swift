@@ -12,6 +12,8 @@ import RxCocoa
 
 class NumberViewController: UIViewController {
     
+    let viewModel = NumberViewModel()
+    
     let number1TextField = {
         let textField = UITextField()
         textField.textAlignment = .right
@@ -97,12 +99,12 @@ class NumberViewController: UIViewController {
     }
     
     func bind() {
-        Observable.combineLatest(number1TextField.rx.text.orEmpty, number2TextField.rx.text.orEmpty, number3TextField.rx.text.orEmpty) { text1, text2, text3 -> Int in
-                return ((Int(text1) ?? 0) + (Int(text2) ?? 0) + (Int(text3) ?? 0))
-        }
-        .map { $0.description }
-        .bind(to: result.rx.text)
-        .disposed(by: disposeBag)
+        let input = NumberViewModel.Input(number1: number1TextField.rx.text.orEmpty, number2: number2TextField.rx.text.orEmpty, number3: number3TextField.rx.text.orEmpty)
+        let output = viewModel.transform(input: input)
+        
+        output.total
+            .bind(to: result.rx.text)
+            .disposed(by: disposeBag)
         
         color
             .bind(to: number1TextField.rx.backgroundColor,
