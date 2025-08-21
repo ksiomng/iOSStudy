@@ -15,6 +15,8 @@ private let minimalPasswordLength = 5
 
 class SimpleValidationViewController: UIViewController {
     
+    let viewModel = ValidationViewModel()
+    
     private let usernameTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
@@ -101,42 +103,35 @@ class SimpleValidationViewController: UIViewController {
         usernameStateLabel.text = "Username has to be at least \(minimalUsernameLength) characters"
         passwordStateLabel.text = "Password has to be at least \(minimalPasswordLength) characters"
         
-        let usernameValid = usernameTextField.rx.text.orEmpty
-            .map { $0.count >= minimalUsernameLength }
-            .share(replay: 1)
+        let input = ValidationViewModel.Input(username: usernameTextField.rx.text.orEmpty, password: passwordTextField.rx.text.orEmpty, buttonClick: doSomethingButton.rx.tap)
+        let output = viewModel.transform(input: input)
         
-        let passwordValid = passwordTextField.rx.text.orEmpty
-            .map { $0.count >= minimalPasswordLength }
-            .share(replay: 1)
-        
-        let everythingValid = Observable.combineLatest(usernameValid, passwordValid) { $0 && $1 }
-            .share(replay: 1)
-        
-        usernameValid
+        output.usernameState
             .bind(to: passwordTextField.rx.isEnabled)
             .disposed(by: disposeBag)
         
-        usernameValid
+        output.usernameState
             .map { $0 }
             .bind(to: usernameStateLabel.rx.isHidden)
             .disposed(by: disposeBag)
         
-        passwordValid
+        output.passwordState
             .bind(to: passwordStateLabel.rx.isHidden)
             .disposed(by: disposeBag)
         
-        everythingValid
+        output.possibleState
             .bind(to: doSomethingButton.rx.isEnabled)
             .disposed(by: disposeBag)
         
-        doSomethingButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.showAlert()
+        output.alertMessage
+            .skip(1)
+            .bind(with: self, onNext: { owner, value in
+                owner.showAlert(msg: value)
             })
             .disposed(by: disposeBag)
     }
     
-    private func showAlert() {
+    private func showAlert(msg: String) {
         let alert = UIAlertController(
             title: "RxExample",
             message: "This is wonderful",
