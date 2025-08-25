@@ -25,7 +25,7 @@ class LottoViewController: UIViewController {
     private let tableView = UITableView()
     private let disposeBag = DisposeBag()
     
-    let list: BehaviorRelay<[Lotto]> = BehaviorRelay(value: [])
+    let viewModel = LottoViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,30 +34,16 @@ class LottoViewController: UIViewController {
     }
     
     private func bind() {
-        list
-            .bind(to: tableView.rx
-                .items(cellIdentifier: LottoTableViewCell.identifier, cellType: LottoTableViewCell.self)) { (row, element, cell) in
-                    cell.setData(data: element.drwNoDate, num: "\(element.drwtNo1), \(element.drwtNo2), \(element.drwtNo3), \(element.drwtNo4), \(element.drwtNo5), \(element.drwtNo6)")
-                }
-                .disposed(by: disposeBag)
+        let input = LottoViewModel.Input(
+            searchButton: searchBar.rx.searchButtonClicked,
+            query: searchBar.rx.text
+        )
         
-        searchBar.rx.searchButtonClicked
-            .withLatestFrom(searchBar.rx.text.orEmpty)
-            .distinctUntilChanged()
-            .flatMap { text in
-                LottoObservable.getLotto(query: text)
-            }
-            .subscribe(with: self) { owner, lotto in
-                print("onNext", lotto)
-                var data = owner.list.value
-                data.insert(lotto, at: 0)
-                owner.list.accept(data)
-            } onError: { owner, err in
-                print("onError", err)
-            } onCompleted: { owner in
-                print("onCompleted")
-            } onDisposed: { owner in
-                print("onDisposed")
+        let output = viewModel.transform(input: input)
+        
+        output.lotto
+            .bind(to: tableView.rx.items(cellIdentifier: LottoTableViewCell.identifier, cellType: LottoTableViewCell.self)) { row, element, cell in
+                cell.setData(data: element.drwNoDate, num: "\(element.drwtNo1), \(element.drwtNo2), \(element.drwtNo3), \(element.drwtNo4), \(element.drwtNo5), \(element.drwtNo6)")
             }
             .disposed(by: disposeBag)
     }
