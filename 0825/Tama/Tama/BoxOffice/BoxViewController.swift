@@ -14,7 +14,7 @@ class BoxViewController: UIViewController {
     private let tableView = UITableView()
     private let disposeBag = DisposeBag()
     
-    let list: BehaviorRelay<[BoxOffice]> = BehaviorRelay(value: [])
+    let viewModel = BoxViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,28 +23,19 @@ class BoxViewController: UIViewController {
     }
     
     private func bind() {
-        list
-            .bind(to: tableView.rx
-                .items(cellIdentifier: MovieTableViewCell.identifier, cellType: MovieTableViewCell.self)) { (row, element, cell) in
-                    cell.setData(data: element.openDt, num: element.movieNm)
-                }
-                .disposed(by: disposeBag)
+        let input = BoxViewModel.Input(
+            searchButton: searchBar.rx.searchButtonClicked,
+            query: searchBar.rx.text
+        )
         
-        searchBar.rx.searchButtonClicked
-            .withLatestFrom(searchBar.rx.text.orEmpty)
-            .distinctUntilChanged()
-            .flatMap { text in
-                MovieObservable.getMoive(date: text)
-            }
-            .subscribe(with: self) { owner, movies in
-                print("onNext", movies)
-                owner.list.accept(movies)
-            } onError: { owner, err in
-                print("onError", err)
-            } onCompleted: { owner in
-                print("onCompleted")
-            } onDisposed: { owner in
-                print("onDisposed")
+        let output = viewModel.transform(input: input)
+        
+        output.movies
+            .bind(to: tableView.rx.items(
+                cellIdentifier: MovieTableViewCell.identifier,
+                cellType: MovieTableViewCell.self
+            )) { row, element, cell in
+                cell.setData(data: element.openDt, num: element.movieNm)
             }
             .disposed(by: disposeBag)
     }
