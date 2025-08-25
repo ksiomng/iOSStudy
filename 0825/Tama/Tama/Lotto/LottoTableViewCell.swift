@@ -50,5 +50,10 @@ final class LottoTableViewCell: UITableViewCell {
             $0.trailing.equalToSuperview().inset(20)
         }
     }
+    
+    func setData(data: String, num: String) {
+        dateLabel.text = "\(data)일"
+        numberLabel.text = num
+    }
 }
 

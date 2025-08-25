@@ -37,9 +37,7 @@ class LottoViewController: UIViewController {
         list
             .bind(to: tableView.rx
                 .items(cellIdentifier: LottoTableViewCell.identifier, cellType: LottoTableViewCell.self)) { (row, element, cell) in
-                    let text = "\(element.drwNoDate)일 "
-                    cell.dateLabel.text = text
-                    cell.numberLabel.text = "\(element.drwtNo1), \(element.drwtNo2), \(element.drwtNo3), \(element.drwtNo4), \(element.drwtNo5), \(element.drwtNo6)"
+                    cell.setData(data: element.drwNoDate, num: "\(element.drwtNo1), \(element.drwtNo2), \(element.drwtNo3), \(element.drwtNo4), \(element.drwtNo5), \(element.drwtNo6)")
                 }
                 .disposed(by: disposeBag)
         

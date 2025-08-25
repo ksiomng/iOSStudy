@@ -26,9 +26,7 @@ class BoxViewController: UIViewController {
         list
             .bind(to: tableView.rx
                 .items(cellIdentifier: MovieTableViewCell.identifier, cellType: MovieTableViewCell.self)) { (row, element, cell) in
-                    let text = "\(element.openDt)일 "
-                    cell.dateLabel.text = text
-                    cell.numberLabel.text = element.movieNm
+                    cell.setData(data: element.openDt, num: element.movieNm)
                 }
                 .disposed(by: disposeBag)
         
