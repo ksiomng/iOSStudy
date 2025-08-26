@@ -37,6 +37,14 @@ class BoxViewController: UIViewController {
                 cell.setData(data: element.openDt, num: element.movieNm)
             }
             .disposed(by: disposeBag)
+        
+        output.alertMessage
+            .bind(onNext: { msg in
+                if let message = msg {
+                    self.showToast(message: message, font: .systemFont(ofSize: 14))
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     private func configure() {

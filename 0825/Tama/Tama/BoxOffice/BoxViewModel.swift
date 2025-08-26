@@ -18,12 +18,14 @@ final class BoxViewModel {
     
     struct Output {
         let movies: BehaviorSubject<[BoxOffice]>
+        let alertMessage: BehaviorSubject<String?>
     }
     
     private let disposeBag = DisposeBag()
     
     func transform(input: Input) -> Output {
         let output = BehaviorSubject<[BoxOffice]>(value: [])
+        let outputMsg: BehaviorSubject<String?> = BehaviorSubject(value: nil)
         
         input.searchButton
             .withLatestFrom(input.query.orEmpty) // 버튼 눌렸을 때 검색어 가져오기
@@ -31,8 +33,8 @@ final class BoxViewModel {
             .flatMapLatest { text in
                 MovieObservable.getMoive(date: text)
                     .catch { _ in
-                        let a = BoxOffice(rank: "", movieNm: "에러", openDt: "에러")
-                        return Observable.just([a])
+                        outputMsg.onNext("API 호출에 에러가 생겼습니다")
+                        return Observable.just([])
                     }
             }
             .subscribe(with: self) { owner, movies in
@@ -47,6 +49,6 @@ final class BoxViewModel {
             }
             .disposed(by: disposeBag)
         
-        return Output(movies: output)
+        return Output(movies: output, alertMessage: outputMsg)
     }
 }
