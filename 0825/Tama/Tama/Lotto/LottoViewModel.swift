@@ -31,17 +31,16 @@ final class LottoViewModel {
             .flatMap { text in
                 LottoObservable.getLotto(query: text)
             }
-            .subscribe(with: self) { owner, lotto in
-                print("onNext", lotto)
+            .bind(with: self) { owner, response in
+                print("onNext", response)
                 var data = output.value
-                data.insert(lotto, at: 0)
-                output.accept(data)
-            } onError: { owner, err in
-                print("onError", err)
-            } onCompleted: { owner in
-                print("onCompleted")
-            } onDisposed: { owner in
-                print("onDisposed")
+                switch response {
+                case .success(let lotto):
+                    data.insert(lotto, at: 0)
+                    output.accept(data)
+                case .failure(let err):
+                    print(err)
+                }
             }
             .disposed(by: disposeBag)
         

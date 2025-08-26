@@ -15,19 +15,18 @@ enum LottoError: Error {
 
 final class LottoObservable {
     
-    static func getLotto(query: String) -> Observable<Lotto> {
+    static func getLotto(query: String) -> Observable<Result<Lotto, Error>> {
         let url = "https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=\(query)"
         
-        return Observable<Lotto>.create { observer in
+        return Observable<Result<Lotto, Error>>.create { observer in
             AF.request(url).responseDecodable(of: Lotto.self) { response in
                 switch response.result {
                 case .success(let value):
-                    print(value.drwNoDate)
-                    observer.onNext(value)
+                    observer.onNext(.success(value))
                     observer.onCompleted()
-                case .failure(let error):
-                    print(error)
-                    observer.onError(LottoError.failAPI)
+                case .failure(let err):
+                    observer.onNext(.failure(err))
+                    observer.onCompleted()
                 }
             }
             return Disposables.create()
