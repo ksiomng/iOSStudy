@@ -42,7 +42,9 @@ class LottoViewController: UIViewController {
         let output = viewModel.transform(input: input)
         
         output.lotto
-            .bind(to: tableView.rx.items(cellIdentifier: LottoTableViewCell.identifier, cellType: LottoTableViewCell.self)) { row, element, cell in
+            .bind(to: tableView.rx.items(
+                cellIdentifier: LottoTableViewCell.identifier,
+                cellType: LottoTableViewCell.self)) { row, element, cell in
                 cell.setData(data: element.drwNoDate, num: "\(element.drwtNo1), \(element.drwtNo2), \(element.drwtNo3), \(element.drwtNo4), \(element.drwtNo5), \(element.drwtNo6)")
             }
             .disposed(by: disposeBag)

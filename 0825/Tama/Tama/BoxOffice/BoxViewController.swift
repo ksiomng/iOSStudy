@@ -33,8 +33,7 @@ class BoxViewController: UIViewController {
         output.movies
             .bind(to: tableView.rx.items(
                 cellIdentifier: MovieTableViewCell.identifier,
-                cellType: MovieTableViewCell.self
-            )) { row, element, cell in
+                cellType: MovieTableViewCell.self)) { row, element, cell in
                 cell.setData(data: element.openDt, num: element.movieNm)
             }
             .disposed(by: disposeBag)
