@@ -30,6 +30,10 @@ final class BoxViewModel {
             .distinctUntilChanged()
             .flatMapLatest { text in
                 MovieObservable.getMoive(date: text)
+                    .catch { _ in
+                        let a = BoxOffice(rank: "", movieNm: "에러", openDt: "에러")
+                        return Observable.just([a])
+                    }
             }
             .subscribe(with: self) { owner, movies in
                 print("onNext", movies)
