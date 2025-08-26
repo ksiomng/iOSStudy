@@ -38,12 +38,20 @@ class BoxViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        output.alertMessage
-            .bind(onNext: { msg in
+        output.toastMessage
+            .bind(with: self) { owner, msg in
                 if let message = msg {
-                    self.showToast(message: message, font: .systemFont(ofSize: 14))
+                    owner.showToast(message: message, font: .systemFont(ofSize: 15))
                 }
-            })
+            }
+            .disposed(by: disposeBag)
+        
+        output.alertMessage
+            .bind(with: self) { owner, msg in
+                if let message = msg {
+                    owner.showAlert(title: "에러", msg: message)
+                }
+            }
             .disposed(by: disposeBag)
     }
     

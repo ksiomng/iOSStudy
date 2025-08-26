@@ -26,7 +26,7 @@ class LottoViewController: UIViewController {
     private let disposeBag = DisposeBag()
     
     let viewModel = LottoViewModel()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
@@ -45,7 +45,23 @@ class LottoViewController: UIViewController {
             .bind(to: tableView.rx.items(
                 cellIdentifier: LottoTableViewCell.identifier,
                 cellType: LottoTableViewCell.self)) { row, element, cell in
-                cell.setData(data: element.drwNoDate, num: "\(element.drwtNo1), \(element.drwtNo2), \(element.drwtNo3), \(element.drwtNo4), \(element.drwtNo5), \(element.drwtNo6)")
+                    cell.setData(data: element.drwNoDate, num: "\(element.drwtNo1), \(element.drwtNo2), \(element.drwtNo3), \(element.drwtNo4), \(element.drwtNo5), \(element.drwtNo6)")
+                }
+                .disposed(by: disposeBag)
+        
+        output.toastMessage
+            .bind(with: self) { owner, msg in
+                if let message = msg {
+                    owner.showToast(message: message, font: .systemFont(ofSize: 15))
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        output.alertMessage
+            .bind(with: self) { owner, msg in
+                if let message = msg {
+                    owner.showAlert(title: "에러", msg: message)
+                }
             }
             .disposed(by: disposeBag)
     }

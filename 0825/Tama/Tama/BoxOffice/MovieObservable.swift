@@ -25,18 +25,19 @@ struct BoxOffice: Decodable {
 
 final class MovieObservable {
     
-    static func getMoive(date: String) -> Observable<[BoxOffice]> {
+    static func getMoive(date: String) -> Observable<Result<[BoxOffice], Error>> {
         let url = URL(string: "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(APIKey.movieKey)&targetDt=\(date)")!
         
-        return Observable<[BoxOffice]>.create { observer in
+        return Observable<Result<[BoxOffice], Error>>.create { observer in
             AF.request(url).responseDecodable(of: BoxOfficeResponse.self) { response in
                 switch response.result {
                 case .success(let value):
-                    observer.onNext(value.boxOfficeResult.dailyBoxOfficeList)
+                    observer.onNext(.success(value.boxOfficeResult.dailyBoxOfficeList))
                     observer.onCompleted()
                 case .failure(let error):
                     print(error)
-                    observer.onError(LottoError.failAPI)
+                    observer.onNext(.failure(error))
+                    observer.onCompleted()
                 }
             }
             return Disposables.create()

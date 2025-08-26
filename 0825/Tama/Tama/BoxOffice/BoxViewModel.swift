@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import Alamofire
 
 final class BoxViewModel {
     
@@ -17,38 +18,45 @@ final class BoxViewModel {
     }
     
     struct Output {
-        let movies: BehaviorSubject<[BoxOffice]>
-        let alertMessage: BehaviorSubject<String?>
+        let movies: BehaviorRelay<[BoxOffice]>
+        let toastMessage: BehaviorRelay<String?>
+        let alertMessage: BehaviorRelay<String?>
     }
     
     private let disposeBag = DisposeBag()
     
     func transform(input: Input) -> Output {
-        let output = BehaviorSubject<[BoxOffice]>(value: [])
-        let outputMsg: BehaviorSubject<String?> = BehaviorSubject(value: nil)
+        let moviesRelay = BehaviorRelay<[BoxOffice]>(value: [])
+        let toastMsg = BehaviorRelay<String?>(value: nil)
+        let alertMsg = BehaviorRelay<String?>(value: nil)
         
         input.searchButton
             .withLatestFrom(input.query.orEmpty) // 버튼 눌렸을 때 검색어 가져오기
             .distinctUntilChanged()
-            .flatMapLatest { text in
+            .flatMap { text in
                 MovieObservable.getMoive(date: text)
-                    .catch { _ in
-                        outputMsg.onNext("API 호출에 에러가 생겼습니다")
-                        return Observable.just([])
-                    }
             }
-            .subscribe(with: self) { owner, movies in
-                print("onNext", movies)
-                output.onNext(movies)
-            } onError: { owner, err in
-                print("onError", err)
-            } onCompleted: { owner in
-                print("onCompleted")
-            } onDisposed: { owner in
-                print("onDisposed")
+            .bind(with: self) { owner, result in
+                switch result {
+                case .success(let movies):
+                    print("onNext movies", movies)
+                    moviesRelay.accept(movies)
+                    
+                case .failure(let error):
+                    print("❌ error:", error)
+                    
+                    if let afError = error as? AFError,
+                       case let .sessionTaskFailed(underlyingError) = afError,
+                       let urlError = underlyingError as? URLError,
+                       urlError.code == .notConnectedToInternet {
+                        alertMsg.accept("네트워크 연결이 원활하지 않습니다. 연결 상태를 확인해주세요.")
+                    } else {
+                        toastMsg.accept("박스오피스 API 호출 중 오류가 발생했습니다.")
+                    }
+                }
             }
             .disposed(by: disposeBag)
         
-        return Output(movies: output, alertMessage: outputMsg)
+        return Output(movies: moviesRelay, toastMessage: toastMsg, alertMessage: alertMsg)
     }
 }
