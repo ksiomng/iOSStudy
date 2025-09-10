@@ -139,8 +139,9 @@ class MainViewController: UIViewController {
         let output = viewModel.transform(input: input)
         
         riceTap
-            .bind(with: self) { owner, _ in
-                owner.riceTextField.text = ""
+            .map { _ in ""}
+            .bind(with: self) { owner, text in
+                owner.riceTextField.text = text
             }
             .disposed(by: disposeBag)
         
